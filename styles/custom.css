@@ -1,0 +1,139 @@
+body {
+  height: 100vh;
+  overflow: auto;
+}
+
+body.searching,
+body.menu {
+  padding-right: 17px;
+  overflow: hidden;
+}
+
+.product-items {
+  position: relative;
+}
+
+.product-items .product-actions {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  border-radius: 5px;
+}
+
+.product-items:hover .product-actions {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+/* .large-image {
+  z-index: 1000;
+} */
+
+.product {
+  height: 350px;
+  width: 100%;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.product .quick-view {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.product .card-area {
+  height: calc(100% - 80px);
+}
+
+@media (min-width: 700px) {
+  .product .card-area:hover .card-area {
+    -webkit-filter: brightness(10%);
+    filter: brightness(10%);
+  }
+  .product .card-area:hover .quick-view {
+    display: block;
+  }
+}
+
+.product-view-swiper {
+  padding: 1em 2em 1em 0 !important;
+}
+
+.product-view-swiper .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px dashed grey;
+}
+
+.product-view-swiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.nav-page {
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+}
+
+.nav-page::-webkit-scrollbar {
+  width: 2px;
+}
+
+.nav-page::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: lightgrey;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: #e0e0e0 !important;
+  height: 40px !important;
+  width: 40px !important;
+  color: #4a141e !important;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25) !important;
+  background-image: url("/icons/arrow_forward.svg") !important;
+  background-repeat: no-repeat !important;
+  background-size: 70% auto !important;
+  background-position: center !important;
+  border-radius: 50px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  content: "" !important;
+}
+
+.swiper-button-prev {
+  background-image: url("/icons/arrow_back.svg") !important;
+}
+
+.iiz__hint {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  .large-image {
+    left: 0 !important;
+    top: 0 !important;
+  }
+}
+/*# sourceMappingURL=custom.css.map */

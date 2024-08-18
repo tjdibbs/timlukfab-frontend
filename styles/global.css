@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #f5f5f5;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+body.dark {
+  background-color: yellow;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@layer components {
+  .card {
+    @apply bg-[#f5f5f5] p-4 rounded-lg shadow-lg;
+  }
+}
+
+@layer utilities {
+  .btn {
+    @apply px-3 py-1.5 rounded-[5px] shadow-lg font-semibold;
+  }
+
+  .btn-outlined {
+    @apply ring-1 px-3 py-1.5 rounded-[5px] shadow-lg font-bold;
+  }
+}
+
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading="lazy"] {
+    clip-path: inset(0.6px);
+  }
+}

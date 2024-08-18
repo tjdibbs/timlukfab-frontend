@@ -1,0 +1,132 @@
+
+body
+  height: 100vh
+  &.searching,
+  &.menu
+    padding-right: 10px
+    overflow: hidden
+  &::-webkit-scrollbar
+    width: 10px
+    appearance: none
+    background: lightgray
+  &::-webkit-scrollbar-thumb
+    border-radius: 50px
+    background: grey
+
+
+.product-items
+  position: relative
+
+  .product-actions
+    position: absolute
+    height: 100%
+    width: 100%
+    left: 0
+    top: 0
+    background-color: rgba(0, 0, 0, 0.7)
+    opacity: 0
+    transition: all .30s ease-in-out
+    transform: scale(0)
+    border-radius: 5px
+
+  //@media (max-width: 700px)
+  //  display: none
+
+  &:hover
+    & .product-actions
+      opacity: 1
+      transform: scale(1)
+
+.large-image
+  z-index: 100000
+
+.product
+  height: 350px
+  width: 100%
+  position: relative
+  user-select: none
+  .quick-view
+    position: absolute
+    top: 50%
+    z-index: 10
+    left: 50%
+    transform: translate(-50%, -50%)
+
+  .card-area
+    height: calc(100% - 80px)
+
+    @media (min-width: 700px)
+      &:hover
+        .card-area
+          filter: brightness(10%)
+        .quick-view
+          display: block
+
+.iiz
+  overflow: hidden
+  border-radius: 10px
+  .iiz__img
+    width: 400px
+
+.product-view-swiper
+  .thumbnail
+    border: 1px dashed grey !important
+    border-radius: 5px,
+
+  .swiper-slide
+    width: 25%
+    height: 100%
+    opacity: 0.4
+    overflow: hidden
+    display: grid
+    place-items: center
+
+  .swiper-slide-thumb-active
+    opacity: 1
+
+.nav-page
+  max-height: calc(100vh - 160px)
+  overflow: auto
+
+  &::-webkit-scrollbar
+    width: 2px
+
+  &::-webkit-scrollbar-thumb
+    border-radius: 50px
+    background: lightgrey
+
+.swiper-button-next, .swiper-button-prev
+  background-color: #e0e0e0!important
+  height: 40px!important
+  width: 40px!important
+  color: #4a141e!important
+  box-shadow: 0 0 10px rgba(0,0,0,.25)!important
+  background-image: url('/icons/arrow_forward.svg')!important
+  background-repeat: no-repeat!important
+  background-size: 70% auto!important
+  background-position: center!important
+  border-radius: 50px
+
+  &::after
+    content: ''!important
+
+.swiper-button-prev
+  background-image: url('/icons/arrow_back.svg')!important
+
+.iiz__hint
+  display: none!important
+
+.product-content
+  &::-webkit-scrollbar
+    width: 5px
+    appearance: none
+    background: lightgrey
+  &::-webkit-scrollbar-thumb
+    background: grey
+
+@media (max-width: 700px)
+  .large-image
+    left: 0 !important
+    top: 0 !important
+
+  
