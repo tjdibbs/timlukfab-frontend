@@ -1,9 +1,4 @@
-import { Typography } from "@mui/material";
-import { Container } from "@mui/system";
-import dynamic from "next/dynamic";
-import React from "react";
-
-function Return_Refund_Policy(): JSX.Element {
+export default function Page() {
   return (
     <div className="container component-wrap">
       <div className="wrapper">
@@ -179,5 +174,3 @@ function Return_Refund_Policy(): JSX.Element {
     </div>
   );
 }
-
-export default dynamic(async () => await Return_Refund_Policy, { ssr: false });

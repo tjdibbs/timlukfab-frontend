@@ -1,9 +1,4 @@
-import { Box, Typography } from "@mui/material";
-import { Container } from "@mui/system";
-import React from "react";
-import dynamic from "next/dynamic";
-
-function Shipping(): JSX.Element {
+export default function Shipping() {
   return (
     <div className="container component-wrap">
       <div className="wrapper">
@@ -160,5 +155,3 @@ function Shipping(): JSX.Element {
     </div>
   );
 }
-
-export default dynamic(async () => await Shipping, { ssr: false });

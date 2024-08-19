@@ -1,23 +1,17 @@
-import { Container, Divider, Typography, useTheme } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import { useRouter } from "next/router";
-import { pink } from "@mui/material/colors";
-import { GetServerSideProps } from "next";
-import PasswordShowIcon from "@mui/icons-material/VisibilityRounded";
-import PasswordOffIcon from "@mui/icons-material/VisibilityOffRounded";
-import message from "lib/message";
-import { useAppDispatch } from "lib/redux/store";
-import Cookies from "js-cookie";
-import { auth } from "lib/redux/reducer";
-import { Button, Input } from "antd";
-import { motion } from "framer-motion";
-import { BASE_URL } from "@lib/constants";
+"use client";
+
 import useMessage from "@hook/useMessage";
+import { BASE_URL } from "@lib/constants";
+import { auth } from "@lib/redux/reducer";
+import { useAppDispatch } from "@lib/redux/store";
+import { Box, Container, Divider } from "@mui/material";
+import { Button, Input } from "antd";
+import axios from "axios";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+import { useForm } from "react-hook-form";
 
 type State = Partial<{
   email: string;
@@ -26,9 +20,9 @@ type State = Partial<{
 
 type LoadType = { pending: boolean; message: null | string };
 
-export default function SignIn(): JSX.Element {
-  const [state, setState] = React.useState<State>({});
-  const [loading, setLoading] = React.useState<LoadType>({
+const SignIn = () => {
+  const [state, setState] = useState<State>({});
+  const [loading, setLoading] = useState<LoadType>({
     pending: false,
     message: null,
   });
@@ -42,7 +36,7 @@ export default function SignIn(): JSX.Element {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!state?.email || !state.password) {
@@ -162,23 +156,5 @@ export default function SignIn(): JSX.Element {
       </div>
     </Container>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  //@ts-ignore
-  const token = req.cookies?._u;
-  console.log({ token });
-
-  // if (userid) {
-  //   return {
-  //     redirect: {
-  //       destination: "/",
-  //       permanent: true,
-  //     },
-  //   };
-  // }
-
-  return {
-    props: {},
-  };
 };
+export default SignIn;
