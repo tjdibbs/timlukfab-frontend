@@ -1,9 +1,10 @@
+"use client"
+
 import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import dynamic from "next/dynamic";
-import React from "react";
+import React from "react"
 
-function AboutUs(): JSX.Element {
+const AboutUs = () => {
   return (
     <React.Fragment>
       <Container sx={{ p: 3 }}>
@@ -23,7 +24,6 @@ function AboutUs(): JSX.Element {
         </Typography>
       </Container>
     </React.Fragment>
-  );
+  )
 }
-
-export default dynamic(async () => await AboutUs, { ssr: false });
+export default AboutUs

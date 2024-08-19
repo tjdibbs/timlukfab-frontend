@@ -3,12 +3,18 @@ import { ReactNode } from "react";
 import { Nunito } from "next/font/google";
 
 import "../styles/global.css";
-import { Metadata } from "next";
+import "../styles/adjust.css";
+import "../styles/error.css";
+import { Metadata, Viewport } from "next";
 
 const nunito = Nunito({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#ed017f",
+};
 
 export const metadata: Metadata = {
   title: "Pauloxuries Fashion Store",
@@ -23,7 +29,6 @@ export const metadata: Metadata = {
     icon: "/identity/favicon.png",
     apple: "/identity/favicon.png",
   },
-  themeColor: "#ed017f",
   openGraph: {
     type: "website",
     locale: "en-US",

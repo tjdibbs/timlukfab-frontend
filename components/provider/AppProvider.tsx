@@ -19,9 +19,6 @@ import "swiper/css/free-mode";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import "../../styles/adjust.css";
-import "../../styles/error.css";
-
 
 type Props = {
   children: ReactNode;
