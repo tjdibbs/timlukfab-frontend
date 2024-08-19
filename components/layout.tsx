@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { CssBaseline } from "@mui/material";
 import Theme from "../utils/theme";

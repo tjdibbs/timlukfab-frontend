@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
@@ -6,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useTheme } from "@mui/material";
 import { grey, pink } from "@mui/material/colors";
-import { useRouter } from "next/router";
 import React from "react";
 import Link from "next/link";
 import { Carousel } from "react-responsive-carousel";
@@ -35,7 +35,6 @@ const slide = [
 
 export default function LandingPageSwiper() {
   const theme = useTheme();
-  const router = useRouter();
   const [width, setWidth] = React.useState(true);
 
   React.useEffect(() => {

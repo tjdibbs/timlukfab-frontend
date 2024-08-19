@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -17,7 +19,6 @@ import { useAppDispatch } from "@lib/redux/store";
 import { auth } from "@lib/redux/reducer";
 import Link from "next/link";
 import axios from "axios";
-import router from "next/router";
 import UploadIcon from "@mui/icons-material/Upload";
 import { CardHeader, Typography, useTheme } from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
@@ -29,6 +30,8 @@ import Cookies from "js-cookie";
 import Favorite from "@mui/icons-material/Favorite";
 import stringToColor from "@lib/stringToColor";
 import { BASE_URL } from "@lib/constants";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Navigation({ user }: { user: AppState["user"] }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -44,12 +47,15 @@ export default function Navigation({ user }: { user: AppState["user"] }) {
     setIndex(0);
   };
 
+  const pathname = usePathname();
+  const router = useRouter();
+
   const logout = () => {
     axios.get(BASE_URL + "/logout").then((response) => {
       if (response.data === "Done") {
         dispatch(auth());
         Cookies.remove("sid");
-        if (router.pathname.includes("upload")) router.replace("/");
+        if (pathname?.includes("upload")) router.replace("/");
       } else window.location.reload();
     });
   };

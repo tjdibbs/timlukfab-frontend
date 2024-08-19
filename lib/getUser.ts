@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { useAppDispatch } from "@lib/redux/store";
 import Cookie from "js-cookie";

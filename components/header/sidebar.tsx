@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -16,7 +18,6 @@ import SwipeableViews from "react-swipeable-views";
 import Avatar from "@mui/material/Avatar";
 import Logout from "@mui/icons-material/Logout";
 import { auth } from "@lib/redux/reducer";
-import { useRouter } from "next/router";
 import { menuItems, themes } from "./menu";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -34,6 +35,7 @@ import ShopRoundedIcon from "@mui/icons-material/ShopRounded";
 import MenuItem from "@mui/material/MenuItem";
 import stringToColor from "@lib/stringToColor";
 import { BASE_URL } from "@lib/constants";
+import { usePathname, useRouter } from "next/navigation";
 
 interface SideBarProps {
   open: boolean;
@@ -75,11 +77,13 @@ export default function Sidebar(props: SideBarProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const pathname = usePathname();
+
   const logout = () => {
     axios.get(BASE_URL + "/logout").then(() => {
       dispatch(auth());
       Cookies.remove("sid");
-      if (router.pathname.indexOf("upload") !== -1) router.replace("/");
+      if (pathname?.indexOf("upload") !== -1) router.replace("/");
     });
   };
 

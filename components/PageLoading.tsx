@@ -1,24 +1,34 @@
+"use client";
+
 import { Spin } from "antd";
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 import JQuery from "jquery";
-import { Router } from "next/router";
 
 export default React.forwardRef(function PageLoading(props, ref) {
   const [open, setOpen] = React.useState(false);
 
   React.useImperativeHandle(ref, () => ({}), []);
 
-  React.useEffect(() => {
-    Router.events.on("routeChangeStart", () => {
-      JQuery("body").addClass("overflow-hidden");
-      setOpen(true);
-    });
-    Router.events.on("routeChangeComplete", () => {
+  // React.useEffect(() => {
+  //   Router.events.on("routeChangeStart", () => {
+  //     JQuery("body").addClass("overflow-hidden");
+  //     setOpen(true);
+  //   });
+  //   Router.events.on("routeChangeComplete", () => {
+  //     JQuery("body").removeClass("overflow-hidden");
+  //     setOpen(false);
+  //   });
+  // });
+
+  useEffect(() => {
+    JQuery("body").addClass("overflow-hidden");
+    setOpen(true);
+    return () => {
       JQuery("body").removeClass("overflow-hidden");
       setOpen(false);
-    });
-  });
+    };
+  }, []);
 
   return (
     <AnimatePresence>

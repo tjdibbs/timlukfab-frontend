@@ -1,4 +1,6 @@
-import React, { SetStateAction } from "react";
+"use client";
+
+import React, { SetStateAction, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -16,11 +18,11 @@ import ProductStyle2 from "../productStyle2";
 import { Product } from "@lib/types";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import { useRouter } from "next/router";
 import { BASE_URL } from "@lib/constants";
 import { Spin } from "antd";
 import { useAppSelector } from "@lib/redux/store";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const SearchBar: React.FC<{
   open: boolean;
@@ -34,7 +36,7 @@ const SearchBar: React.FC<{
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [product, setProduct] = React.useState<Product[]>([]);
-  const router = useRouter();
+  const pathname = usePathname();
 
   const { cart, wishlist } = useAppSelector((state) => state.shop);
 
@@ -67,18 +69,21 @@ const SearchBar: React.FC<{
     }
   };
 
-  React.useEffect(() => {
-    if (open) document.body.classList.add("searching");
-    else document.body.classList.remove("searching");
-
-    router.events.on("routeChangeStart", () => setOpenSearch(false));
+  useEffect(() => {
+    if (open) {
+      document.body.classList.add("searching");
+    } else {
+      document.body.classList.remove("searching");
+    }
 
     return () => {
-      router.events.off("routeChangeStart", () => setOpenSearch(false));
       document.body.classList.remove("searching");
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
+
+  useEffect(() => {
+    setOpenSearch(false);
+  }, [pathname, setOpenSearch]);
 
   return (
     <AnimatePresence exitBeforeEnter={true} initial={false}>

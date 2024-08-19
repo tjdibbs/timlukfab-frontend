@@ -1,3 +1,5 @@
+"use client"
+
 import { Box, Button, Paper, Typography } from "@mui/material";
 import React from "react";
 import { motion, AnimatePresence, Transition } from "framer-motion";

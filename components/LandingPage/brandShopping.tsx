@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable @next/next/no-img-element */
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -14,11 +16,11 @@ import {
   Skeleton,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { useRouter } from "next/router";
 import { Product } from "@lib/types";
 import axios from "axios";
 import { useAppSelector } from "@lib/redux/store";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type Brand = { brand: string; image: string }[];
 

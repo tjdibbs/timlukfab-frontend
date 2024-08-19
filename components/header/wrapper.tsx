@@ -1,3 +1,5 @@
+"use client";
+
 import {
   IconButton,
   Button,
@@ -16,7 +18,6 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ShoppingCartRounded from "@mui/icons-material/ShoppingCartRounded";
 import Sidebar from "./sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useRouter } from "next/router";
 import Searchbar from "./searchbar";
 import { navData } from "./sidebar";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
@@ -25,6 +26,7 @@ import Navigation from "./menu";
 import SwitchButton from "./switch";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 type ShopMenu = Partial<{ brand: boolean; style: boolean; occasion: boolean }>;
 
@@ -36,7 +38,8 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
   const [openMenu, setOpenMenu] = React.useState<boolean>(false);
   const [menu, setMenu] = React.useState<number>(0);
   const user = useAppSelector((state) => state.shop.user);
-  const router = useRouter();
+
+  const pathname = usePathname();
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -133,12 +136,10 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
               {!width && !user && (
                 <Link
                   className="text-primary-low"
-                  href={
-                    router.pathname === "/sign-in" ? "/sign-up" : "/sign-in"
-                  }
+                  href={pathname === "/sign-in" ? "/sign-up" : "/sign-in"}
                 >
                   <Button variant="outlined" size="small" color="inherit">
-                    {router.pathname === "/sign-in" ? "Sign Up" : "Sign In"}
+                    {pathname === "/sign-in" ? "Sign Up" : "Sign In"}
                   </Button>
                 </Link>
               )}

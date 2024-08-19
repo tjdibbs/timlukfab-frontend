@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import Product from "../product";
 import AliceCarousel from "react-alice-carousel";

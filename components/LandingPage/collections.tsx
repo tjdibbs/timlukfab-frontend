@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, Grid, Box } from "@mui/material";
 import { CardComponent } from "./brandShopping";
 import useStyles from "@lib/styles";
