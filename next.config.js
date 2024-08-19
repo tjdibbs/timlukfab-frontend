@@ -2,8 +2,22 @@
 const nextConfig = {
   reactStrictMode: false,
   experimental: { esmExternals: true },
+
   images: {
-    domains: ["pauloxuries.com", "http://api.frutiv.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pauloxuries.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "api.frutiv.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

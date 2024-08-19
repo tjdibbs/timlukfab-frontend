@@ -1,15 +1,17 @@
+"use client";
+
 import { Container, useTheme, Divider } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useSnackbar } from "notistack";
-import router from "next/router";
 import Cookies from "js-cookie";
 import { Button, Input } from "antd";
 import { motion } from "framer-motion";
 import message from "@lib/message";
 import { BASE_URL } from "@lib/constants";
+import { useRouter } from "next/navigation";
 
 type State = Partial<{
   firstname: string;
@@ -20,8 +22,10 @@ type State = Partial<{
 
 type LoadType = { pending: boolean; message: null | string };
 
-function SignUp(): JSX.Element {
+const SignUp = (): JSX.Element => {
   const [state, setState] = React.useState<State>({});
+
+  const router = useRouter();
 
   const [loading, setLoading] = React.useState<LoadType>({
     pending: false,
@@ -176,6 +180,6 @@ function SignUp(): JSX.Element {
       </div>
     </Container>
   );
-}
+};
 
 export default SignUp;

@@ -1,4 +1,5 @@
-import * as React from "react";
+"use client";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -15,16 +16,16 @@ import {
   useTheme,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import SEO from "@comp/seo";
 import { BASE_URL } from "@lib/constants";
 import useMessage from "@hook/useMessage";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type Props = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 };
 
-function ForgottenPassword(props: Props) {
-  const [loading, setLoading] = React.useState<boolean>(false);
+const ForgottenPassword = ({ setOpen }: Props) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
     register,
@@ -66,7 +67,6 @@ function ForgottenPassword(props: Props) {
 
   return (
     <div className="component-wrap card">
-      <SEO {...pageDescription} />
       <Divider textAlign="left">
         <Typography
           variant="subtitle1"
@@ -118,4 +118,4 @@ const color = {
   green_text: "green",
 };
 
-export default dynamic(async () => await ForgottenPassword, { ssr: false });
+export default ForgottenPassword;

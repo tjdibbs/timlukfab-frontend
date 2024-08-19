@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   CircularProgress,
@@ -9,23 +11,20 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useSnackbar } from "notistack";
-import router from "next/router";
-import { pink } from "@mui/material/colors";
-import { GetServerSideProps } from "next";
-import message from "lib/message";
-import JWT from "jsonwebtoken";
 import useMessage from "@hook/useMessage";
 import { BASE_URL } from "@lib/constants";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-type Props = { email: string; error?: string };
+type Props = { email?: string; error?: string };
 type Inputs = { password: string; confirm: string };
 
-export default function SignIn({ email, error }: Props): JSX.Element {
-  const [loading, setLoading] = React.useState<boolean>(false);
+const ResetPassword = ({ email, error }: Props): JSX.Element => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const theme = useTheme();
   const { alertMessage } = useMessage();
@@ -140,34 +139,6 @@ export default function SignIn({ email, error }: Props): JSX.Element {
       </Box>
     </div>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  query,
-}) => {
-  try {
-    const token = query.token as string;
-    if (!token) {
-      return {
-        notFound: true,
-      };
-    }
-
-    const SECRET_KEY = process.env.SECRET_KEY as string;
-
-    const user = JWT.verify(token, SECRET_KEY);
-    return {
-      props: {
-        ...(user as JWT.JwtPayload),
-      },
-    };
-  } catch (error: any) {
-    return {
-      props: {
-        error: error.message,
-      },
-    };
-  }
 };
+
+export default ResetPassword;
