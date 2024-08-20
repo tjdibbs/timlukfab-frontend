@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import { CartInterface, Product } from "@lib/types";
@@ -14,7 +16,7 @@ import {
 } from "@mui/material";
 
 // hooks
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 // state management
 import { useAppSelector } from "@lib/redux/store";

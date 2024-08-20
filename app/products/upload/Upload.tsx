@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Box from "@mui/material/Box";
 import {
@@ -18,7 +20,6 @@ import axios from "axios";
 import { AppState, FormDataType, Response } from "@lib/types";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "@lib/redux/store";
-import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
 import Cookie from "js-cookie";
 import { marked } from "marked";
@@ -27,10 +28,10 @@ import SelectProductColors from "@comp/upload/SelectProductColors";
 import SelectImages, { ProductImages } from "@comp/upload/SelectImages";
 import useMessage from "@hook/useMessage";
 import { BASE_URL } from "@lib/constants";
-import { GetServerSideProps, NextPage } from "next";
 import JWT from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 
-const Upload: NextPage<{ user: AppState["user"] }> = function (props) {
+const Upload = function ({ user }: { user: AppState["user"] }) {
   const [progress, setProgress] = React.useState<number>(0);
   const [response, setResponse] = React.useState<Response>({});
   const router = useRouter();
@@ -420,31 +421,31 @@ const Upload: NextPage<{ user: AppState["user"] }> = function (props) {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  // @ts-ignore
-  // const user = req.session.user ?? null;
-  try {
-    const reqSessionUser = ctx.req.cookies;
-    let access_token = reqSessionUser.access_token;
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   // @ts-ignore
+//   // const user = req.session.user ?? null;
+//   try {
+//     const reqSessionUser = ctx.req.cookies;
+//     let access_token = reqSessionUser.access_token;
 
-    if (!access_token) throw Error("Not Allowed");
+//     if (!access_token) throw Error("Not Allowed");
 
-    let user = JWT.verify(access_token, process.env.SECRET_KEY as string);
-    if (!user) throw Error("Not Allowed");
+//     let user = JWT.verify(access_token, process.env.SECRET_KEY as string);
+//     if (!user) throw Error("Not Allowed");
 
-    return {
-      props: {
-        user,
-      },
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: true,
-      },
-    };
-  }
-};
+//     return {
+//       props: {
+//         user,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: true,
+//       },
+//     };
+//   }
+// };
 
 export default Upload;

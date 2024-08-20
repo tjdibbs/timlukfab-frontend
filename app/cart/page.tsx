@@ -1,6 +1,6 @@
+"use client"
+
 import React from "react";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
 import {
   Box,
   Breadcrumbs,

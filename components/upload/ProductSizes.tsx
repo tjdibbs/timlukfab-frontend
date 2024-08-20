@@ -1,3 +1,5 @@
+"use client"
+
 import { Badge, Button, Input, InputNumber } from "antd";
 import _ from "lodash";
 import React from "react";

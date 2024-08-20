@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Box,
@@ -17,9 +19,9 @@ import { useAppDispatch, useAppSelector } from "@lib/redux/store";
 import { updateCarts } from "@lib/redux/cartSlice";
 import { nanoid } from "nanoid";
 import ProductAction from "./ProductAction";
-import { useRouter } from "next/router";
 import { marked } from "marked";
 import useShop from "@hook/useShop";
+import { useRouter } from "next/navigation";
 
 export type State = {
   quantity: string | number;

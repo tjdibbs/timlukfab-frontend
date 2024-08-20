@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { Button, CardActions, IconButton, Typography } from "@mui/material";
 import { nanoid } from "nanoid";

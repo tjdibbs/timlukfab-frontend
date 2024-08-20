@@ -1,3 +1,6 @@
+"use client"
+
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ArrowForwardIosRounded } from "@mui/icons-material";
 import {
@@ -9,7 +12,6 @@ import {
   Skeleton,
   Button,
 } from "@mui/material";
-import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React from "react";
 import axios from "axios";
@@ -18,11 +20,10 @@ import { useSnackbar } from "notistack";
 import { useAppDispatch, useAppSelector } from "@lib/redux/store";
 import { auth } from "@lib/redux/reducer";
 import Order, { Prop as OrderType } from "@comp/order";
-import SEO from "@comp/seo";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 
 interface Props {
-  user: AppState["user"];
+  user?: AppState["user"];
 }
 
 export default function Orders(props: Props) {
@@ -55,16 +56,8 @@ export default function Orders(props: Props) {
     }
   }, [user, dispatch]);
 
-  const pageDescription = {
-    title: `Orders`,
-    description: "Track and Cancel your pending and completed order",
-    url: "https://pauloxuries.com/orders",
-    image: "https://pauloxuries.com/identity/dark-logo.png",
-  };
-
   return (
     <Container maxWidth={"xl"} sx={{ p: 0 }} className="component-wrap">
-      <SEO {...pageDescription} />
       <Box className={"breadcrumbs-wrapper"} my={3}>
         <BreadcrumbComp links={links} />
       </Box>

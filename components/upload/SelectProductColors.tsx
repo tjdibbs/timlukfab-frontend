@@ -1,3 +1,5 @@
+"use client"
+
 import { Label } from "@mui/icons-material";
 import { Badge, Button, Input, InputNumber } from "antd";
 import _ from "lodash";

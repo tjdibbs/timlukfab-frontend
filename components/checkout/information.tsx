@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { CheckoutInterface, CartInterface, OrderType } from "@lib/types";
 import { useForm, Controller, ControllerRenderProps } from "react-hook-form";
@@ -14,7 +16,6 @@ import {
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@lib/redux/store";
 import axios from "axios";
-import { useRouter } from "next/router";
 import Cookie from "js-cookie";
 import { setAllCarts } from "@lib/redux/cartSlice";
 import Login from "@mui/icons-material/Login";
@@ -23,6 +24,7 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { Input } from "antd";
 import { BASE_URL } from "@lib/constants";
 import useMessage from "@hook/useMessage";
+import { useRouter } from "next/navigation";
 
 interface InformationProps {
   checkout: CheckoutInterface<CartInterface> | null;

@@ -1,3 +1,5 @@
+"use client"
+
 import {} from "react";
 
 import { BASE_URL } from "@lib/constants";

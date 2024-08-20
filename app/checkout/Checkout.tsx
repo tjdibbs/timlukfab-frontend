@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Box,
@@ -13,19 +15,11 @@ import Information from "@comp/checkout/information";
 import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded";
 import Cookie from "js-cookie";
 import { AppState, CheckoutInterface, CartInterface } from "@lib/types";
-import SEO from "@comp/seo";
 import ShopStepper from "@comp/ShopStepper";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 import dynamic from "next/dynamic";
 
-const pageDescription = {
-  title: `Checkout Product`,
-  description: "Checkout your product for shipping and delivering",
-  url: "https://pauloxuries.com/checkout",
-  image: "https://pauloxuries.com/identity/dark-logo.png",
-};
-
-const Checkout: React.FC<{ user: AppState["user"] }> = ({ user }) => {
+const Checkout: React.FC<{ user?: AppState["user"] }> = ({ user }) => {
   const theme = useTheme();
 
   const checkoutCookie = Cookie.get("checkout");
@@ -35,7 +29,6 @@ const Checkout: React.FC<{ user: AppState["user"] }> = ({ user }) => {
 
   return (
     <React.Fragment>
-      <SEO {...pageDescription} />
       <Container
         maxWidth={"xl"}
         sx={{ mb: 10, p: 0 }}

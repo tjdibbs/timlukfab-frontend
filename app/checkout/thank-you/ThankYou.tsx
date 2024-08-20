@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Box,
@@ -11,19 +13,17 @@ import {
 import Link from "next/link";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import { NextPage } from "next";
 import axios from "axios";
 import { BASE_URL } from "@lib/constants";
 import { CartInterface, OrderType } from "@lib/types";
-import { Router } from "next/router";
 
-const ThankYou: NextPage<{
+type Props = {
   order: OrderType | null;
   token?: string;
   message?: string;
-}> = (props) => {
-  const { order, token, message } = props;
+};
 
+const ThankYou = ({ order, token, message }: Props) => {
   if (!order) return <NoOrder message={message} />;
 
   return (
@@ -183,39 +183,6 @@ const ThankYou: NextPage<{
       </div>
     </div>
   );
-};
-
-ThankYou.getInitialProps = async (ctx) => {
-  try {
-    let { orderId, token } = ctx.query as { orderId: string; token: string };
-
-    if (!orderId) {
-      return {
-        order: null,
-      };
-    }
-
-    const reqOrder = await axios.get(BASE_URL + "/api/order/" + orderId);
-
-    const {
-      success,
-      orders: [order],
-    } = await reqOrder.data;
-
-    return {
-      order: {
-        ...order,
-        cart: JSON.parse(order.cart),
-      },
-      token,
-    };
-  } catch (error) {
-    console.error({ error });
-    return {
-      order: null,
-      message: "Error fetching order",
-    };
-  }
 };
 
 const OrderedProduct = (props: { cartProduct: CartInterface }) => {

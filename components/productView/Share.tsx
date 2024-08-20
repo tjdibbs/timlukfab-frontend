@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { Box, IconButton, Stack } from "@mui/material";
 import FacebookRounded from "@mui/icons-material/FacebookRounded";

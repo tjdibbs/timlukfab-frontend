@@ -1,9 +1,10 @@
+"use client";
+
 import { Box, Button, Card, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import JWT from "jsonwebtoken";
-import { GetServerSideProps } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useSnackbar } from "notistack";
 
 export default function RequestEmailVerification({
@@ -14,8 +15,8 @@ export default function RequestEmailVerification({
   firstname: string;
 }) {
   const { enqueueSnackbar } = useSnackbar();
-  const router = useRouter();
-  const redirect = router.query.redirect as string;
+  const searchParams = useSearchParams();
+  const redirect = searchParams?.get("redirect") as string;
   const resendEmail = async () => {
     const sendEmailRequest = await axios.post<{ success: boolean }>(
       "/api/send-email",
@@ -72,21 +73,21 @@ export default function RequestEmailVerification({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { req } = ctx;
-  const user_data = req.cookies["request_verification"];
-  var user: { email: string; firstname: string };
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const { req } = ctx;
+//   const user_data = req.cookies["request_verification"];
+//   var user: { email: string; firstname: string };
 
-  if (user_data) user = JSON.parse(user_data ?? "{}");
-  else {
-    return {
-      notFound: true,
-    };
-  }
+//   if (user_data) user = JSON.parse(user_data ?? "{}");
+//   else {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  return {
-    props: {
-      ...user!,
-    },
-  };
-};
+//   return {
+//     props: {
+//       ...user!,
+//     },
+//   };
+// };

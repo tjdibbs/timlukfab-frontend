@@ -1,10 +1,10 @@
+"use client";
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { NextPage } from "next";
 import Link from "next/link";
 import { Product } from "@lib/types";
 import { useAppDispatch, useAppSelector } from "@lib/redux/store";
-import { useRouter } from "next/router";
 
 // components
 import {
@@ -14,7 +14,6 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import SEO from "@comp/seo";
 import ProductContent from "@comp/productView/content";
 import RelatedProduct from "@comp/productView/RelatedProducts";
 import View from "@comp/productView/Images";
@@ -27,6 +26,7 @@ import Reviews from "@comp/productView/Reviews";
 import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded";
 import { BASE_URL } from "@lib/constants";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
+import { usePathname } from "next/navigation";
 
 type Props = {
   product: Product | null;
@@ -34,16 +34,16 @@ type Props = {
   error: boolean;
 };
 
-const Product: NextPage<Props> = (props) => {
+const ProductPage = ({ error, product, notfound }: Props) => {
   const { cart } = useAppSelector((state) => state.shop);
   const dispatch = useAppDispatch();
-  const router = useRouter();
+  const pathname = usePathname();
 
   React.useEffect(() => {
     document.body.scrollTo({ top: 0 });
-  }, [router]);
+  }, [pathname]);
 
-  if (props.error) {
+  if (error) {
     return (
       <Container sx={{ py: 5, px: 2 }}>
         <Typography>Internal Server Error: Reload Page</Typography>
@@ -51,23 +51,13 @@ const Product: NextPage<Props> = (props) => {
     );
   }
 
-  if (!props.product) {
+  if (!product) {
     return (
       <Container sx={{ py: 5, px: 2 }}>
         <Typography>The Product you are looking for is missing</Typography>
       </Container>
     );
   }
-
-  const product = props.product as Product;
-  const pageDescription = {
-    title: product.title,
-    description: product.description,
-    url: "https://pauloxuries.com" + router.asPath,
-    image:
-      "https://pauloxuries.com/images/products/" +
-      JSON.parse(product.images)[0],
-  };
 
   const links = [
     {
@@ -86,7 +76,6 @@ const Product: NextPage<Props> = (props) => {
 
   return (
     <div className="component-wrap">
-      <SEO {...pageDescription} />
       <Box className={"breadcrumbs-wrapper"} my={3}>
         <BreadcrumbComp links={links} />
       </Box>
@@ -151,31 +140,6 @@ const Product: NextPage<Props> = (props) => {
   );
 };
 
-Product.getInitialProps = async (ctx) => {
-  let product = null;
-  let error = false;
-  let product_id = ctx.query.id as string;
-
-  try {
-    let getProduct = await axios.get<{ product: Product; success: boolean }>(
-      BASE_URL + "/api/products/_/" + product_id
-    );
-
-    let response = getProduct.data;
-    product = response.product;
-
-    // --------------------------
-  } catch (error) {
-    console.log({ error });
-    error = true;
-  }
-
-  return {
-    product,
-    error,
-  };
-};
-
 // export const getServerSideProps: GetServerSideProps = async ({
 //   req,
 //   res,
@@ -214,4 +178,4 @@ Product.getInitialProps = async (ctx) => {
 //   }
 // };
 
-export default Product;
+export default ProductPage;

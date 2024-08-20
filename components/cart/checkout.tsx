@@ -1,10 +1,11 @@
+"use client"
+
 import { CheckoutInterface, CartInterface, Product } from "@lib/types";
 import { Box, Button, Card, Divider, Paper } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import Cookie from "js-cookie";
-import router from "next/router";
 import useCheckout from "@hook/useCheckout";
 import { useAppSelector } from "@lib/redux/store";
 

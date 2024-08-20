@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import {
   Card,
@@ -12,7 +14,7 @@ import {
 import { pink } from "@mui/material/colors";
 import useStyles from "@lib/styles";
 import { Product } from "@lib/types";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 

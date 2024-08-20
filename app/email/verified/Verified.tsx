@@ -1,16 +1,16 @@
+"use client";
+
 import { Box, Button, Card, Divider, Stack, Typography } from "@mui/material";
-import { GetServerSideProps } from "next";
-import JWT from "jsonwebtoken";
 import React from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 type Props = {
-  email: string;
-  firstname: string;
+  email?: string;
+  firstname?: string;
   error?: string;
 };
 
