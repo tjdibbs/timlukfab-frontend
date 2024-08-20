@@ -1,8 +1,10 @@
+"use client"
+
 import React from "react";
 import { Checkbox, Collapse, Stack } from "@mui/material";
-import { useRouter } from "next/router";
 import { useCustomEventListener } from "react-custom-events";
 import useFilterChange from "hooks/useFilterChange";
+import { useParams } from "next/navigation";
 
 type FilterChunkPropsType = {
   // handleChange: (name: string, checked: boolean) => void;
@@ -14,10 +16,12 @@ type FilterChunkPropsType = {
 
 function FilterChunk(props: FilterChunkPropsType) {
   const { filters, name } = props;
-  const router = useRouter();
+
+  const params = useParams<{name: string, shop_by: string}>()
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [query, setQuery] = React.useState(
-    ((router.query[name] ?? "") as string).split(";")
+    ((params?.name ?? "") as string).split(";")
   );
 
   useCustomEventListener("filterEvent", (data: string) => {

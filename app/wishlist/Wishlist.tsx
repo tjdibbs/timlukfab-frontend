@@ -15,7 +15,7 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-function Wishlist() {
+const Wishlist = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { alertMessage } = useMessage();

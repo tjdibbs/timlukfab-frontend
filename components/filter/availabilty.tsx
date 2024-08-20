@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Box,
@@ -7,17 +9,17 @@ import {
   Checkbox,
   Collapse,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import { useCustomEventListener } from "react-custom-events";
 import useFilterChange from "hooks/useFilterChange";
+import { useSearchParams } from "next/navigation";
 
 export default function Availability(props: {
   t: { inStock: number; outOfStock: number };
 }) {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [open, setOpen] = React.useState<boolean>(false);
   const [queryAvailability, setQueryAvailability] = React.useState(
-    ((router.query?.availability ?? "") as string).split(";")
+    ((searchParams?.get("availability") ?? "") as string).split(";")
   );
 
   const { handleChange, push } = useFilterChange(

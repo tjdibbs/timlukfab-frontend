@@ -1,5 +1,5 @@
+import Wishlist from "./Wishlist";
+
 export default function Page() {
-  return (
-    <div>Page</div>
-  )
+  return <Wishlist />;
 }

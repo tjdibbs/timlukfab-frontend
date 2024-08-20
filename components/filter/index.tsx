@@ -1,9 +1,10 @@
+"use client";
+
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { Box, Button, MenuItem, TextField, Divider } from "@mui/material";
 import type { Product, RouterQuery } from "@lib/types";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { useRouter } from "next/router";
 import { emitCustomEvent } from "react-custom-events";
 
 import useMessage from "@hook/useMessage";
@@ -14,6 +15,7 @@ import checkProduct from "@helper/checkProduct";
 import MobileFilter from "./MobileFilter";
 import FilterComponent from "./FilterComponent";
 import { Events } from "@lib/constants";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 type FilterType = Partial<{ [key in keyof RouterQuery]: string[] }>;
 interface FilterProps {
@@ -50,24 +52,34 @@ export const components: (keyof ReturnType<typeof ExtractProps>)[] = [
 function Filter(props: FilterProps) {
   const { products } = props;
 
-  const [filter, setFilter] = React.useState<FilterType>(initialFilter);
-  const [width, setWidth] = React.useState<boolean>(true);
-  const [sortValue, setSortValue] = React.useState<keyof typeof sort>("FE");
+  const [filter, setFilter] = useState<FilterType>(initialFilter);
+  const [width, setWidth] = useState<boolean>(true);
+  const [sortValue, setSortValue] = useState<keyof typeof sort>("FE");
+  const searchParams = useSearchParams() as ReadonlyURLSearchParams;
 
-  const filterRef = React.useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState<RouterQuery>({
+    availability: searchParams.get("availability") || "",
+    brand: searchParams.get("brand") || "",
+    categories: searchParams.get("categories") || "",
+    colors: searchParams.get("colors") || "",
+    price: searchParams.get("price") || "",
+    sizes: searchParams.get("sizes") || "",
+    sort: searchParams.get("sort") || "",
+  });
 
-  const router = useRouter();
+  const filterRef = useRef<HTMLDivElement>(null);
+
   const { alertMessage } = useMessage();
 
-  const isFirstRender = React.useRef(true);
-  const MobileFilterRef = React.useRef<{ setDrawer(): void }>(null);
+  const isFirstRender = useRef(true);
+  const MobileFilterRef = useRef<{ setDrawer(): void }>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSortValue(e.target.value as keyof typeof sort);
     emitCustomEvent(Events.SORT, e.target.value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setWidth(window.innerWidth > 700);
     const handleDocumentClick = (e: Event) => {
       if (window.innerWidth < 700) return;
@@ -92,11 +104,10 @@ function Filter(props: FilterProps) {
     };
   }, [props]);
 
-  React.useEffect(() => {
-    const query = router.query as unknown as RouterQuery;
+  useEffect(() => {
     const queryKeys = Object.keys(query) as [x: keyof RouterQuery];
 
-    if (isFirstRender.current || !router.isReady) {
+    if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
@@ -114,7 +125,19 @@ function Filter(props: FilterProps) {
     //     : "Revoked filter",
     //   "info"
     // );
-  }, [router]);
+  }, [query]);
+
+  useEffect(() => {
+    setQuery({
+      availability: searchParams.get("availability") || "",
+      brand: searchParams.get("brand") || "",
+      categories: searchParams.get("categories") || "",
+      colors: searchParams.get("colors") || "",
+      price: searchParams.get("price") || "",
+      sizes: searchParams.get("sizes") || "",
+      sort: searchParams.get("sort") || "",
+    });
+  }, [searchParams]);
 
   if (!products?.length) return <></>;
 
@@ -169,7 +192,7 @@ function Filter(props: FilterProps) {
   );
 }
 
-export const FilterComponentLoader: React.FC = () => {
+export const FilterComponentLoader: FC = () => {
   return <div className="bg-primary-low/10 animate-pulse p-4 rounded-lg" />;
 };
 

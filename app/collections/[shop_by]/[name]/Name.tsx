@@ -1,5 +1,6 @@
+"use client";
+
 import React from "react";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import {
   Box,
   Breadcrumbs,
@@ -13,31 +14,32 @@ import {
 import Link from "next/link";
 import { ArrowForwardIosRounded } from "@mui/icons-material";
 import { AppState, Product } from "@lib/types";
-import { useRouter } from "next/router";
 import RenderProducts from "@comp/renderProducts";
 import Filter from "@comp/filter";
 import FetchCartsHook from "@comp/fetchCartsHook";
-import SEO from "@comp/seo";
 import axios from "axios";
+import type { Product as PType } from "@lib/types";
+import { useRouter } from "next/navigation";
 
 type Props = Partial<{
-  products: string;
+  products: PType[];
   error: boolean;
   message: string;
   user: AppState["user"];
+  shop_by: string;
+  name: string;
 }>;
 
-const Collections: React.FC<Props> = (props) => {
-  const [products, setProducts] = React.useState<Product[]>(
-    JSON.parse(props.products ?? "[]") ?? []
-  );
+const Name: React.FC<Props> = ({
+  products = [],
+  error,
+  user,
+  name,
+  shop_by,
+}) => {
   const router = useRouter();
 
-  React.useEffect(() => {
-    setProducts(JSON.parse(props.products ?? "[]") ?? []);
-  }, [props]);
-
-  if (props.error) {
+  if (error) {
     return (
       <React.Fragment>
         <Container sx={{ p: 0 }}>
@@ -59,24 +61,13 @@ const Collections: React.FC<Props> = (props) => {
   }
 
   FetchCartsHook({
-    user: props.user,
+    user: user,
     loading: false,
     setLoading: () => null,
   });
 
-  const pageDescription = {
-    title: `Products from ${router.query.name} ${router.query.shop_by}`,
-    description:
-      "Brands and Categories of product we have in the store. Get the best fit by category or your favorite brand with their verified products.",
-    url:
-      "https://pauloxuries.com/" +
-      `${router.query.shop_by}/${router.query.name}/`,
-    image: "https://pauloxuries.com/identity/dark-logo.png",
-  };
-
   return (
     <React.Fragment>
-      <SEO {...pageDescription} />
       <Container maxWidth={"xl"} sx={{ p: 0 }} className="component-wrap">
         <Box className={"breadcrumbs-wrapper"} my={3}>
           <Breadcrumbs
@@ -98,7 +89,7 @@ const Collections: React.FC<Props> = (props) => {
         </Box>
         <Box mt={2}>
           <Typography component={"span"} variant={"subtitle2"}>
-            Product {router.query.shop_by} :{" "}
+            Product {shop_by} :{" "}
           </Typography>
           <Typography
             component={"span"}
@@ -106,7 +97,7 @@ const Collections: React.FC<Props> = (props) => {
             textTransform={"capitalize"}
             variant={"h6"}
           >
-            {router.query.name}
+            {name}
           </Typography>
         </Box>
         {products.length > 0 ? (
@@ -114,7 +105,7 @@ const Collections: React.FC<Props> = (props) => {
         ) : (
           <div className="p-5 mt-4 bg-primary-low/10 rounded-lg shadow-lg">
             <p className="text-sm font-bold mb-4">
-              This {router.query.shop_by} products is out of stock
+              This {shop_by} products is out of stock
             </p>
             <button
               type="button"
@@ -130,7 +121,7 @@ const Collections: React.FC<Props> = (props) => {
   );
 };
 
-export default Collections;
+export default Name;
 
 // export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //   try {

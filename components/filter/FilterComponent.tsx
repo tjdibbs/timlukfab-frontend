@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { Box, CardActionArea } from "@mui/material";
 import { ArrowDropDownOutlined } from "@mui/icons-material";

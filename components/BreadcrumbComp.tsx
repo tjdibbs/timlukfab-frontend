@@ -1,8 +1,10 @@
+"use client";
+
 import React from "react";
 import { Box, Breadcrumbs, Chip, Typography } from "@mui/material";
 import { ArrowForwardIosRounded } from "@mui/icons-material";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function BreadcrumbComp(props: {
   links: { path?: string; label: string; disabled?: boolean }[];

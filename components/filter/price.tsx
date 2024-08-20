@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useCallback } from "react";
 import { Button, Collapse, Slider } from "@mui/material";
-import { useRouter } from "next/router";
 import { useCustomEventListener } from "react-custom-events";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 function valuetext(value: number) {
   return `${value}°C`;
@@ -10,8 +12,11 @@ function valuetext(value: number) {
 export default function Price(props: {
   t: { lowest: number; highest: number };
 }) {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams?.toString());
   const router = useRouter();
-  const queryPrice = (router.query.price as string)?.split("-") ?? [];
+  const pathname = usePathname();
+  const queryPrice = (searchParams?.get("price") as string)?.split("-") ?? [];
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [price, setPrice] = React.useState<number[]>([
@@ -22,14 +27,8 @@ export default function Price(props: {
   let minDistance = 3000;
 
   const apply = () => {
-    router.push(
-      {
-        pathname: router.pathname,
-        query: { ...router.query, price: price[0] + "-" + price[1] },
-      },
-      undefined,
-      { shallow: true }
-    );
+    params.set("price", price[0] + "-" + price[1]);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   useCustomEventListener("filterEvent", (data: string) => {

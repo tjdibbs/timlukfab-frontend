@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Box,
@@ -7,15 +9,15 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
 import { useCustomEventListener } from "react-custom-events";
 import useFilterChange from "hooks/useFilterChange";
+import { useSearchParams } from "next/navigation";
 
 export default function Color(props: { t: { [x: string]: number }[] }) {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [open, setOpen] = React.useState<boolean>(false);
   const [queryColor, setQueryColor] = React.useState(
-    ((router.query?.colors ?? "") as string)?.split(";")
+    ((searchParams?.get("colors") ?? "") as string)?.split(";")
   );
 
   const { handleChange } = useFilterChange(setQueryColor, "colors");

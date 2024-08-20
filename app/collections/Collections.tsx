@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { Fragment, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Link from "next/link";
@@ -6,14 +8,13 @@ import Filter, { FilterComponentLoader } from "@comp/filter";
 import { ArrowForwardIosRounded } from "@mui/icons-material";
 import { AppState, Product } from "@lib/types";
 import RenderProducts, { ProductsLoader } from "@comp/renderProducts";
-import SEO from "@comp/seo";
 import Viewed from "@comp/viewed";
 import axios from "axios";
 import { BASE_URL, Events } from "@lib/constants";
-import { useRouter } from "next/router";
 import useMessage from "@hook/useMessage";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 import { emitCustomEvent } from "react-custom-events";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Props = Partial<{
   products: Product[];
@@ -22,25 +23,19 @@ type Props = Partial<{
   // user: AppState["user"];
 }>;
 
-const pageDescription = {
-  title: "Pauloxuries Wears Collection",
-  description:
-    "Having a collection of fashion wears from variety of brands. Find unique wears to make you stand out. We provide everything fashion",
-  url: "/collections",
-  image: "/identity/logo.png",
-};
-
-const Collections: NextPage<Props> = (props) => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [products, setProducts] = React.useState<Product[]>([]);
+const Collections = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<Product[]>([]);
   const { alertMessage } = useMessage();
 
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
-  const { shop_by, name } = router.query;
 
-  React.useEffect(() => {
-    if (!router.isReady) return;
+  const shop_by = searchParams?.get("shop_by");
+  const name = searchParams?.get("name");
 
+  useEffect(() => {
     (async () => {
       try {
         let endpoint =
@@ -62,19 +57,13 @@ const Collections: NextPage<Props> = (props) => {
         setLoading(false);
       }
     })();
-  }, [alertMessage, shop_by, name, router]);
+  }, [alertMessage, shop_by, name]);
 
-  React.useEffect(() => {
-    const handler = (pathname: string, option: { shallow: boolean }) => {
-      if (pathname.includes("collections")) setLoading(true);
-    };
-
-    router.events.on("beforeHistoryChange", handler);
-
-    return () => {
-      router.events.off("beforeHistoryChange", handler);
-    };
-  }, [router]);
+  useEffect(() => {
+    if (pathname?.includes("collections")) {
+      setLoading(true);
+    }
+  }, [pathname, setLoading]);
 
   const links = [
     {
@@ -94,8 +83,7 @@ const Collections: NextPage<Props> = (props) => {
   ];
 
   return (
-    <React.Fragment>
-      <SEO {...pageDescription} />
+    <Fragment>
       <Container maxWidth={"xl"} sx={{ p: 0 }} className="component-wrap">
         <BreadcrumbComp links={links} />
 
@@ -133,7 +121,7 @@ const Collections: NextPage<Props> = (props) => {
               variant={"contained"}
               size={"small"}
               className="bg-primary-low"
-              onClick={() => (shop_by ? router.back() : router.reload())}
+              onClick={() => (shop_by ? router.back() : router.refresh())}
             >
               {shop_by ? "Go back" : " Reload Page"}
             </Button>
@@ -142,7 +130,7 @@ const Collections: NextPage<Props> = (props) => {
 
         {!loading && <Viewed />}
       </Container>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

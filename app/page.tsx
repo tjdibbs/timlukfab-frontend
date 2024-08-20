@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   title: `Home`,
   description:
     "Get quality wears from different brands, we provide fashion combination for you, you don't have to worry about what to wear. Get yours sneakers, oversized, trousers, rugged jeans and others, for both men and women. ",
-  other: {
+  openGraph: {
     url: "https://pauloxuries.com/",
-    image: "/identity/logo.png",
+    images: [{ url: "/identity/logo.png" }],
   },
 };
 

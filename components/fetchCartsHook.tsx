@@ -1,3 +1,5 @@
+"use client"
+
 import axios from "axios";
 import { setAllCarts } from "lib/redux/cartSlice";
 import { auth } from "lib/redux/reducer";

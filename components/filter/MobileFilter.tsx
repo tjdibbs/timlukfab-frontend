@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import { SwipeableDrawer } from "@mui/material";
 import { Product } from "@lib/types";

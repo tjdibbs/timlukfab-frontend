@@ -1,3 +1,5 @@
+"use client"
+
 import { useCustomEventListener } from "react-custom-events";
 import { Product } from "@lib/types";
 import React from "react";
@@ -9,10 +11,8 @@ import { useAppSelector } from "@lib/redux/store";
 import Loading from "@comp/loading";
 import SortFunc from "@helper/sort";
 import { Events } from "@lib/constants";
-import { useRouter } from "next/router";
 
 const RenderProducts = (props: { products: Product[] }) => {
-  const router = useRouter();
   const [filterProducts, setFilterProducts] = React.useState<Product[]>(
     props.products ?? []
   );
