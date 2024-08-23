@@ -28,7 +28,7 @@ input {
 
 button,
 a {
-  @apply transition-all duration-200 ease-linear;
+  @apply transition-all duration-200 ease-linear hover:text-[#555];
 }
 
 .app {

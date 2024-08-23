@@ -1,75 +1,269 @@
 "use client";
 
-import { Input, Select } from "antd";
-import { Option } from "antd/es/mentions";
-import { CSSProperties } from "react";
+import { RegisterFormSchema } from "@/lib/schemas";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { countryList } from "@/lib/country";
+import Link from "next/link";
+import { useState } from "react";
 
-const selectStyle: CSSProperties = { width: "100%" };
+type FormSchema = z.infer<typeof RegisterFormSchema>;
 
 const Register = () => {
+  const [selectedCountry, setSelectedCountry] = useState<{
+    name: string;
+    code: string;
+    dialingCode: string;
+  } | null>(null);
+
+  const form = useForm<FormSchema>({
+    resolver: zodResolver(RegisterFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      gender: "male",
+      contact: {
+        country: "",
+        text: "",
+        isoCode: "",
+        dialingCode: "",
+      },
+      password: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormSchema> = (data: FormSchema) => {
+    console.log(data);
+  };
+
   return (
-    <section>
-      <div className="wrapper">
-        <form className="mx-auto w-[90%] max-w-sm py-12">
-          <div className="text-center">
-            <h3 className="mb-4 text-3xl font-semibold max-md:text-2xl">
-              Register
-            </h3>
-            <p className="">Please fill in the information below</p>
-          </div>
-          <div className="mt-8">
-            <div className="mb-4 items-center justify-center gap-4 md:flex">
-              <div className="flex-1 max-md:mb-4">
-                <label htmlFor="firstName" className="mb-1 block">
+    <div className="wrapper p-6">
+      <h1 className="mb-2 text-center text-3xl font-semibold max-md:text-2xl">
+        Register
+      </h1>
+      <p className="mb-8 text-center text-gray-600">
+        Please fill in the information below:
+      </p>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="mx-auto w-[90%] max-w-md space-y-6"
+        >
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
                   First name
-                </label>
-                <input
-                  type="text"
-                  placeholder="First name"
-                  className="w-full rounded border p-2"
-                />
-              </div>
-              <div className="flex-1">
-                <label htmlFor="lastName" className="mb-1 block">
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="First name"
+                    {...field}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+                </FormControl>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
                   Last name
-                </label>
-                {/* <input
-                  type="text"
-                  placeholder="Last name"
-                  className="w-full rounded border p-2"
-                /> */}
-                <Input defaultValue={"Email"} />
-              </div>
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="mb-1 block">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full rounded border p-2"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="gender" className="mb-1 block">
-                Select gender
-              </label>
-              {/* <select
-                id="gender"
-                className="w-full rounded border p-2 focus:outline-none"
-              >
-                <option value="male">male</option>
-                <option value="female">female</option>
-              </select> */}
-              <Select style={selectStyle}>
-                <Select.Option value="male">male</Select.Option>
-              </Select>
-            </div>
-          </div>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Last name"
+                    {...field}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+                </FormControl>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Email
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Email"
+                    {...field}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+                </FormControl>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Gender
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black">
+                      <SelectValue placeholder="Select a gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="male">Male</SelectItem>
+                    <SelectItem value="female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="contact.country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Country
+                </FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    const country = countryList.find((c) => c.name === value);
+                    if (country) {
+                      setSelectedCountry(country);
+                      form.setValue("contact.isoCode", country.code);
+                      form.setValue("contact.dialingCode", country.dialingCode);
+                      form.setValue("contact.country", country.name);
+                    }
+                    field.onChange(value);
+                  }}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black">
+                      <SelectValue placeholder="Select a country" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {countryList.map((country) => (
+                      <SelectItem key={country.code} value={country.name}>
+                        {country.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="contact.text"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Phone Number
+                </FormLabel>
+                <FormControl>
+                  <div className="flex">
+                    {selectedCountry && (
+                      <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
+                        {selectedCountry.dialingCode}
+                      </span>
+                    )}
+                    <Input
+                      placeholder="Phone number"
+                      {...field}
+                      className="flex-1 rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                      onChange={(e) => {
+                        // Remove non-digit characters
+                        const value = e.target.value.replace(/\D/g, "");
+                        field.onChange(value);
+                      }}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Password
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    {...field}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                  />
+                </FormControl>
+                <FormMessage className="mt-1 text-xs text-red-500" />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="w-full rounded-md bg-black px-4 py-2 text-sm text-white transition duration-300 hover:bg-gray-800"
+          >
+            CREATE MY ACCOUNT
+          </Button>
+          <p className="mt-4 text-center text-sm">
+            Already have an account?{" "}
+            <Link href="/login" className="underline">
+              login
+            </Link>
+          </p>
         </form>
-      </div>
-    </section>
+      </Form>
+    </div>
   );
 };
+
 export default Register;

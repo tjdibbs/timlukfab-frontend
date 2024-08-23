@@ -29,7 +29,10 @@ const AppHeader = () => {
           </div>
         </div>
         <div className="wrapper flex items-center justify-between pb-1 pt-2">
-          <Link href="/" className="text-2xl font-bold text-black">
+          <Link
+            href="/"
+            className="text-2xl font-bold text-black hover:text-black/60"
+          >
             Timlukfab
           </Link>
           <ul className="hidden items-center justify-center gap-6 md:flex">

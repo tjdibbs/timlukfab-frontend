@@ -7,6 +7,7 @@ import { Metadata, Viewport } from "next";
 import Layout from "antd/es/layout/layout";
 import AppHeader from "@/components/header/AppHeader";
 import AppFooter from "@/components/footer/Footer";
+import App from "@/components/providers/App";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -93,14 +94,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AntdRegistry>
-          <Layout className={"app bg-white"}>
-            <AppHeader />
-            <main>{children}</main>
-            <AppFooter />
-          </Layout>
-        </AntdRegistry>
+      <body className={inter.className + "bg-white"}>
+        <App>{children}</App>
       </body>
     </html>
   );
