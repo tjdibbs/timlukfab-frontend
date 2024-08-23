@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import {
@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import ArrowForwardIosRounded from "@mui/icons-material/ArrowForwardIosRounded";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import type { AppState, CartInterface, Product } from "@lib/types";
 import Checkout from "@comp/cart/checkout";
 import NoCart from "@comp/cart/nocart";
@@ -21,8 +21,8 @@ import CartProduct from "@comp/cart/CartProduct";
 import FetchCartsHook from "@comp/fetchCartsHook";
 import axios from "axios";
 import { BASE_URL } from "@lib/constants";
-import { setAllCarts } from "@lib/redux/cartSlice";
-import { setAllCart } from "@lib/redux/reducer";
+import { setAllCarts } from "@/lib/_redux/cartSlice";
+import { setAllCart } from "@/lib/_redux/reducer";
 import useMessage from "@hook/useMessage";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 import ShopStepper from "@comp/ShopStepper";
@@ -47,7 +47,7 @@ export default function Carts(props: Props) {
       // note: cart are updated by their cart id
       let compiledCarts = products.map((productDetail) => {
         let localCart = cart.find(
-          (cart) => cart.product?.id == productDetail.id
+          (cart) => cart.product?.id == productDetail.id,
         ) as CartInterface;
         return {
           ...localCart,
@@ -57,7 +57,7 @@ export default function Carts(props: Props) {
 
       dispatch(setAllCart(compiledCarts));
     },
-    [cart, dispatch]
+    [cart, dispatch],
   );
 
   React.useEffect(() => {
@@ -73,7 +73,7 @@ export default function Carts(props: Props) {
         // if user is signed in it made a get request while there is no user it made a post request
         const req = await axios[user ? "get" : "post"]<DynamicResponse>(
           BASE_URL + (user ? `/cart/` + user?.id : `/api/products/info`),
-          local_cart_ids
+          local_cart_ids,
         );
 
         const res = await req.data;
@@ -88,7 +88,7 @@ export default function Carts(props: Props) {
         console.error({ e });
         alertMessage(
           "We are having issue communicating with the server",
-          "error"
+          "error",
         );
       }
 
@@ -107,14 +107,14 @@ export default function Carts(props: Props) {
       </Box>
       <section className={"main-content mt-5"}>
         {Boolean(cart.length) && <ShopStepper completed={[]} activeStep={0} />}
-        <h5 className="title font-extrabold text-xl mt-5 rounded-lg mb-3 w-max">
+        <h5 className="title mb-3 mt-5 w-max rounded-lg text-xl font-extrabold">
           Shopping Cart
         </h5>
 
-        <div className="flex flex-wrap justify-end gap-3 my-5">
+        <div className="my-5 flex flex-wrap justify-end gap-3">
           {!loading ? (
             <React.Fragment>
-              <div className="flex-grow flex flex-col gap-y-3">
+              <div className="flex flex-grow flex-col gap-y-3">
                 {cart.map((cart, index) => {
                   return (
                     <CartProduct key={index} cart={cart as CartInterface} />
@@ -140,10 +140,10 @@ const CartSkeleton = () => (
     <Box sx={{ flexGrow: 1 }}>
       {Array.from(new Array(5)).map((product, index) => {
         return (
-          <div className={"card p-4 mb-4"} key={index}>
+          <div className={"card mb-4 p-4"} key={index}>
             <Skeleton
               variant={"rectangular"}
-              className="w-full rounded-lg h-[30px]"
+              className="h-[30px] w-full rounded-lg"
             />
             <Stack
               sx={{ mt: 3 }}
@@ -175,7 +175,7 @@ const CartSkeleton = () => (
         );
       })}
     </Box>
-    <div className={"card w-[300px] grid place-items-center bg-primary-low/10"}>
+    <div className={"card bg-primary-low/10 grid w-[300px] place-items-center"}>
       <CircularProgress />
     </div>
   </React.Fragment>

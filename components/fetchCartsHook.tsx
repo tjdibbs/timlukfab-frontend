@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import axios from "axios";
-import { setAllCarts } from "lib/redux/cartSlice";
-import { auth } from "lib/redux/reducer";
-import { useAppDispatch, useAppSelector } from "lib/redux/store";
+import { setAllCarts } from "@/lib/_redux/cartSlice";
+import { auth } from "@/lib/_redux/reducer";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import { AppState, CartInterface } from "lib/types";
 import { useSnackbar } from "notistack";
 import React from "react";

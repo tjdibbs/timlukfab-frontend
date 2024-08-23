@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {} from "react";
 
@@ -10,7 +10,7 @@ import axios from "axios";
 import React from "react";
 import { Product } from "@lib/types";
 import { Input } from "antd";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import useMessage from "@hook/useMessage";
 import { nanoid } from "nanoid";
 import AddReview from "./AddReview";
@@ -56,7 +56,7 @@ function Reviews(props: { product: Product }) {
       <Collapse in={open}>
         <div className="wrap card">
           <div className="flex items-center justify-between">
-            <div className="title font-black text-lg">Reviews</div>
+            <div className="title text-lg font-black">Reviews</div>
             <Button
               onClick={() => setAdd(!add)}
               className="bg-primary-low"
@@ -68,7 +68,7 @@ function Reviews(props: { product: Product }) {
           </div>
 
           {!reviews.length && (
-            <div className="no-review flex justify-between items-center my-4 flex-wrap gap-3">
+            <div className="no-review my-4 flex flex-wrap items-center justify-between gap-3">
               <div className="text">There is no review for this product</div>
             </div>
           )}
@@ -85,7 +85,7 @@ function Reviews(props: { product: Product }) {
               {reviews.map(({ id, name, review }) => (
                 <li
                   key={id}
-                  className="review flex gap-x-4 items-start bg-white p-3 mb-3 rounded-lg"
+                  className="review mb-3 flex items-start gap-x-4 rounded-lg bg-white p-3"
                 >
                   <Avatar
                     sx={{

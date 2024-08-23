@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 /* eslint-disable @next/next/no-img-element */
 import * as React from "react";
@@ -18,7 +18,7 @@ import {
 import { grey } from "@mui/material/colors";
 import { Product } from "@lib/types";
 import axios from "axios";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -147,7 +147,7 @@ export const CardComponent = ({
           alt={item.alt as string}
           fill
           sizes="(max-width: 528px) 100px, 120px"
-          className={`w-full object-fill  pointer-events-none min-h-[200px]`}
+          className={`pointer-events-none min-h-[200px] w-full object-fill`}
         />
       </CardActionArea>
       <CardContent

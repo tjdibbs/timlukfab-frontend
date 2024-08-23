@@ -3,7 +3,7 @@
 import Layout from "@comp/layout";
 import PageLoading from "@comp/PageLoading";
 import GetUser from "@lib/getUser";
-import store from "@lib/redux/store";
+import store from "@/lib/_redux/store";
 import { ConfigProvider } from "antd";
 import { SnackbarProvider } from "notistack";
 import { ReactNode } from "react";
@@ -18,7 +18,6 @@ import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 import "react-alice-carousel/lib/alice-carousel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
 
 type Props = {
   children: ReactNode;

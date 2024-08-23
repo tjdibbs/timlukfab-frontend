@@ -1,5 +1,8 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+import tailwindcss_animate from "tailwindcss-animate";
+
+const config: Config = {
   important: true,
   darkMode: "class",
   content: [
@@ -16,16 +19,15 @@ module.exports = {
         xl: "1440px",
       },
       colors: {
-        primary: "#ffcc00",
-        "primary-low": "#997a00",
-        secondary: "",
-        "primary-dark": "#141106",
-        "paper-low-dark": "#483a03",
+        primary: "#CD0001"
       },
       fontFamily: {
         nunito: ["nunito", "sans", "sans-serif"],
       },
     },
   },
-  plugins: [],
+
+  plugins: [tailwindcss_animate],
 };
+
+export default config

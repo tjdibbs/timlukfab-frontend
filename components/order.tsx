@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Avatar,
@@ -22,7 +22,7 @@ import {
   OrderType,
   Product,
 } from "@lib/types";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -37,12 +37,12 @@ export interface Prop extends Omit<OrderType, "checkout"> {
 
 export default function Order(prop: Prop) {
   const checkouts = JSON.parse(
-    prop.checkout
+    prop.checkout,
   ) as CheckoutInterface<CartInterface>;
   const { mode, user } = useAppSelector((state) => state.shop);
   const [expand, setExpand] = React.useState<boolean>(false);
   const [revoked, setRevoked] = React.useState<string[]>(
-    JSON.parse(prop.revoked ?? [])
+    JSON.parse(prop.revoked ?? []),
   );
   const [cancelled, setCancelled] = React.useState(prop.cancelled);
   const { enqueueSnackbar } = useSnackbar();
@@ -159,7 +159,7 @@ export default function Order(prop: Prop) {
                         } else {
                           enqueueSnackbar(
                             "Unable to cancel order, contact support",
-                            { variant: "error" }
+                            { variant: "error" },
                           );
                         }
                       }}
@@ -184,8 +184,8 @@ export default function Order(prop: Prop) {
                 ? "cancelled"
                 : "delivered"
               : cancelled
-              ? "cancelled"
-              : "pending"
+                ? "cancelled"
+                : "pending"
           }
           disabled={Boolean(cancelled)}
           sx={{ color: "#fff" }}

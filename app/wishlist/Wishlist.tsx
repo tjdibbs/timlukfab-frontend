@@ -9,7 +9,7 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { BASE_URL, breakpoints } from "@lib/constants";
 import useMessage from "@hook/useMessage";
 import { nanoid } from "nanoid";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 import { Button } from "@mui/material";
 import Link from "next/link";
@@ -41,7 +41,7 @@ const Wishlist = () => {
     axios
       .post<{ success: boolean; products: Product[] }>(
         BASE_URL + "/api/products/info",
-        wishlist
+        wishlist,
       )
       .then((response) => {
         const { success, products } = response.data;
@@ -91,7 +91,7 @@ const Wishlist = () => {
           : !!products?.length &&
             products.map((product) => {
               const inCart = cart.findIndex(
-                (cart) => cart.product!.id === product.id
+                (cart) => cart.product!.id === product.id,
               );
               const inWishlist = wishlist.includes(product.id);
 
@@ -106,8 +106,8 @@ const Wishlist = () => {
               );
             })}
         {!loading && !wishlist?.length && (
-          <div className="card grid place-items-center w-full mt-5">
-            <p className="text-sm mb-3 font-bold">There is nothing here</p>
+          <div className="card mt-5 grid w-full place-items-center">
+            <p className="mb-3 text-sm font-bold">There is nothing here</p>
             <Link href={"/collections"}>
               <Button
                 variant={"contained"}
@@ -122,6 +122,6 @@ const Wishlist = () => {
       </Swiper>
     </Box>
   );
-}
+};
 
 export default Wishlist;

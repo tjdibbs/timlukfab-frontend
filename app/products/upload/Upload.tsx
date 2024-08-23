@@ -19,7 +19,7 @@ import {
 import axios from "axios";
 import { AppState, FormDataType, Response } from "@lib/types";
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "@lib/redux/store";
+import { useAppDispatch } from "@/lib/_redux/store";
 import LinearProgress from "@mui/material/LinearProgress";
 import Cookie from "js-cookie";
 import { marked } from "marked";
@@ -96,7 +96,7 @@ const Upload = function ({ user }: { user: AppState["user"] }) {
       if (missingFields?.length || !form.sizes || !form.colors) {
         return alertMessage(
           "Some fields (" + String(missingFields) + ") are missing",
-          "error"
+          "error",
         );
       }
 
@@ -118,7 +118,7 @@ const Upload = function ({ user }: { user: AppState["user"] }) {
               name,
               (["sizes", "colors"].includes(name)
                 ? JSON.stringify(form[name])
-                : form[name]) as string
+                : form[name]) as string,
             );
         });
 
@@ -165,12 +165,12 @@ const Upload = function ({ user }: { user: AppState["user"] }) {
       setResponse({});
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router]
+    [router],
   );
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === "clickaway") {
       return;
@@ -187,7 +187,7 @@ const Upload = function ({ user }: { user: AppState["user"] }) {
     clear(): void;
   }>(null);
   const imagesRef = React.useRef<{ getImages(): ProductImages; clear(): void }>(
-    null
+    null,
   );
 
   return (
@@ -249,11 +249,11 @@ const Upload = function ({ user }: { user: AppState["user"] }) {
                       required: true,
                       onChange: (e) => {
                         let value = parseInt(
-                          e.target.value.replaceAll(/\D/g, "")
+                          e.target.value.replaceAll(/\D/g, ""),
                         );
                         setValue(
                           "price",
-                          isNaN(value) ? "" : String(value.toLocaleString())
+                          isNaN(value) ? "" : String(value.toLocaleString()),
                         );
                       },
                       setValueAs: (value) =>

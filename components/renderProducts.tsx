@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useCustomEventListener } from "react-custom-events";
 import { Product } from "@lib/types";
@@ -7,14 +7,14 @@ import { Box, Grid, Pagination } from "@mui/material";
 import ProductStyle2 from "./productStyle2";
 import { motion } from "framer-motion";
 import { sort } from "./filter";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import Loading from "@comp/loading";
 import SortFunc from "@helper/sort";
 import { Events } from "@lib/constants";
 
 const RenderProducts = (props: { products: Product[] }) => {
   const [filterProducts, setFilterProducts] = React.useState<Product[]>(
-    props.products ?? []
+    props.products ?? [],
   );
 
   const [page, setPage] = React.useState(1);
@@ -28,7 +28,7 @@ const RenderProducts = (props: { products: Product[] }) => {
       setFilterProducts(products);
       setPage(1);
     },
-    []
+    [],
   );
 
   useCustomEventListener(Events.SORT, setSortValue, []);
@@ -55,13 +55,13 @@ const RenderProducts = (props: { products: Product[] }) => {
 
   return (
     <React.Fragment>
-      <div className="products flex-grow my-5" ref={productsContainerRef}>
+      <div className="products my-5 flex-grow" ref={productsContainerRef}>
         <Grid container spacing={1}>
           {filterProducts
             .slice((page - 1) * 12, 12 * page)
             .map((product, index) => {
               const inCart = cart.findIndex(
-                (cart) => cart.product!.id === product.id
+                (cart) => cart.product!.id === product.id,
               );
               const inWishlist = wishlist.includes(product.id);
               return (
@@ -79,13 +79,13 @@ const RenderProducts = (props: { products: Product[] }) => {
             animate={{ y: 0 }}
             className="card mt-10"
           >
-            <div className="text font-bold text-center">
+            <div className="text text-center font-bold">
               No product matched the selected filter option
             </div>
           </motion.div>
         )}
       </div>
-      <Box className="pagination-wrapper w-max m-auto my-5 rounded-lg p-4">
+      <Box className="pagination-wrapper m-auto my-5 w-max rounded-lg p-4">
         <Pagination
           count={count}
           page={page}

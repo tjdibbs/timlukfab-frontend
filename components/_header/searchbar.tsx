@@ -20,7 +20,7 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 import { BASE_URL } from "@lib/constants";
 import { Spin } from "antd";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -48,7 +48,7 @@ const SearchBar: React.FC<{
       }
       setLoading(true);
       const req = await axios.get<{ success: boolean; products: Product[] }>(
-        BASE_URL + "/api/products/search?s=" + search
+        BASE_URL + "/api/products/search?s=" + search,
       );
       const { success, products } = await req.data;
       if (success) {
@@ -92,20 +92,20 @@ const SearchBar: React.FC<{
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed h-screen top-0 left-0 w-screen bg-black/80 flex items-center z-[10000]"
+          className="fixed left-0 top-0 z-[10000] flex h-screen w-screen items-center bg-black/80"
         >
           <motion.div
             initial={{ scale: 0 }}
             animate={{
               scale: 1,
             }}
-            className="max-w-[90%] h-max max-h-[90%] overflow-auto m-auto w-[700px] bg-white rounded-xl"
+            className="m-auto h-max max-h-[90%] w-[700px] max-w-[90%] overflow-auto rounded-xl bg-white"
             exit={{ scale: 0 }}
           >
             <Paper
               elevation={0}
               component={"form"}
-              className="sticky py-3 top-0 z-10 px-5"
+              className="sticky top-0 z-10 px-5 py-3"
             >
               <TextField
                 size={"small"}
@@ -150,7 +150,7 @@ const SearchBar: React.FC<{
                     <Grid container spacing={{ xs: 1, sm: 2 }} sx={{ px: 1 }}>
                       {product.map((item, index) => {
                         const inCart = cart.findIndex(
-                          (cart) => cart.product!.id === item.id
+                          (cart) => cart.product!.id === item.id,
                         );
                         const inWishlist = wishlist.includes(item.id);
 
@@ -160,7 +160,7 @@ const SearchBar: React.FC<{
                               component={"div"}
                               {...{ inCart, inWishlist, item }}
                             >
-                              <div className="h-[200px] sm:h-[250px] relative">
+                              <div className="relative h-[200px] sm:h-[250px]">
                                 <Image
                                   src={
                                     "https://pauloxuries.com/images/products/" +
@@ -169,7 +169,7 @@ const SearchBar: React.FC<{
                                   loading="lazy"
                                   alt={item.title}
                                   fill
-                                  className={`w-full object-fill  pointer-events-none`}
+                                  className={`pointer-events-none w-full object-fill`}
                                 />
                               </div>
                             </ProductStyle2>
@@ -182,7 +182,7 @@ const SearchBar: React.FC<{
               )}
 
               {loading && (
-                <div className="w-screen h-[150px] grid place-items-center">
+                <div className="grid h-[150px] w-screen place-items-center">
                   <Spin />
                 </div>
               )}

@@ -19,7 +19,7 @@ import {
 import { useRouter } from "next/navigation";
 
 // state management
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 
 // icons
 import Add from "@mui/icons-material/Add";
@@ -38,13 +38,13 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
   });
 
   const [message, setMessage] = React.useState<{ text: string; open: boolean }>(
-    { text: "", open: false }
+    { text: "", open: false },
   );
   const { quantity } = watch();
   const { user, wishlist } = useAppSelector((state) => state.shop);
 
   const { handleRemoveCart, handleWish, handleCartChange } = useShop(
-    cart["product"] as Product
+    cart["product"] as Product,
   );
   const router = useRouter();
   let timeout = React.useRef<NodeJS.Timeout>();
@@ -90,8 +90,8 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
     (price as number) * (discountPercentage / 100);
 
   return (
-    <div className="card bg-white/70 backdrop-blur relative">
-      <div className="flex gap-2 items-center p-2">
+    <div className="card relative bg-white/70 backdrop-blur">
+      <div className="flex items-center gap-2 p-2">
         <Avatar
           variant={"rounded"}
           src={
@@ -101,15 +101,15 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
         >
           <ShoppingCartCheckoutIcon />
         </Avatar>
-        <span className="flex-grow font-semibold overflow-hidden text-ellipsis">
+        <span className="flex-grow overflow-hidden text-ellipsis font-semibold">
           {cart.product!.title}
         </span>
         <Chip
           label={cart.product?.stock! - cart.product!.sold! + " in stock"}
         />
       </div>
-      <div className="card-content px-2 my-5">
-        <div className="flex justify-between items-center">
+      <div className="card-content my-5 px-2">
+        <div className="flex items-center justify-between">
           <TextField
             label={"Quantity"}
             {...register("quantity", {
@@ -147,7 +147,7 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
             }}
           />
           <Box>
-            <span className="text-sm font-bold mr-2 text-primary-low">
+            <span className="text-primary-low mr-2 text-sm font-bold">
               #{cartTotalPrice.toLocaleString("en")} -
             </span>
             <span className="text-xs">
@@ -156,12 +156,12 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
           </Box>
         </div>
       </div>
-      <div className="flex gap-x-3 px-2 items-center">
+      <div className="flex items-center gap-x-3 px-2">
         <motion.button
           whileTap={{ scale: 0.9 }}
           type="button"
           onClick={handleRemoveCart}
-          className="btn text-sm bg-primary-low text-white"
+          className="btn bg-primary-low text-sm text-white"
         >
           Remove
         </motion.button>
@@ -172,13 +172,13 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
           sx={{ textTransform: "none" }}
           onClick={() =>
             router.push(
-              "/products?p=" + cart.product!.title + "&id=" + cart.product!.id
+              "/products?p=" + cart.product!.title + "&id=" + cart.product!.id,
             )
           }
         >
           View
         </Button>
-        <div className="wish flex-grow flex justify-end">
+        <div className="wish flex flex-grow justify-end">
           <IconButton className="bg-white shadow-lg" onClick={handleWish}>
             {inWishlist ? (
               <Favorite className="text-primary-low" />
@@ -194,7 +194,7 @@ function CheckoutInterface({ cart }: { cart: CartInterface }) {
             initial={{ bottom: -10, opacity: 0.6 }}
             animate={{ bottom: 10, opacity: 1 }}
             exit={{ bottom: -10, opacity: 0 }}
-            className="absolute left-1/2 transition-all -translate-x-1/2 text-sm w-max bg-red-700 px-4 py-2 text-white rounded-full shadow-lg"
+            className="absolute left-1/2 w-max -translate-x-1/2 rounded-full bg-red-700 px-4 py-2 text-sm text-white shadow-lg transition-all"
           >
             {message.text}
           </motion.div>

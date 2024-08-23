@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ArrowForwardIosRounded } from "@mui/icons-material";
@@ -17,8 +16,8 @@ import React from "react";
 import axios from "axios";
 import { AppState } from "@lib/types";
 import { useSnackbar } from "notistack";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
-import { auth } from "@lib/redux/reducer";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
+import { auth } from "@/lib/_redux/reducer";
 import Order, { Prop as OrderType } from "@comp/order";
 import BreadcrumbComp from "@comp/BreadcrumbComp";
 
@@ -62,7 +61,7 @@ export default function Orders(props: Props) {
         <BreadcrumbComp links={links} />
       </Box>
       <Box className="orders-list">
-        <div className="page-title font-bold text-lg">Your orders</div>
+        <div className="page-title text-lg font-bold">Your orders</div>
         <Box>
           {loading &&
             Array.from(new Array(3)).map((_, index) => {

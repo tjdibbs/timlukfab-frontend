@@ -18,7 +18,7 @@ import type { Product as ProductType } from "@lib/types";
 import Loading from "../loading";
 import Grid from "@mui/material/Grid";
 import AliceCarousel from "react-alice-carousel";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import { BASE_URL, breakpoints } from "@lib/constants";
 import ProductStyle2 from "@comp/productStyle2";
 import Box from "@mui/material/Box";

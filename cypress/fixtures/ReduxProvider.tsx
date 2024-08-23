@@ -1,6 +1,6 @@
 import Layout from "../../components/layout";
 import { Provider } from "react-redux";
-import store from "../../lib/redux/store";
+import store from "../../lib/_redux/store";
 import { SnackbarProvider } from "notistack";
 import NextNProgress from "nextjs-progressbar";
 import { ConfigProvider } from "antd";

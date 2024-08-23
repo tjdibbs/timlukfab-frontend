@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { CheckoutInterface, CartInterface, OrderType } from "@lib/types";
@@ -14,10 +14,10 @@ import {
   Checkbox,
 } from "@mui/material";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import axios from "axios";
 import Cookie from "js-cookie";
-import { setAllCarts } from "@lib/redux/cartSlice";
+import { setAllCarts } from "@/lib/_redux/cartSlice";
 import Login from "@mui/icons-material/Login";
 
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
@@ -86,13 +86,13 @@ const Information = ({ checkout }: InformationProps) => {
 
         let newCarts = cart.filter((_c) => {
           let checkOrder = checkout!.cart.findIndex(
-            ({ product }) => product.id === _c.product?.id
+            ({ product }) => product.id === _c.product?.id,
           );
           return checkOrder === -1;
         });
 
         dispatch(
-          setAllCarts({ userid: user?.id, cart: newCarts as CartInterface[] })
+          setAllCarts({ userid: user?.id, cart: newCarts as CartInterface[] }),
         ).then(() => {
           Cookie.remove("checkout");
           Cookie.remove("formdata");
@@ -104,7 +104,7 @@ const Information = ({ checkout }: InformationProps) => {
           router.replace(
             `/checkout/thank-you?orderId=${orderId}&${
               token ? `token=${token}` : ""
-            }`
+            }`,
           );
         });
       }
@@ -140,7 +140,7 @@ const Information = ({ checkout }: InformationProps) => {
     id: string;
     placeholder?: string;
     content?: (
-      field: ControllerRenderProps<OrderType, keyof OrderType>
+      field: ControllerRenderProps<OrderType, keyof OrderType>,
     ) => React.ReactElement;
   }) => {
     return (
@@ -176,11 +176,11 @@ const Information = ({ checkout }: InformationProps) => {
     >
       {!user && <ReturnCustomer />}
       <Box className={"form-group"}>
-        <h1 className="text-lg font-extrabold my-5">Shipping Address</h1>
+        <h1 className="my-5 text-lg font-extrabold">Shipping Address</h1>
         <Grid container spacing={{ xs: 1.5, sm: 1 }}>
           <Grid item xs={12}>
             <Box className="form-group">
-              <label htmlFor="name" className="block text-sm font-bold mb-2">
+              <label htmlFor="name" className="mb-2 block text-sm font-bold">
                 Full Name <b className="text-red-600">*</b>
               </label>
               {/* <ControllerComp name="name" id="name" required /> */}
@@ -189,7 +189,7 @@ const Information = ({ checkout }: InformationProps) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Box className="form-group">
-              <label htmlFor="phone" className="block text-sm font-bold mb-2">
+              <label htmlFor="phone" className="mb-2 block text-sm font-bold">
                 Phone <b className="text-red-600">*</b>
               </label>
               {ControllerComp({ required: true, name: "phone", id: "phone" })}
@@ -198,7 +198,7 @@ const Information = ({ checkout }: InformationProps) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Box className="form-group">
-              <label htmlFor="email" className="block text-sm font-bold mb-2">
+              <label htmlFor="email" className="mb-2 block text-sm font-bold">
                 Email <b className="text-red-600">*</b>
               </label>
               {ControllerComp({ required: true, name: "email", id: "email" })}
@@ -208,7 +208,7 @@ const Information = ({ checkout }: InformationProps) => {
         <div className="form-group my-3">
           <label
             htmlFor="country_region"
-            className="block text-sm font-bold mb-2"
+            className="mb-2 block text-sm font-bold"
           >
             Country / Region <b className="text-red-600">*</b>
           </label>
@@ -240,7 +240,7 @@ const Information = ({ checkout }: InformationProps) => {
           />
         </div>
         <Box className="form-group my-3">
-          <label htmlFor="address" className="block text-sm font-bold mb-2">
+          <label htmlFor="address" className="mb-2 block text-sm font-bold">
             Street Address <b className="text-red-600">*</b>
           </label>
           {ControllerComp({
@@ -259,7 +259,7 @@ const Information = ({ checkout }: InformationProps) => {
         </Box>
       </Box>
       <div className="additional-information my-3">
-        <label id="additional-information" className="title font-bold my-3">
+        <label id="additional-information" className="title my-3 font-bold">
           Additional Information
         </label>
         {ControllerComp({
@@ -289,8 +289,8 @@ const Information = ({ checkout }: InformationProps) => {
             <Radio defaultChecked id="transfer" title="Pay with transfer" />
             <label htmlFor="transfer">Pay with transfer</label>
           </div>
-          <div className="info text-sm p-4 bg-slate-400 text-white relative mt-5">
-            <div className="arrow absolute rotate-45 left-16 -top-3 bg-inherit h-6 w-6"></div>
+          <div className="info relative mt-5 bg-slate-400 p-4 text-sm text-white">
+            <div className="arrow absolute -top-3 left-16 h-6 w-6 rotate-45 bg-inherit"></div>
             Make your payment directly into our bank account. Please use your
             Order ID as the payment reference. Your order will not be shipped
             until the funds have cleared in our account.
@@ -336,7 +336,7 @@ const Information = ({ checkout }: InformationProps) => {
           </div>
         )}
 
-        <div className="bg-primary-low/10 p-4 rounded-lg my-5">
+        <div className="bg-primary-low/10 my-5 rounded-lg p-4">
           {/* make the user aware of what we will be using their personal data to process */}
           <div className="awareness-text text-sm">
             Your personal data will be used to process your order, support your
@@ -345,7 +345,7 @@ const Information = ({ checkout }: InformationProps) => {
           </div>
 
           {/* Checking the box says, we should g */}
-          <div className="form-group mt-4 agree flex items-center">
+          <div className="form-group agree mt-4 flex items-center">
             <Checkbox
               id="agree"
               defaultChecked
@@ -353,7 +353,7 @@ const Information = ({ checkout }: InformationProps) => {
               required
               onChange={(e) => setValue("agree", e.target.checked)}
             />
-            <label htmlFor="agree" className="capitalize font-bold text-sm">
+            <label htmlFor="agree" className="text-sm font-bold capitalize">
               i have read and agree to the website{" "}
               <Link href={"terms"}>terms and conditions</Link>{" "}
               <b className="text-red-600">*</b>
@@ -362,7 +362,7 @@ const Information = ({ checkout }: InformationProps) => {
         </div>
 
         <button
-          className="btn bg-primary-low text-white mt-4"
+          className="btn bg-primary-low mt-4 text-white"
           type={"submit"}
           disabled={loading}
           ref={SubmitBtn}
@@ -378,12 +378,12 @@ const Information = ({ checkout }: InformationProps) => {
 const ReturnCustomer = () => {
   return (
     <div className="returning-login">
-      <div className="flex items-center bg-gray-200 p-3 gap-3 rounded-lg">
+      <div className="flex items-center gap-3 rounded-lg bg-gray-200 p-3">
         <Login />
         <div className="text">
           Returning Customer{" "}
           <Link
-            className="underline text-primary-low font-bold"
+            className="text-primary-low font-bold underline"
             href={"/sign-in?redirect=checkout"}
           >
             Click to login

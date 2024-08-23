@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .hover-effect {
+    @apply transition-all duration-200 ease-in-out;
+  }
+}
+
+body {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+@layer components {
+  .wrapper {
+    @apply container mx-auto max-w-6xl px-2 md:px-4;
+  }
+}
+
+img {
+  @apply z-[1] max-w-full;
+}
+
+input {
+  @apply focus:outline-none;
+}
+
+button,
+a {
+  @apply transition-all duration-200 ease-linear;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.wishlist-btn:hover > svg {
+  fill: black;
+}
+
+@media only screen and (min-width: 768px) {
+  footer ul {
+    row-gap: 2rem;
+  }
+}

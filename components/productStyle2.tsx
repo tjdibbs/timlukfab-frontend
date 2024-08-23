@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
@@ -17,9 +17,9 @@ import Tooltip from "@mui/material/Tooltip";
 import Grid from "@mui/material/Grid";
 
 // state management
-import { useAppSelector, useAppDispatch } from "@lib/redux/store";
-import { addToCarts, deleteCart } from "@lib/redux/cartSlice";
-import { addToWish, deleteWish } from "@lib/redux/wishSlice";
+import { useAppSelector, useAppDispatch } from "@/lib/_redux/store";
+import { addToCarts, deleteCart } from "@/lib/_redux/cartSlice";
+import { addToWish, deleteWish } from "@/lib/_redux/wishSlice";
 
 // icons from material ui
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -45,7 +45,7 @@ type Props = {
 function ProductStyle2(props: Props) {
   const { inCart, inWishlist, item, sm, xs, component, md } = props;
   const { handleAddCart, handleRemoveCart, handleWish, loading } = useShop(
-    props.item
+    props.item,
   );
 
   const user = useAppSelector((state) => state.shop.user);
@@ -60,14 +60,14 @@ function ProductStyle2(props: Props) {
       animate={{ scale: 1 }}
       key={item.id}
       className={
-        "product-items bg-primary-low/5 shadow-xl relative overflow-hidden"
+        "product-items bg-primary-low/5 relative overflow-hidden shadow-xl"
       }
     >
       <AnimatePresence>
         {loading && (
           <motion.div
             className={
-              "grid place-items-center bg-black/40 absolute h-full w-full top-0 left-0"
+              "absolute left-0 top-0 grid h-full w-full place-items-center bg-black/40"
             }
             animate={{ opacity: 1 }}
             initial={{ opacity: 0.5 }}
@@ -83,18 +83,18 @@ function ProductStyle2(props: Props) {
           <Chip
             label={item.discountPercentage + "% discount"}
             size={"small"}
-            className="!bg-primary-low text-white absolute top-2.5 right-2.5"
+            className="!bg-primary-low absolute right-2.5 top-2.5 text-white"
           />
         )}
       {isOutOfStock && (
         <Chip
           label={"Out of stock"}
           size={"small"}
-          className="!bg-primary-low text-white absolute top-2.5 right-2.5"
+          className="!bg-primary-low absolute right-2.5 top-2.5 text-white"
         />
       )}
       {props.children ?? (
-        <div className="h-[250px] md:h-[330px] relative">
+        <div className="relative h-[250px] md:h-[330px]">
           <Image
             src={
               "http://api.frutiv.com/images/products/" +
@@ -104,13 +104,13 @@ function ProductStyle2(props: Props) {
             alt={item.title}
             fill
             sizes="(max-width: 528px) 250px, (max-width: 768px) 330px"
-            className={`w-full object-fill  pointer-events-none`}
+            className={`pointer-events-none w-full object-fill`}
           />
         </div>
       )}
       <Box p={1}>
         <Box textAlign="left">
-          <p className="whitespace-nowrap mb-2 capitalize font-semibold overflow-hidden text-ellipsis">
+          <p className="mb-2 overflow-hidden text-ellipsis whitespace-nowrap font-semibold capitalize">
             {item.title}
           </p>
           {item.discountPercentage ? (
@@ -119,7 +119,7 @@ function ProductStyle2(props: Props) {
                 ₦
                 {Math.floor(
                   (item.price as number) -
-                    (item.price as number) * (item.discountPercentage / 100)
+                    (item.price as number) * (item.discountPercentage / 100),
                 ).toLocaleString("en")}
                 {"  -  "}
               </span>
@@ -133,7 +133,7 @@ function ProductStyle2(props: Props) {
             </span>
           )}
         </Box>
-        <div className="flex items-center gap-x-2 my-2">
+        <div className="my-2 flex items-center gap-x-2">
           <Link
             href={"/products?p=" + item.title + "&id=" + item.id}
             className="text-primary-low"

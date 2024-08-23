@@ -1,4 +1,4 @@
-import { sort } from "@comp/filter";
+import { sort } from "@components/filter";
 
 export type FilterState = {
   availability: string;

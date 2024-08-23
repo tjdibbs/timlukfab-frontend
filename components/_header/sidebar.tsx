@@ -12,12 +12,12 @@ import ListItemText from "@mui/material/ListItemText";
 import SwitchButton from "./switch";
 import { Button, SwipeableDrawer } from "@mui/material";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import useStyles from "@lib/styles";
 import SwipeableViews from "react-swipeable-views";
 import Avatar from "@mui/material/Avatar";
 import Logout from "@mui/icons-material/Logout";
-import { auth } from "@lib/redux/reducer";
+import { auth } from "@/lib/_redux/reducer";
 import { menuItems, themes } from "./menu";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -110,9 +110,9 @@ export default function Sidebar(props: SideBarProps) {
       onClose={handleClick}
       onOpen={() => setOpen(true)}
     >
-      <div className="w-[300px] min-h-screen max-w-screen bg-primary-low/20">
+      <div className="max-w-screen bg-primary-low/20 min-h-screen w-[300px]">
         {user && (
-          <div className="menu-header p-4 flex gap-x-4">
+          <div className="menu-header flex gap-x-4 p-4">
             <Avatar
               src={user!.image}
               sx={{
@@ -176,7 +176,7 @@ export default function Sidebar(props: SideBarProps) {
                 <MenuItem>
                   <Link
                     href={"/collections"}
-                    className={"flex gap-x-1 items-center flex-grow"}
+                    className={"flex flex-grow items-center gap-x-1"}
                     onClick={() => setOpen(false)}
                   >
                     <ListItemIcon>
@@ -241,7 +241,7 @@ export default function Sidebar(props: SideBarProps) {
                           return (
                             <li
                               className={
-                                "flex justify-between p-4 items-center"
+                                "flex items-center justify-between p-4"
                               }
                               key={index}
                             >
@@ -279,14 +279,14 @@ export default function Sidebar(props: SideBarProps) {
                                 handleClose(
                                   `/collections?shop_by=${navData[0].submenu![
                                     shopValue.value
-                                  ]?.label.toLowerCase()}&name=${title}`
+                                  ]?.label.toLowerCase()}&name=${title}`,
                                 )
                               }
                             >
                               <ListItemText primary={title} />
                             </ListItemButton>
                           );
-                        }
+                        },
                       )}
                     </List>
                   </Box>
@@ -300,17 +300,17 @@ export default function Sidebar(props: SideBarProps) {
         <Box className="absolute bottom-0 w-full p-4">
           {!user && (
             <div className="card-actions">
-              <Link href={"/sign-in"} className="w-full block mb-3">
+              <Link href={"/sign-in"} className="mb-3 block w-full">
                 <Button
                   variant="contained"
                   onClick={handleClick}
                   fullWidth
-                  className="shadow-lg rounded-lg bg-primary-low capitalize"
+                  className="bg-primary-low rounded-lg capitalize shadow-lg"
                 >
                   Login
                 </Button>
               </Link>
-              <Link href={"/sign-up"} className="w-full block mb-3">
+              <Link href={"/sign-up"} className="mb-3 block w-full">
                 <Button
                   onClick={handleClick}
                   size={"small"}
@@ -324,7 +324,7 @@ export default function Sidebar(props: SideBarProps) {
             </div>
           )}
           <div
-            className={"social-icons flex gap-x-3 justify-center items-center "}
+            className={"social-icons flex items-center justify-center gap-x-3"}
           >
             <Link href="https://instagram.com/pauloxuries">
               <IconButton>
@@ -352,11 +352,11 @@ const TabHeader = (props: {
   label: string;
   onClick: React.MouseEventHandler;
 }) => (
-  <div className={"sticky top-0 z-10 bg-primary-low/10"}>
+  <div className={"bg-primary-low/10 sticky top-0 z-10"}>
     <IconButton onClick={props.onClick}>
       <ArrowBackIosRoundedIcon fontSize={"small"} />
     </IconButton>
-    <span className={"font-semibold text-sm"}>{props.label}</span>
+    <span className={"text-sm font-semibold"}>{props.label}</span>
   </div>
 );
 

@@ -1,12 +1,12 @@
 "use client"
 
 import React from "react";
-import { useAppDispatch } from "@lib/redux/store";
+import { useAppDispatch } from "@/lib/_redux/store";
 import Cookie from "js-cookie";
 import axios from "axios";
 import { BASE_URL } from "./constants";
 import useMessage from "@hook/useMessage";
-import { auth } from "./redux/reducer";
+import { auth } from "./_redux/reducer";
 
 const GetUser = () => {
   const dispatch = useAppDispatch();

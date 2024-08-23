@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Searchbar from "./searchbar";
 import { navData } from "./sidebar";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import Navigation from "./menu";
 import SwitchButton from "./switch";
 import dynamic from "next/dynamic";
@@ -59,13 +59,13 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
     <>
       <header className="page-header sticky top-0 z-50 bg-gray-300">
         {!user && (
-          <div className={"offer bg-primary-low dark:bg-[#2a271c] py-2 px-4"}>
+          <div className={"offer bg-primary-low px-4 py-2 dark:bg-[#2a271c]"}>
             {/* @ts-ignore */}
-            <marquee className="text-sm font-semibold text-center leading-7">
+            <marquee className="text-center text-sm font-semibold leading-7">
               Limited Time Only: Get 10% off your first order when you{" "}
               <Link
                 href="/sign-up"
-                className="text-white font-bold bg-black/5 rounded-lg py-1 px-3"
+                className="rounded-lg bg-black/5 px-3 py-1 font-bold text-white"
               >
                 SIGN UP
               </Link>
@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
           </div>
         )}
         <div className="bg-primary/10">
-          <div className="flex justify-between items-center px-3 mx-auto max-w-[1100px]">
+          <div className="mx-auto flex max-w-[1100px] items-center justify-between px-3">
             {width && (
               <IconButton
                 color="inherit"
@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
                 width={180}
                 height={60}
                 priority
-                className={`sm:w-full object-fill  pointer-events-none`}
+                className={`pointer-events-none object-fill sm:w-full`}
               />
             </Link>
             <div
@@ -105,7 +105,7 @@ const Header: React.FC<HeaderProps> = (): JSX.Element => {
                 }, 500);
               }}
             >
-              <div className="flex-grow font-[600] hidden md:flex justify-center">
+              <div className="hidden flex-grow justify-center font-[600] md:flex">
                 <div
                   onMouseEnter={() => {
                     setOpenMenu(true);
@@ -170,7 +170,7 @@ const CountCart = dynamic(
         </IconButton>
       );
     },
-  { ssr: false }
+  { ssr: false },
 );
 
 const NotSignedInSwitch = () => {
@@ -193,19 +193,19 @@ const DropDownMenu = (props: {
     <Collapse
       in={props.openMenu}
       className={
-        "absolute transition-all left-1/2 z-[10000] -translate-x-1/2 " +
+        "absolute left-1/2 z-[10000] -translate-x-1/2 transition-all " +
         (props.user ? "top-[70%]" : "top-[85%]")
       }
     >
-      <div className="wrap bg-gray-300 mt-4 rounded-b-xl">
-        <div className="card bg-primary/10 rounded-b-xl w-full md:w-[1100px] flex flex-wrap gap-4 max-w-[100vw] overflow-visible p-4">
+      <div className="wrap mt-4 rounded-b-xl bg-gray-300">
+        <div className="card flex w-full max-w-[100vw] flex-wrap gap-4 overflow-visible rounded-b-xl bg-primary/10 p-4 md:w-[1100px]">
           {navData[0].submenu!?.map((submenu, index) => {
             return (
               <div
                 key={index}
-                className="bg-white relative shadow-lg p-3 rounded-lg"
+                className="relative rounded-lg bg-white p-3 shadow-lg"
               >
-                <div className="label text-sm font-bold ml-2">
+                <div className="label ml-2 text-sm font-bold">
                   {submenu.label}
                 </div>
                 <List className="flex gap-x-3">
@@ -235,6 +235,6 @@ const DropDownMenu = (props: {
 export default dynamic(async () => Header, {
   ssr: false,
   loading: () => (
-    <div className="stick top-0 h-16 bg-primary-low animate-pulse" />
+    <div className="stick bg-primary-low top-0 h-16 animate-pulse" />
   ),
 });

@@ -1,9 +1,9 @@
 import React from "react";
 import { CartInterface, Product } from "@lib/types";
-import { addToCarts, deleteCart, updateCarts } from "@lib/redux/cartSlice";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { addToCarts, deleteCart, updateCarts } from "@/lib/_redux/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import useMessage from "./useMessage";
-import { addToWish, deleteWish } from "@lib/redux/wishSlice";
+import { addToWish, deleteWish } from "@/lib/_redux/wishSlice";
 import { nanoid } from "nanoid";
 
 function useShop(item: Product) {

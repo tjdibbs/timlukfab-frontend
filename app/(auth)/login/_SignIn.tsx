@@ -2,8 +2,8 @@
 
 import useMessage from "@hook/useMessage";
 import { BASE_URL } from "@lib/constants";
-import { auth } from "@lib/redux/reducer";
-import { useAppDispatch } from "@lib/redux/store";
+import { auth } from "@/lib/_redux/reducer";
+import { useAppDispatch } from "@/lib/_redux/store";
 import { Box, Container, Divider } from "@mui/material";
 import { Button, Input } from "antd";
 import axios from "axios";
@@ -56,7 +56,7 @@ const SignIn = () => {
         success
           ? "Authenticated as " + user.firstname + " " + user.lastname
           : "Email or Password Incorrect",
-        success ? "success" : "error"
+        success ? "success" : "error",
       );
 
       console.log({ success, user });
@@ -77,22 +77,22 @@ const SignIn = () => {
   const disabled = loading.pending || !state.email || !state.password;
 
   return (
-    <Container className="auth-container component-wrap ">
-      <div className="auth-wrapper bg-white rounded-xl shadow-lg w-[400px] max-w-full mx-auto">
+    <Container className="auth-container component-wrap">
+      <div className="auth-wrapper mx-auto w-[400px] max-w-full rounded-xl bg-white shadow-lg">
         <motion.form
           layoutId="auth-form"
-          className="w-full py-20 my-6 px-3 sm:px-6 bg-primary-low/5 mx-auto"
+          className="bg-primary-low/5 mx-auto my-6 w-full px-3 py-20 sm:px-6"
           action="#"
           onSubmit={onSubmit}
         >
           <div className={"form-header mb-4"}>
             <Divider>
-              <div className="font-extrabold text-lg text-center">SIGN IN</div>
+              <div className="text-center text-lg font-extrabold">SIGN IN</div>
             </Divider>
           </div>
           <Box className={"form-body"} maxWidth={"95%"} width={350} m={"auto"}>
             <div className="form-group mb-2">
-              <label htmlFor="email" className="text-sm font-bold mb-1 block">
+              <label htmlFor="email" className="mb-1 block text-sm font-bold">
                 Email
               </label>
               <Input
@@ -107,7 +107,7 @@ const SignIn = () => {
               />
             </div>
             <div className={"form-group mb-2"}>
-              <label htmlFor="email" className="text-sm font-bold mb-1 block">
+              <label htmlFor="email" className="mb-1 block text-sm font-bold">
                 Password
               </label>
               <Input.Password
@@ -123,7 +123,7 @@ const SignIn = () => {
                 size={"large"}
                 type={"primary"}
                 htmlType="submit"
-                className="w-full bg-primary-low"
+                className="bg-primary-low w-full"
                 loading={loading.pending}
                 disabled={disabled}
               >
@@ -145,7 +145,7 @@ const SignIn = () => {
                 </Link>
               </div>
               <Link
-                className="font-semibold text-sm text-gray-900"
+                className="text-sm font-semibold text-gray-900"
                 href={"/forgotten-password"}
               >
                 <span>Forgotten Password</span>

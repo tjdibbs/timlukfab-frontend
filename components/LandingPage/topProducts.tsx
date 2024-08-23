@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -14,7 +14,7 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { BASE_URL, breakpoints } from "@lib/constants";
 import useMessage from "@hook/useMessage";
 import { nanoid } from "nanoid";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 
 const responsive = {
   0: { items: 2 },
@@ -33,7 +33,7 @@ export default function TopProducts() {
   React.useEffect(() => {
     axios
       .get<{ success: boolean; products: Product[] }>(
-        BASE_URL + "/api/products/top"
+        BASE_URL + "/api/products/top",
       )
       .then((response) => {
         const { success, products } = response.data;
@@ -69,7 +69,7 @@ export default function TopProducts() {
             ))
           : topProducts.map((product) => {
               const inCart = cart.findIndex(
-                (cart) => cart.product!.id === product.id
+                (cart) => cart.product!.id === product.id,
               );
               const inWishlist = wishlist.includes(product.id);
 

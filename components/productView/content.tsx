@@ -15,8 +15,8 @@ import Add from "@mui/icons-material/Add";
 
 import { useForm } from "react-hook-form";
 import { Product } from "@lib/types";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
-import { updateCarts } from "@lib/redux/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
+import { updateCarts } from "@/lib/_redux/cartSlice";
 import { nanoid } from "nanoid";
 import ProductAction from "./ProductAction";
 import { marked } from "marked";
@@ -83,14 +83,14 @@ function ProductContent(props: { product: Product }) {
   const productSizes = JSON.parse(product.sizes) as { [x: string]: boolean };
 
   return (
-    <div className="product-content sm:shadow-lg sm:w-full rounded-lg sm:px-2 sm:p-4 relative">
+    <div className="product-content relative rounded-lg sm:w-full sm:p-4 sm:px-2 sm:shadow-lg">
       {product.discountPercentage ? (
         <Box>
           <Typography variant="subtitle1" fontWeight={700} color={"primary"}>
             <b style={{ fontSize: "1.17em" }}>₦</b>
             {Math.floor(
               (product.price as number) -
-                ((product.price as number) * product.discountPercentage) / 100
+                ((product.price as number) * product.discountPercentage) / 100,
             ).toLocaleString("en")}
           </Typography>
           <Typography variant="caption" sx={{ textDecoration: "line-through" }}>
@@ -128,8 +128,8 @@ function ProductContent(props: { product: Product }) {
         />
       </div>
       <div className="colors my-3">
-        <p className="font-bold text-sm">Colors</p>
-        <div className="flex gap-3 flex-wrap">
+        <p className="text-sm font-bold">Colors</p>
+        <div className="flex flex-wrap gap-3">
           {Object.keys(productColors).map((c: string) => {
             return (
               <Chip
@@ -152,7 +152,7 @@ function ProductContent(props: { product: Product }) {
         )}
       </div>
       <Box className="sizes" my={2}>
-        <p className="font-bold text-sm mb-2">Sizes</p>
+        <p className="mb-2 text-sm font-bold">Sizes</p>
         <Stack direction={"row"} gap={1} flexWrap={"wrap"}>
           {Object.keys(productSizes).map((_size) => {
             return (

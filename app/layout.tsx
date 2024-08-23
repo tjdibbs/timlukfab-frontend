@@ -1,29 +1,34 @@
-import AppProvider from "@comp/provider/AppProvider";
-import { ReactNode } from "react";
-import { Nunito } from "next/font/google";
+import { PropsWithChildren, ReactNode } from "react";
+import { Nunito, Inter, Poppins } from "next/font/google";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
-import "../styles/global.css";
-import "../styles/adjust.css";
-import "../styles/error.css";
+import "./globals.css";
 import { Metadata, Viewport } from "next";
+import Layout from "antd/es/layout/layout";
+import AppHeader from "@/components/header/AppHeader";
+import AppFooter from "@/components/footer/Footer";
 
 const nunito = Nunito({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
 
+const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
+
+const inter = Inter({ subsets: ["latin"] });
+
 export const viewport: Viewport = {
-  themeColor: "#ed017f",
+  themeColor: "#000000",
 };
 
 export const metadata: Metadata = {
-  title: "Pauloxuries Fashion Store",
+  title: "Timlukfab Fashion Store",
   description:
     "Unisex fashion store, men and women fashion, great online shopping sites to buy from, online shopping, buyer protection guaranteed, online shopping in nigeria, online shopping sites with the best prices, online shopping sites, online shopping sites in nigeria, online shopping websites, online fashion shopping, fashion shopping, Pauloxuries Fashion Store, online shopping stores in lagos, Nigeria's number one online shopping, first choice fashion store, Everything fashion online shopping, order online, purchase genuine products, top brands, fast shipping, 100% satisfaction, find perfect match, fashion wears, decide what to wear, vintage wears, rugged wears, sneakers, designer",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Pauloxuries",
+    title: "Timlukfab",
   },
   icons: {
     icon: "/identity/favicon.png",
@@ -84,12 +89,18 @@ export default function RootLayout({
   // This will be populated with nested layouts or pages
   children,
 }: {
-  children: ReactNode;
+  children: PropsWithChildren<ReactNode>;
 }) {
   return (
     <html lang="en">
-      <body className={nunito.className}>
-        <AppProvider>{children}</AppProvider>
+      <body className={inter.className}>
+        <AntdRegistry>
+          <Layout className={"app bg-white"}>
+            <AppHeader />
+            <main>{children}</main>
+            <AppFooter />
+          </Layout>
+        </AntdRegistry>
       </body>
     </html>
   );

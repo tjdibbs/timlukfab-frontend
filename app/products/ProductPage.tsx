@@ -4,7 +4,7 @@
 import React from "react";
 import Link from "next/link";
 import { Product } from "@lib/types";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 
 // components
 import {
@@ -91,12 +91,12 @@ const ProductPage = ({ error, product, notfound }: Props) => {
           <Typography variant={"caption"}>
             See more from{" "}
             <Link href={"/collections/brand/" + product.brand}>
-              <span className="text-xs text-primary-low">{product.brand}</span>
+              <span className="text-primary-low text-xs">{product.brand}</span>
             </Link>
           </Typography>
         </Box>
-        <div className="md:flex my-5">
-          <div className="section-product md:w-[60%] sm:p-6">
+        <div className="my-5 md:flex">
+          <div className="section-product sm:p-6 md:w-[60%]">
             <View images={JSON.parse(product.images)} alt={product.title} />
           </div>
           <ProductContent product={product} />
@@ -105,7 +105,7 @@ const ProductPage = ({ error, product, notfound }: Props) => {
       <Box>
         <Share />
         <Box className={"description my-4"} maxWidth={"100%"}>
-          <p className="font-extrabold text-lg mb-3">Information</p>
+          <p className="mb-3 text-lg font-extrabold">Information</p>
           <div className="shipping-info-wrap">
             <h1 className="font-bold">Shipping</h1>
             <div className="text-xs">
@@ -122,7 +122,7 @@ const ProductPage = ({ error, product, notfound }: Props) => {
             </div>
             <ul className="my-2">
               <li className="text-sm">Lagos: 48 – 72working hours.</li>
-              <li className="text-sm ">Outside Lagos: 3-7 working days.</li>
+              <li className="text-sm">Outside Lagos: 3-7 working days.</li>
             </ul>
           </div>
         </Box>

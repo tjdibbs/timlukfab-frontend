@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
-import SignIn from "./SignIn";
+import SignIn from "./_SignIn";
+import Login from "./Login";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -8,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const token = cookies().get("_u")?.value;
-  console.log({ token });
+  // const token = cookies().get("_u")?.value;
+  // console.log({ token });
 
-  return <SignIn />;
+  return <Login />;
 }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Box, Typography } from "@mui/material";
@@ -10,7 +10,7 @@ import { BASE_URL, breakpoints } from "@lib/constants";
 import Loading from "@comp/loading";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { nanoid } from "nanoid";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 
 export default function RelatedProduct({
   brand,
@@ -28,9 +28,10 @@ export default function RelatedProduct({
 
   React.useEffect(() => {
     axios
-      .get<{ success: boolean; products: Product[] }>(
-        BASE_URL + `/api/products/related?category=${category}`
-      )
+      .get<{
+        success: boolean;
+        products: Product[];
+      }>(BASE_URL + `/api/products/related?category=${category}`)
       .then((response) => {
         let { success, products } = response.data;
         if (success) {
@@ -59,7 +60,7 @@ export default function RelatedProduct({
         >
           {related.map((product) => {
             const inCart = cart.findIndex(
-              (cart) => cart.product!.id === product.id
+              (cart) => cart.product!.id === product.id,
             );
             const inWishlist = wishlist.includes(product.id);
 

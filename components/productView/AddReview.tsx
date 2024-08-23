@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { BASE_URL } from "@lib/constants";
@@ -6,7 +6,7 @@ import { Button, Rating } from "@mui/material";
 import axios from "axios";
 import { Product } from "@lib/types";
 import { Input } from "antd";
-import { useAppSelector } from "@lib/redux/store";
+import { useAppSelector } from "@/lib/_redux/store";
 import useMessage from "@hook/useMessage";
 import { ReviewInterface } from "./Reviews";
 
@@ -43,7 +43,7 @@ const AddReview: React.FC<{
         alertMessage("Review uploaded", "success");
 
         props.setReviews((reviews) =>
-          [state as ReviewInterface, reviews].flat()
+          [state as ReviewInterface, reviews].flat(),
         );
         setState({});
       } else alertMessage("Review failed upload", "error");
@@ -58,7 +58,7 @@ const AddReview: React.FC<{
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
@@ -75,8 +75,8 @@ const AddReview: React.FC<{
         <b className="text-red-600">*</b>
       </small>
       <form action="" className="review-form" onSubmit={handleSubmit}>
-        <div className="form-group flex mt-2 gap-x-2 items-center">
-          <p className="label text-sm font-bold ">
+        <div className="form-group mt-2 flex items-center gap-x-2">
+          <p className="label text-sm font-bold">
             Rating <b className="text-red-600">*</b>
           </p>
           <Rating
@@ -89,7 +89,7 @@ const AddReview: React.FC<{
           />
         </div>
         <div className="form-group my-4">
-          <label htmlFor="review-text" className="text-sm font-bold block">
+          <label htmlFor="review-text" className="block text-sm font-bold">
             Your Review <b className="text-red-600">*</b>
           </label>
           <Input.TextArea
@@ -107,7 +107,7 @@ const AddReview: React.FC<{
         {!user && (
           <React.Fragment>
             <div className="form-group my-3">
-              <label htmlFor="name" className="font-bold text-sm block">
+              <label htmlFor="name" className="block text-sm font-bold">
                 Full name <b className="text-red-600">*</b>
               </label>
               <Input
@@ -120,7 +120,7 @@ const AddReview: React.FC<{
               />
             </div>
             <div className="form-group">
-              <label htmlFor="name" className="font-bold text-sm">
+              <label htmlFor="name" className="text-sm font-bold">
                 Email <b className="text-red-600">*</b>
               </label>
               <Input
@@ -140,7 +140,7 @@ const AddReview: React.FC<{
           variant="contained"
           disabled={loading}
           type="submit"
-          className="bg-slate-700 my-4 font-bold capitalize"
+          className="my-4 bg-slate-700 font-bold capitalize"
         >
           {loading ? "Submitting..." : "Submit"}
         </Button>

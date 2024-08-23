@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Button, CardActions, IconButton, Typography } from "@mui/material";
 import { nanoid } from "nanoid";
 import useCheckout from "@hook/useCheckout";
 import { Product, CartInterface } from "@lib/types";
-import { deleteCart, addToCarts } from "@lib/redux/cartSlice";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { deleteCart, addToCarts } from "@/lib/_redux/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import useMessage from "@hook/useMessage";
 import { UseFormGetValues } from "react-hook-form";
 import { State } from "./content";
@@ -69,31 +69,31 @@ function ProductAction(props: {
       : "btn text-white bg-slate-600";
 
   return (
-    <div className="product-actions md:absolute bottom-0 left-0 w-full sm:px-4">
+    <div className="product-actions bottom-0 left-0 w-full sm:px-4 md:absolute">
       {product.stock - product.sold > 0 ? (
-        <div className="flex gap-x-4 items-center my-5">
+        <div className="my-5 flex items-center gap-x-4">
           <motion.button
             key={inCart}
             animate={{ scale: 1, opacity: 1 }}
             onClick={inCart === -1 ? addCart : handleRemoveCart}
-            className={`text-sm ${className} disabled:animate-pulse scale-75 opacity-50`}
+            className={`text-sm ${className} scale-75 opacity-50 disabled:animate-pulse`}
             disabled={loading}
           >
             {loading
               ? "Processing..."
               : inCart !== -1
-              ? "Remove from cart"
-              : "Add to cart"}
+                ? "Remove from cart"
+                : "Add to cart"}
           </motion.button>
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={checkout}
-            className={`text-sm btn bg-primary-low text-white`}
+            className={`btn bg-primary-low text-sm text-white`}
             disabled={loading}
           >
             Buy Now
           </motion.button>
-          <div className="wish flex-grow flex justify-end">
+          <div className="wish flex flex-grow justify-end">
             <IconButton className="bg-white shadow-lg" onClick={handleWish}>
               {inWishlist ? (
                 <Favorite className="text-primary-low" />

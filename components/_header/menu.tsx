@@ -15,8 +15,8 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { AppState } from "@lib/types";
 import ShareLocationIcon from "@mui/icons-material/ShareLocation";
-import { useAppDispatch } from "@lib/redux/store";
-import { auth } from "@lib/redux/reducer";
+import { useAppDispatch } from "@/lib/_redux/store";
+import { auth } from "@/lib/_redux/reducer";
 import Link from "next/link";
 import axios from "axios";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -97,7 +97,7 @@ export default function Navigation({ user }: { user: AppState["user"] }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <div className="menu-header p-4 flex gap-x-4">
+        <div className="menu-header flex gap-x-4 p-4">
           <Avatar
             src={user!.image}
             sx={{
@@ -113,7 +113,7 @@ export default function Navigation({ user }: { user: AppState["user"] }) {
             <span className="name text-sm font-bold capitalize">
               {user!.firstname} {user!.lastname}
             </span>
-            <span className="email text-xs block">{user!.email}</span>
+            <span className="email block text-xs">{user!.email}</span>
           </div>
         </div>
         <Divider />
@@ -154,7 +154,7 @@ export default function Navigation({ user }: { user: AppState["user"] }) {
           </div>
           <div>
             <div
-              className="px-4 sticky top-0 bg-primary-low/40"
+              className="bg-primary-low/40 sticky top-0 px-4"
               onClick={() => setIndex(0)}
             >
               <IconButton sx={{ mr: 2 }}>

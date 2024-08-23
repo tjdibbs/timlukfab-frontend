@@ -5,11 +5,11 @@ import { CssBaseline } from "@mui/material";
 import Theme from "../utils/theme";
 import { LayoutProps } from "../utils/types";
 import { Box, ThemeProvider } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "@lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/_redux/store";
 import HeaderWrapper from "@comp/header/wrapper";
 import Footer from "@comp/footer";
 import Cookie from "js-cookie";
-import { setMode } from "@lib/redux/reducer";
+import { setMode } from "@/lib/_redux/reducer";
 import CookieAlert from "@comp/cookie-alert";
 import Viewed from "@comp/viewed";
 
