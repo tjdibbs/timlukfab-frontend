@@ -42,7 +42,7 @@ const Login = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mx-auto w-[90%] max-w-md space-y-6 py-12"
+            className="mx-auto max-w-md space-y-4 py-12"
           >
             <div className="text-center">
               <h3 className="mb-4 text-3xl font-semibold max-md:text-2xl">
@@ -57,7 +57,11 @@ const Login = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
+                    <Input
+                      placeholder="Enter your email"
+                      {...field}
+                      className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,6 +78,7 @@ const Login = () => {
                       <Input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
+                        className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
                         {...field}
                       />
                       <Button
@@ -103,7 +108,7 @@ const Login = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full text-xs">
               LOGIN
             </Button>
             <p className="text-center text-sm">

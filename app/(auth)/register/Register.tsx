@@ -24,6 +24,10 @@ import {
 import { countryList } from "@/lib/country";
 import Link from "next/link";
 import { useState } from "react";
+import { useRegisterUserMutation } from "@/lib/redux/services/auth";
+import Spinner from "@/components/ui/spinner";
+import useMessage from "@/hooks/useMessage";
+import { ErrorResponse } from "@/lib/types";
 
 type FormSchema = z.infer<typeof RegisterFormSchema>;
 
@@ -33,6 +37,10 @@ const Register = () => {
     code: string;
     dialingCode: string;
   } | null>(null);
+
+  const [registerUser, { isLoading, error }] = useRegisterUserMutation();
+
+  const { alertMessage } = useMessage();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(RegisterFormSchema),
@@ -51,24 +59,29 @@ const Register = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormSchema> = (data: FormSchema) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormSchema> = async (data: FormSchema) => {
+    try {
+      const response = await registerUser(data).unwrap();
+      console.log(response);
+    } catch (error) {
+      const message = (error as ErrorResponse).data.message;
+      alertMessage(message || "An error occurred", "error");
+    }
   };
 
   return (
-    <div className="wrapper p-6">
-      <h1 className="mb-2 text-center text-3xl font-semibold max-md:text-2xl">
-        Register
-      </h1>
-      <p className="mb-8 text-center text-gray-600">
-        Please fill in the information below:
-      </p>
-
+    <div className="wrapper">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="mx-auto w-[90%] max-w-md space-y-6"
+          className="mx-auto max-w-md space-y-4 py-12"
         >
+          <h1 className="mb-2 text-center text-3xl font-semibold max-md:text-2xl">
+            Register
+          </h1>
+          <p className="mb-8 text-center text-gray-600">
+            Please fill in the information below:
+          </p>
           <FormField
             control={form.control}
             name="firstName"
@@ -81,7 +94,7 @@ const Register = () => {
                   <Input
                     placeholder="First name"
                     {...field}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </FormControl>
                 <FormMessage className="mt-1 text-xs text-red-500" />
@@ -101,7 +114,7 @@ const Register = () => {
                   <Input
                     placeholder="Last name"
                     {...field}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </FormControl>
                 <FormMessage className="mt-1 text-xs text-red-500" />
@@ -121,7 +134,7 @@ const Register = () => {
                   <Input
                     placeholder="Email"
                     {...field}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </FormControl>
                 <FormMessage className="mt-1 text-xs text-red-500" />
@@ -142,7 +155,7 @@ const Register = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black">
+                    <SelectTrigger className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black">
                       <SelectValue placeholder="Select a gender" />
                     </SelectTrigger>
                   </FormControl>
@@ -178,7 +191,7 @@ const Register = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black">
+                    <SelectTrigger className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black">
                       <SelectValue placeholder="Select a country" />
                     </SelectTrigger>
                   </FormControl>
@@ -213,7 +226,7 @@ const Register = () => {
                     <Input
                       placeholder="Phone number"
                       {...field}
-                      className="flex-1 rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                      className="flex-1 rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
                       onChange={(e) => {
                         // Remove non-digit characters
                         const value = e.target.value.replace(/\D/g, "");
@@ -240,7 +253,7 @@ const Register = () => {
                     type="password"
                     placeholder="Password"
                     {...field}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </FormControl>
                 <FormMessage className="mt-1 text-xs text-red-500" />
@@ -250,9 +263,10 @@ const Register = () => {
 
           <Button
             type="submit"
-            className="w-full rounded-md bg-black px-4 py-2 text-sm text-white transition duration-300 hover:bg-gray-800"
+            disabled={isLoading}
+            className="w-full rounded-md bg-black px-4 py-2 text-xs text-white transition duration-300 hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-95"
           >
-            CREATE MY ACCOUNT
+            {isLoading ? <Spinner strokeColor="#fff" /> : "CREATE MY ACCOUNT"}
           </Button>
           <p className="mt-4 text-center text-sm">
             Already have an account?{" "}

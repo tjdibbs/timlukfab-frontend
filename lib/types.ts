@@ -1,4 +1,5 @@
 import { sort } from "@components/filter";
+import { string } from "zod";
 
 export type FilterState = {
   availability: string;
@@ -142,4 +143,16 @@ export interface CheckoutInterface<T> {
   subtotal: number;
   discount: number;
   total: number;
+}
+
+
+export interface ErrorResponse {
+  status: number;
+  data: {
+    name: string;
+    message: string;
+    statusCode: number;
+    path: string;
+    method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
+  }
 }

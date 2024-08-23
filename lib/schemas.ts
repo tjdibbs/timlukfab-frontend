@@ -7,10 +7,13 @@ export const RegisterFormSchema = z.object({
     gender: z.enum(["male", "female"]),
     contact: z.object({
         country: z.string().min(1, "Country is required"),
-        text: z.string().min(1, "Phone number is required"),
+        text: z.string().refine((val) => /^\d+$/.test(val), {
+            message: "Phone number should only contain digits",
+        }),
         isoCode: z.string(),
         dialingCode: z.string(),
     }),
+
     password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
