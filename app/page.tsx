@@ -6,12 +6,12 @@ import Timlukfab from "@/components/home/Timlukfab";
 
 export default function Page() {
   return (
-    <main>
+    <section>
       <Carousel />
       <BestSelling />
       <Products />
       <BrowseCategories />
       <Timlukfab />
-    </main>
+    </section>
   );
 }

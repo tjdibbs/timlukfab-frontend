@@ -27,6 +27,10 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       screens: {
         sm: "480px",
@@ -37,9 +41,12 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
       colors: {
         primary: "#CD0001",
+        dark_grey: "#555555",
+        normal_grey: "#777777"
       },
       fontFamily: {
         nunito: ["nunito", "sans", "sans-serif"],

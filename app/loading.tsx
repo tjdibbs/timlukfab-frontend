@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { SettingOutlined } from "@ant-design/icons";
+import { Settings } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
 
 export default function Loading() {
@@ -12,9 +12,9 @@ export default function Loading() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="h-screen bg-black flex items-center justify-center w-full z-[9999999]"
+        className="fixed left-0 top-0 z-[9999999] flex h-screen w-full items-center justify-center bg-black"
       >
-        <SettingOutlined className="w-5 animate-spin" />
+        <Settings className="w-5 animate-spin text-white" />
       </motion.div>
     </AnimatePresence>
   );

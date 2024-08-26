@@ -1,4 +1,5 @@
 import { sort } from "@components/filter";
+import { StaticImageData } from "next/image";
 import { string } from "zod";
 
 export type FilterState = {
@@ -155,4 +156,44 @@ export interface ErrorResponse {
     path: string;
     method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
   }
+}
+
+type UserContact = {
+  text: string;
+  country: string;
+  isoCode: string;
+  dialingCode: string;
+};
+
+type User = {
+  fullName: string;
+  id: number;
+  userType: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string | null;
+  gender: string;
+  contactId: number;
+  country: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  contact: UserContact;
+};
+
+export type RegisterResponse = {
+  message: string;
+  token: string;
+  refreshToken: string;
+  user: User;
+};
+
+export type CartItem = {
+  id: string;
+  productId: string | number;
+  quantity: number;
+  size: string;
+  price: number;
+  title: string;
+  image: string | StaticImageData
 }

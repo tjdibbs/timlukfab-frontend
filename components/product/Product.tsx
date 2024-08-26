@@ -37,7 +37,11 @@ const Product = ({ product, index }: Props) => {
     <div className="relative mx-auto">
       {openMobileCartAction &&
         createPortal(
-          <MobileCartAction closeFn={hideMobileCartAction} />,
+          <MobileCartAction
+            product={product}
+            closeFn={hideMobileCartAction}
+            isOpen={openMobileCartAction}
+          />,
           document.body,
         )}
       <div
@@ -76,7 +80,9 @@ const Product = ({ product, index }: Props) => {
             </button>
           </div>
         )}
-        {showCartAction && <CartAction closeFn={hideCartAction} />}
+        {showCartAction && (
+          <CartAction closeFn={hideCartAction} product={product} />
+        )}
       </div>
       <div className="mt-1">
         <div className="flex items-center justify-between gap-4">

@@ -8,8 +8,16 @@
   }
 }
 
+:root {
+  font-size: 16px;
+}
+
 body {
   color: rgba(0, 0, 0, 0.9);
+}
+
+body.fixed {
+  overflow: hidden;
 }
 
 @layer components {
@@ -35,6 +43,7 @@ a {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  width: 100%;
 }
 
 .no-scrollbar::-webkit-scrollbar {

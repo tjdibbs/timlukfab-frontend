@@ -1,6 +1,7 @@
 "use client";
 
 import { categories } from "@/lib/constants";
+import { setFixedBody } from "@/utils/functions";
 import { FacebookFilled, InstagramFilled, XOutlined } from "@ant-design/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { CSSProperties, useEffect } from "react";
@@ -18,16 +19,16 @@ const style: CSSProperties = {
 };
 
 const Nav = ({ isOpen, closeFn }: Props) => {
-  //   useEffect(() => {
-  //     if (isOpen) {
-  //       document.body.style.overflow = "hidden"; // Disable scrolling
-  //     } else {
-  //       document.body.style.overflow = ""; // Enable scrolling
-  //     }
-  //     return () => {
-  //       document.body.style.overflow = ""; // Clean up on unmount
-  //     };
-  //   }, [isOpen]);
+  useEffect(() => {
+    if (isOpen) {
+      setFixedBody(true); // Disable scrolling
+    } else {
+      setFixedBody(false); // Enable scrolling
+    }
+    return () => {
+      setFixedBody(false); // Clean up on unmount
+    };
+  }, [isOpen]);
 
   return (
     <nav

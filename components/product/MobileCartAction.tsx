@@ -1,17 +1,47 @@
+import { Product } from "@/data";
+import { addToCart } from "@/lib/redux/features/cart";
+import { useAppDispatch } from "@/lib/redux/store";
+import { CartItem } from "@/lib/types";
 import { Divider } from "antd";
 import { AnimatePresence, motion } from "framer-motion";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { X } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
 
 type Props = {
+  isOpen: boolean;
+  product: Product;
   closeFn: () => void;
 };
 
-const MobileCartAction = memo(({ closeFn }: Props) => {
-  const addToCart = () => {
+const MobileCartAction = memo(({ closeFn, isOpen, product }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const addItemToCart = (size: string) => {
+    const cartItem: CartItem = {
+      id: uuidV4(),
+      productId: product.id,
+      quantity: 1,
+      size,
+      price: product.price,
+      title: product.name,
+      image: product.image,
+    };
+    dispatch(addToCart(cartItem));
     closeFn();
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
@@ -41,31 +71,31 @@ const MobileCartAction = memo(({ closeFn }: Props) => {
           <div className="grid grid-cols-4 gap-2">
             <button
               className="rounded border border-[#d9d9d9] p-2 text-xs font-semibold transition-all duration-150 ease-linear hover:border-black"
-              onClick={addToCart}
+              onClick={() => addItemToCart("XS")}
             >
               XS
             </button>
             <button
               className="rounded border border-[#d9d9d9] px-2 py-1 text-xs font-semibold transition-all duration-150 ease-linear hover:border-black"
-              onClick={addToCart}
+              onClick={() => addItemToCart("S")}
             >
               S
             </button>
             <button
               className="rounded border border-[#d9d9d9] px-2 py-1 text-xs font-semibold transition-all duration-150 ease-linear hover:border-black"
-              onClick={addToCart}
+              onClick={() => addItemToCart("M")}
             >
               M
             </button>
             <button
               className="rounded border border-[#d9d9d9] px-2 py-1 text-xs font-semibold transition-all duration-150 ease-linear hover:border-black"
-              onClick={addToCart}
+              onClick={() => addItemToCart("L")}
             >
               L
             </button>
             <button
               className="rounded border border-[#d9d9d9] px-2 py-1 text-xs font-semibold transition-all duration-150 ease-linear hover:border-black"
-              onClick={addToCart}
+              onClick={() => addItemToCart("XL")}
             >
               XL
             </button>

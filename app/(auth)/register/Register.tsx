@@ -61,8 +61,16 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<FormSchema> = async (data: FormSchema) => {
     try {
-      const response = await registerUser(data).unwrap();
-      console.log(response);
+      const dataToSend = {
+        ...data,
+        contact: { ...data.contact },
+        country: data.contact.country,
+      };
+      const response = await registerUser(dataToSend).unwrap();
+      alertMessage(
+        response.message || "Account Created Successfully: Redirecting...",
+        "success",
+      );
     } catch (error) {
       const message = (error as ErrorResponse).data.message;
       alertMessage(message || "An error occurred", "error");
@@ -82,46 +90,47 @@ const Register = () => {
           <p className="mb-8 text-center text-gray-600">
             Please fill in the information below:
           </p>
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">
-                  First name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="First name"
-                    {...field}
-                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </FormControl>
-                <FormMessage className="mt-1 text-xs text-red-500" />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium text-gray-700">
+                    First name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="First name"
+                      {...field}
+                      className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    />
+                  </FormControl>
+                  <FormMessage className="mt-1 text-xs text-red-500" />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">
-                  Last name
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Last name"
-                    {...field}
-                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </FormControl>
-                <FormMessage className="mt-1 text-xs text-red-500" />
-              </FormItem>
-            )}
-          />
-
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium text-gray-700">
+                    Last name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Last name"
+                      {...field}
+                      className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    />
+                  </FormControl>
+                  <FormMessage className="mt-1 text-xs text-red-500" />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="email"

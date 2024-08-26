@@ -41,5 +41,3 @@ export const products: Product[] = [
     { id: 14, name: "Sport Leggings", price: 29.99, image: product14 },
     { id: 15, name: "Wool Coat", price: 119.99, image: product15 }
 ];
-
-const reasonsText = []

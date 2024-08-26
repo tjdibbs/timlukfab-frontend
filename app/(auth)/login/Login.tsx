@@ -18,6 +18,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { LoginFormSchema } from "@/lib/schemas";
+import useMessage from "@/hooks/useMessage";
+import { useLoginUserMutation } from "@/lib/redux/services/auth";
+import { ErrorResponse } from "@/lib/types";
+import Spinner from "@/components/ui/spinner";
 
 type FormSchema = z.infer<typeof LoginFormSchema>;
 
@@ -32,8 +36,20 @@ const Login = () => {
     },
   });
 
-  function onSubmit(values: FormSchema) {
-    console.log(values);
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+
+  const { alertMessage } = useMessage();
+
+  async function onSubmit(values: FormSchema) {
+    try {
+      const response = await loginUser(values);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      const message =
+        (error as ErrorResponse).data.message || "An error occurred";
+      alertMessage(message, "error");
+    }
   }
 
   return (
@@ -108,8 +124,12 @@ const Login = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full text-xs">
-              LOGIN
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full text-xs disabled:opacity-95"
+            >
+              {isLoading ? <Spinner strokeColor="#fff" /> : "LOGIN"}
             </Button>
             <p className="text-center text-sm">
               Don't have an account?{" "}
