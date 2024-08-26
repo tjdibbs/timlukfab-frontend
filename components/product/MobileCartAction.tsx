@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { memo, useEffect } from "react";
 import { X } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
+import { useCart } from "../cart/cartProvider";
 
 type Props = {
   isOpen: boolean;
@@ -16,6 +17,7 @@ type Props = {
 
 const MobileCartAction = memo(({ closeFn, isOpen, product }: Props) => {
   const dispatch = useAppDispatch();
+  const { openCart } = useCart();
 
   const addItemToCart = (size: string) => {
     const cartItem: CartItem = {
@@ -29,6 +31,7 @@ const MobileCartAction = memo(({ closeFn, isOpen, product }: Props) => {
     };
     dispatch(addToCart(cartItem));
     closeFn();
+    openCart();
   };
 
   useEffect(() => {

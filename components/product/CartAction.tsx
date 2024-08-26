@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import { memo } from "react";
 import { X } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
+import { useCart } from "../cart/cartProvider";
 
 type Props = {
   closeFn: () => void;
@@ -17,6 +18,8 @@ type Props = {
 
 const CartAction = memo(({ closeFn, product }: Props) => {
   const dispatch = useAppDispatch();
+
+  const { openCart } = useCart();
 
   const addItemToCart = (size: string) => {
     const cartItem: CartItem = {
@@ -30,6 +33,7 @@ const CartAction = memo(({ closeFn, product }: Props) => {
     };
     dispatch(addToCart(cartItem));
     closeFn();
+    openCart();
   };
 
   return (
