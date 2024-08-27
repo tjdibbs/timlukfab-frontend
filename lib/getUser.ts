@@ -1,41 +1,24 @@
 "use client"
 
-import React from "react";
-import { useAppDispatch } from "@/lib/_redux/store";
-import Cookie from "js-cookie";
-import axios from "axios";
-import { BASE_URL } from "./constants";
-import useMessage from "@hook/useMessage";
-import { auth } from "./_redux/reducer";
+import { useEffect } from "react"
+import { setUser } from "./redux/features/user"
+import { useGetUserQuery } from "./redux/services/user"
+import { useAppDispatch, useAppSelector } from "./redux/store"
+
 
 const GetUser = () => {
-  const dispatch = useAppDispatch();
-  const { alertMessage } = useMessage();
+  const dispatch = useAppDispatch()
+  const auth = useAppSelector(state => state.auth)
 
-  const fetchUser = React.useCallback(async () => {
-    try {
-      const getUserReq = await axios.get(BASE_URL + "/api/auth/getUser", {
-        withCredentials: true,
-      });
-      const { user } = await getUserReq.data;
+  const { data } = useGetUserQuery(String(auth.id) ?? '')
 
-      if (user) {
-        dispatch(auth({ ...user, wishlist: JSON.parse(user.wishlist) }));
-      }
-    } catch (error) {
-      console.error({ error });
-      alertMessage(
-        "We are having issue communicating with the server",
-        "error"
-      );
+  useEffect(() => {
+    if (data) {
+      dispatch(setUser(data))
     }
-  }, [alertMessage, dispatch]);
+  }, [data])
 
-  React.useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+  return null
+}
 
-  return null;
-};
-
-export default GetUser;
+export default GetUser

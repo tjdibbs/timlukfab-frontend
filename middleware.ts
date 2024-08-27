@@ -1,47 +1,53 @@
-import JWT from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
+
+
+const guestRoutes = ["/login", "/register"];
+const protectedRoutes = ["/verify-email", "/verfied"]
+
+function CheckIfRouteIsGuest(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  return guestRoutes.includes(pathname);
+}
+
+function CheckIfRouteIsProtected(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  return protectedRoutes.includes(pathname);
+}
 
 function logRequest(request: NextRequest) {
   console.log(`[${new Date().toISOString()}] ${request.method} ${request.url}`);
 }
 
-// function verifyToken(request: NextRequest) {
-//   try {
-//     const token = request.nextUrl.searchParams.get("token");
-//     if (!token) {
-//       console.log("Token does not exist");
-//       return;
-//       //   return NextResponse.redirect(new URL("/404", request.url));
-//     }
-
-//     const SECRET_KEY = process.env.SECRET_KEY as string;
-
-//     const user = JWT.verify(token, SECRET_KEY);
-
-//     // Clone the request headers and add the user information
-//     const requestHeaders = new Headers(request.headers);
-//     requestHeaders.set("x-user-data", JSON.stringify(user));
-
-//     // Return the response with modified headers
-//     return NextResponse.next({
-//       request: {
-//         headers: requestHeaders,
-//       },
-//     });
-//   } catch (error: any) {
-//     // In case of an error, redirect to an error page
-//     const errorUrl = new URL("/reset-password", request.url);
-//     errorUrl.searchParams.set("error", error.message);
-//     return NextResponse.redirect(errorUrl);
-//   }
-// }
-
 export const middleware = (request: NextRequest, response: NextResponse) => {
   const { pathname } = request.nextUrl;
 
   logRequest(request);
+
+  if (CheckIfRouteIsGuest(request)) {
+    const auth = request.cookies.get("auth");
+    if (auth?.value) {
+      return NextResponse.redirect(new URL("/account", request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (pathname.includes("/account") || CheckIfRouteIsProtected(request)) {
+    const auth = request.cookies.get("auth");
+    if (!auth?.value) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (pathname === "/verify-email") {
+    const id = request.cookies.get("email-verification");
+    if (!id?.value) {
+      return NextResponse.redirect(new URL("/", request.url))
+    }
+    NextResponse.next();
+  }
 };
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/verify-email", "/login", "/register", "/account/:path*"],
 };

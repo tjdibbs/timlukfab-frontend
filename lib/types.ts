@@ -1,4 +1,4 @@
-import { sort } from "@components/filter";
+
 import { StaticImageData } from "next/image";
 import { string } from "zod";
 
@@ -11,15 +11,6 @@ export type FilterState = {
   color: string;
   size: number;
   type: string;
-};
-
-export type State = {
-  availability: string;
-  price: { max: number; min: number };
-  size: number | null;
-  color: string | null;
-  type: string | null;
-  sort: keyof typeof sort;
 };
 
 export type Product = {
@@ -165,7 +156,7 @@ type UserContact = {
   dialingCode: string;
 };
 
-type User = {
+export type User = {
   fullName: string;
   id: number;
   userType: string;
@@ -197,3 +188,16 @@ export type CartItem = {
   title: string;
   image: string | StaticImageData
 }
+
+export type AuthCredentials = {
+  id: number | null;
+  token: string | null;
+  refreshToken: string | null;
+}
+
+export type ApiResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T;
+}
+

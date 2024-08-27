@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Fragment } from "react";
 import { links } from "./data";
+import LogoutButton from "@/components/account/logoutButton";
 
 export const metadata: Metadata = {
   title: "My account | Timlukfab Fashion Store",
@@ -16,7 +17,7 @@ export default function Page() {
       <p className="text-[#777]">
         Hello <span className="font-semibold">Benedict Umeozor</span> (not{" "}
         <span className="font-semibold">Benedict Umeozor</span> ?{" "}
-        <button className="text-black">Log out</button>)
+        <LogoutButton className="text-black" text="Log out" />)
       </p>
 
       <p className="my-8">

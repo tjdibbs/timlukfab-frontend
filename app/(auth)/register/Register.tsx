@@ -27,7 +27,12 @@ import { useState } from "react";
 import { useRegisterUserMutation } from "@/lib/redux/services/auth";
 import Spinner from "@/components/ui/spinner";
 import useMessage from "@/hooks/useMessage";
-import { ErrorResponse } from "@/lib/types";
+import { AuthCredentials, ErrorResponse } from "@/lib/types";
+import { useAppDispatch } from "@/lib/redux/store";
+import { setCredentials } from "@/lib/redux/features/auth";
+import { setUser } from "@/lib/redux/features/user";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 type FormSchema = z.infer<typeof RegisterFormSchema>;
 
@@ -38,7 +43,10 @@ const Register = () => {
     dialingCode: string;
   } | null>(null);
 
+  const dispatch = useAppDispatch();
   const [registerUser, { isLoading, error }] = useRegisterUserMutation();
+
+  const router = useRouter();
 
   const { alertMessage } = useMessage();
 
@@ -71,6 +79,18 @@ const Register = () => {
         response.message || "Account Created Successfully: Redirecting...",
         "success",
       );
+      form.reset();
+      const { token, refreshToken, user } = response;
+      const credentials: AuthCredentials = {
+        id: user.id,
+        token,
+        refreshToken,
+      };
+
+      Cookies.set("email-verification", String(user.id));
+      dispatch(setCredentials(credentials));
+      dispatch(setUser(user));
+      router.push("/verify-email");
     } catch (error) {
       const message = (error as ErrorResponse).data.message;
       alertMessage(message || "An error occurred", "error");

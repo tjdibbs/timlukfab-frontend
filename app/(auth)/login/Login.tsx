@@ -22,6 +22,7 @@ import useMessage from "@/hooks/useMessage";
 import { useLoginUserMutation } from "@/lib/redux/services/auth";
 import { ErrorResponse } from "@/lib/types";
 import Spinner from "@/components/ui/spinner";
+import { useRouter } from "next/navigation";
 
 type FormSchema = z.infer<typeof LoginFormSchema>;
 
@@ -36,13 +37,14 @@ const Login = () => {
     },
   });
 
+  const router = useRouter();
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const { alertMessage } = useMessage();
 
   async function onSubmit(values: FormSchema) {
     try {
-      const response = await loginUser(values);
+      const response = await loginUser(values).unwrap();
       console.log(response);
     } catch (error) {
       console.log(error);

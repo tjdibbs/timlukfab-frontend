@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { links } from "./data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LogoutButton from "@/components/account/logoutButton";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -37,9 +38,10 @@ const Sidebar = () => {
             );
           })}
           <li>
-            <button className="block w-full py-4 text-left font-semibold uppercase text-[#555] hover:border-r-2 hover:border-r-[#446084] hover:text-black max-md:text-sm">
-              logout
-            </button>
+            <LogoutButton
+              text="logout"
+              className="block w-full py-4 text-left font-semibold uppercase text-[#555] hover:border-r-2 hover:border-r-[#446084] hover:text-black max-md:text-sm"
+            />
           </li>
         </ul>
       </div>

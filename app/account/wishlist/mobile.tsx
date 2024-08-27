@@ -4,7 +4,7 @@ import { X } from "react-feather";
 
 const MobileWishlist = () => {
   return (
-    <div className="px-2">
+    <div className="px-2 md:hidden">
       {products.map((product) => (
         <div key={product.id} className="mb-6 border-b border-gray-200 pb-6">
           <div className="mb-2 flex items-start">

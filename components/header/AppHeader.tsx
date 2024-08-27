@@ -90,39 +90,54 @@ const HeaderActions = memo(
     openNav: () => void;
     openCart: () => void;
     cartLength: number;
-  }) => (
-    <div className="flex items-center justify-end gap-3 md:gap-4">
-      <Link
-        href="/login"
-        className="font-semibold uppercase text-black hover:text-black/60 max-md:hidden"
-      >
-        Login
-      </Link>
-      <button className="flex items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9">
-        <Search className="max-md:4 w-5" />
-      </button>
-      <button className="flex items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9">
-        <Heart className="max-md:4 w-5" />
-      </button>
-      <div
-        className="relative flex cursor-pointer items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9"
-        onClick={openCart}
-      >
-        <ShoppingCart className="max-md:4 w-5" />
-        {cartLength > 0 && (
-          <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-            {cartLength}
+  }) => {
+    const credentials = useAppSelector((state) => state.auth.token);
+
+    return (
+      <div className="flex items-center justify-end gap-3 md:gap-4">
+        {credentials ? (
+          <div>
+            <Link
+              href="/account"
+              className="font-semibold uppercase text-black hover:text-black/60 max-md:hidden"
+            >
+              My Account
+            </Link>
           </div>
+        ) : (
+          <Link
+            href="/login"
+            className="font-semibold uppercase text-black hover:text-black/60 max-md:hidden"
+          >
+            Login
+          </Link>
         )}
+        <button className="flex items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9">
+          <Search className="max-md:4 w-5" />
+        </button>
+        <button className="flex items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9">
+          <Heart className="max-md:4 w-5" />
+        </button>
+        <div
+          className="relative flex cursor-pointer items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9"
+          onClick={openCart}
+        >
+          <ShoppingCart className="max-md:4 w-5" />
+          {cartLength > 0 && (
+            <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+              {cartLength}
+            </div>
+          )}
+        </div>
+        <button
+          onClick={openNav}
+          className="flex items-center justify-center rounded-full hover:bg-gray-100 md:hidden md:h-9 md:w-9"
+        >
+          <Menu className="max-md:4 w-5" />
+        </button>
       </div>
-      <button
-        onClick={openNav}
-        className="flex items-center justify-center rounded-full hover:bg-gray-100 md:hidden md:h-9 md:w-9"
-      >
-        <Menu className="max-md:4 w-5" />
-      </button>
-    </div>
-  ),
+    );
+  },
 );
 
 const CategoryList = memo(() => (
@@ -145,7 +160,26 @@ const CategoryList = memo(() => (
 
 const AppHeaderSkeleton = () => (
   <div className="sticky top-0 z-[99999] border-b border-b-[#ccc] bg-white">
-    {/* ... existing skeleton code ... */}
+    <div className="wrapper flex items-center justify-between py-4">
+      <div className="h-8 w-24 animate-pulse bg-gray-200"></div>
+      <div className="flex items-center space-x-4">
+        <div className="h-6 w-16 animate-pulse bg-gray-200"></div>
+        <div className="h-9 w-9 animate-pulse rounded-full bg-gray-200"></div>
+        <div className="h-9 w-9 animate-pulse rounded-full bg-gray-200"></div>
+        <div className="h-9 w-9 animate-pulse rounded-full bg-gray-200"></div>
+        <div className="h-9 w-9 animate-pulse rounded-full bg-gray-200 md:hidden"></div>
+      </div>
+    </div>
+    <div className="bg-[#fefefe] py-4">
+      <div className="wrapper no-scrollbar flex items-center overflow-x-auto">
+        {[...Array(6)].map((_, index) => (
+          <div
+            key={index}
+            className="mx-2 h-6 w-20 animate-pulse rounded bg-gray-200"
+          ></div>
+        ))}
+      </div>
+    </div>
   </div>
 );
 

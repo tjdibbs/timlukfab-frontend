@@ -1,16 +1,14 @@
 import { Metadata } from "next";
-import { cookies } from "next/headers";
-import SignIn from "./_SignIn";
 import Login from "./Login";
+import GuestRoute from "@/components/providers/GuestRoute";
 
 export const metadata: Metadata = {
   title: "Sign In",
   description: "Sign in to your account",
 };
 
-export default async function Page() {
-  // const token = cookies().get("_u")?.value;
-  // console.log({ token });
+export const dynamic = "force-dynamic";
 
+export default async function Page() {
   return <Login />;
 }

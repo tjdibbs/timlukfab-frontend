@@ -4,6 +4,8 @@ import Carousel from "@/components/home/Carousel";
 import Products from "@/components/home/Products";
 import Timlukfab from "@/components/home/Timlukfab";
 
+export const dynamic = "force-dynamic";
+
 export default function Page() {
   return (
     <section>
