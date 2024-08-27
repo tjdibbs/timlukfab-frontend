@@ -3,78 +3,59 @@ import product8 from "@/assets/images/products/product8.jpg";
 import product9 from "@/assets/images/products/product9.jpg";
 import Image from "next/image";
 
+const reasons = [
+  {
+    image: product7,
+    title: "CHIC & INNOVATIVE FASHION",
+    description:
+      "Timlukfab is dedicated to fulfilling your style aspirations with exceptional service and affordable, accessible fashion for everyone.",
+  },
+  {
+    image: product8,
+    title: "STAY CONNECTED & INSPIRED",
+    description:
+      "Discover creative ways to enhance your wardrobe, from office chic to weekend casual. Timlukfab has you covered with the latest trends and outfit inspiration!",
+  },
+  {
+    image: product9,
+    title: "EVOLVING STYLE FOR ALL",
+    description:
+      "We cater to all styles, from trendy to timeless, casual to formal. Timlukfab offers fashionable, affordable, and readily available attire to meet your needs.",
+  },
+];
+
 const Timlukfab = () => {
   return (
-    <div className="my-16">
-      <div className="wrapper flex items-start max-md:block">
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 max-md:mb-8">
-          <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-gray-500">
-            <Image
-              src={product7}
-              alt="Product"
-              height={100}
-              width={100}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="w-full px-2 text-center">
-            <h2 className="mb-1 text-lg font-semibold text-gray-700">
-              WHY CHOOSE TIMLUFAB
-            </h2>
-            <p className="text-gray-600">
-              Chic, innovative, and inclusive fashion! Timfukab is dedicated to
-              fulfilling your style aspirations. At Timfukab, we take pride in
-              delivering exceptional service and fashion that’s accessible and
-              affordable to everyone.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 max-md:mb-8">
-          <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-gray-500">
-            <Image
-              src={product8}
-              alt="Product"
-              height={100}
-              width={100}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="w-full px-2 text-center">
-            <h2 className="mb-1 text-lg font-semibold text-gray-700">
-              STAY CONNECTED WITH TIMFUKAB
-            </h2>
-            <p className="text-gray-600">
-              Fashion speaks volumes, so make sure you’re always in style!
-              Discover creative ways to enhance your wardrobe. From office chic
-              to weekend casual, if you’re seeking the latest trends and outfit
-              inspiration, Timfukab has you covered!
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-2">
-          <div className="h-16 w-16 overflow-hidden rounded-full border-2 border-gray-500">
-            <Image
-              src={product9}
-              alt="Product"
-              height={100}
-              width={100}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div className="w-full px-2 text-center">
-            <h2 className="mb-1 text-lg font-semibold text-gray-700">
-              FASHION IS CONSTANTLY EVOLVING
-            </h2>
-            <p className="text-gray-600">
-              We cater to all styles, from trendy to timeless, from casual
-              outings to formal events. At Timfukab, we strive to offer our
-              customers fashionable, affordable, and readily available attire
-              that meets their needs.
-            </p>
-          </div>
+    <section className="bg-gray-50 py-16">
+      <div className="wrapper">
+        <h1 className="mb-8 text-center text-3xl font-bold text-gray-800 max-md:text-xl">
+          Why Choose Timlukfab
+        </h1>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {reasons.map((item) => (
+            <div
+              key={item.title}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="mb-4 h-24 w-24 overflow-hidden rounded-full border-4 border-gray-300 shadow-lg">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  height={100}
+                  width={100}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <h2 className="mb-2 text-xl font-semibold text-gray-700 max-md:text-lg">
+                {item.title}
+              </h2>
+              <p className="text-gray-600">{item.description}</p>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
+
 export default Timlukfab;

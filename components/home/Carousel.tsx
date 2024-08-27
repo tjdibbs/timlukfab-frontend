@@ -55,26 +55,38 @@ const banners = [
 
 const Carousel = () => {
   return (
-    <div>
+    <div className="relative">
       <Swiper
-        // install Swiper modules
-        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        spaceBetween={10}
+        modules={[Scrollbar, A11y, Autoplay]}
+        spaceBetween={0}
         slidesPerView={1}
         autoplay={{ delay: 5000 }}
         loop={true}
-        scrollbar={{ draggable: true }}
+        className="mySwiper"
       >
         {banners.map((banner) => (
-          <SwiperSlide className="" key={banner.id}>
-            <div className="relative h-[500px] max-md:h-72">
+          <SwiperSlide key={banner.id}>
+            <div className="relative h-[60vh] max-h-[600px] min-h-[400px] w-full">
               <Image
                 src={banner.image}
                 alt="Banner image"
                 fill
                 priority
-                className="z-[-1] h-full w-full cursor-pointer object-cover transition-transform duration-1000 ease-linear hover:scale-125"
+                className="object-cover"
               />
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                <div className="p-4 text-center text-white">
+                  <h2 className="mb-2 text-4xl font-bold md:text-5xl">
+                    Your Headline
+                  </h2>
+                  <p className="mb-4 text-lg md:text-xl">
+                    Your subheading or call to action
+                  </p>
+                  <button className="rounded-full bg-white px-4 py-2 text-black transition-colors hover:bg-opacity-80">
+                    Learn More
+                  </button>
+                </div>
+              </div>
             </div>
           </SwiperSlide>
         ))}
@@ -82,4 +94,5 @@ const Carousel = () => {
     </div>
   );
 };
+
 export default Carousel;

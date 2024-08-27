@@ -30,83 +30,86 @@ const links = [
 
 const AppFooter = () => {
   return (
-    <footer className="bg-black text-white">
-      <div className="wrapper pb-4 pt-10">
-        <div className="max-w-xl">
-          <h3 className="mb-2 text-xl font-semibold max-md:text-lg">
+    <footer className="bg-gray-900 text-white">
+      <div className="wrapper pb-8 pt-16">
+        <div className="mb-12 max-w-xl">
+          <h3 className="mb-4 text-2xl font-bold max-md:text-xl">
             Join Our Community
           </h3>
-          <p className="mb-4 text-sm text-[#808080]">
+          <p className="mb-6 text-sm text-gray-400">
             Get 10% off your first order and be the first to get the latest
             updates on our promotion campaigns, products and services.
           </p>
           <form className="flex items-center gap-2 max-md:flex-col">
-            <div className="w-5/6 max-md:w-full">
-              <input
-                type="text"
-                placeholder="Enter your email"
-                className="w-full bg-white px-4 py-2 text-black"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-1/6 rounded bg-[#808080] p-2 text-center text-sm text-black transition-all duration-200 ease-linear max-md:w-full"
+            <Input
+              placeholder="Enter your email"
+              className="w-full border-gray-700 bg-gray-800 text-white"
+            />
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="border-none bg-white text-gray-900 hover:bg-gray-200 hover:text-gray-900 max-md:w-full"
             >
               Subscribe
-            </button>
+            </Button>
           </form>
         </div>
-        <Divider className="border-[#808080]" />
-        <div className="grid grid-cols-12 gap-8 max-md:grid-cols-1">
-          <div className="col-span-7">
+        <div className="grid grid-cols-12 gap-12 max-md:grid-cols-1">
+          <div className="col-span-7 max-md:col-span-12">
             <Link
               href="/"
-              className="block text-2xl font-semibold uppercase tracking-wider text-white max-md:text-lg"
+              className="block text-3xl font-bold uppercase tracking-wider text-white max-md:text-2xl"
             >
               Timlukfab
             </Link>
-            <p className="mb-8 mt-4 text-[#808080]">
-              The premier e-commerce destination for men and women’s style
+            <p className="my-6 text-gray-400">
+              The premier e-commerce destination for men and women's style
               combining the best brands that focus on craftsmanship and
               elegance.
             </p>
-            <div className="mb-2 flex items-center gap-2 text-[#808080]">
-              <MapPin className="w-5" />{" "}
-              <span className="text-sm font-semibold">
-                70, Timlukfab road, Lagos.
-              </span>
+            <div className="space-y-4 text-gray-400">
+              <div className="flex items-center gap-3">
+                <MapPin className="w-5" />
+                <span className="text-sm">70, Timlukfab road, Lagos.</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="w-5" />
+                <span className="text-sm">+234123456789</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="w-5" />
+                <span className="text-sm">sales@timlukfab.com</span>
+              </div>
             </div>
-            <div className="mb-2 flex items-center gap-2 text-[#808080]">
-              <Phone className="w-5" />{" "}
-              <span className="text-sm font-semibold">+234123456789</span>
-            </div>
-            <div className="mb-2 flex items-center gap-2 text-[#808080]">
-              <Mail className="w-5" />{" "}
-              <span className="text-sm font-semibold">sales@timlukfab.com</span>
-            </div>
-            <div className="mt-12 flex items-center gap-4">
-              <a href="/">
-                <XOutlined style={{ fontSize: "2rem", color: "#808080" }} />
+            <div className="mt-8 flex items-center gap-6">
+              <a
+                href="/"
+                className="text-gray-400 transition-colors hover:text-white"
+              >
+                <XOutlined style={{ fontSize: "1.5rem" }} />
               </a>
-              <a href="/">
-                <InstagramFilled
-                  style={{ fontSize: "2rem", color: "#808080" }}
-                />
+              <a
+                href="/"
+                className="text-gray-400 transition-colors hover:text-white"
+              >
+                <InstagramFilled style={{ fontSize: "1.5rem" }} />
               </a>
-              <a href="/">
-                <FacebookFilled
-                  style={{ fontSize: "2rem", color: "#808080" }}
-                />
+              <a
+                href="/"
+                className="text-gray-400 transition-colors hover:text-white"
+              >
+                <FacebookFilled style={{ fontSize: "1.5rem" }} />
               </a>
             </div>
           </div>
-          <div className="col-span-5 max-md:hidden">
-            <ul className="grid grid-cols-2 gap-8">
+          <div className="col-span-5 mt-8 max-md:col-span-12 md:mt-0">
+            <h4 className="mb-6 text-xl font-semibold">Quick Links</h4>
+            <ul className="grid grid-cols-2 gap-4">
               {links.map((link) => (
                 <li key={link.id}>
                   <Link
                     href={link.url}
-                    className="rounded-lg bg-white px-4 py-2 text-black transition-all duration-200 ease-linear hover:bg-[#808080]"
+                    className="text-gray-400 transition-colors hover:text-white"
                   >
                     {link.name}
                   </Link>
@@ -115,9 +118,8 @@ const AppFooter = () => {
             </ul>
           </div>
         </div>
-        <Divider className="border-[#808080]" />
-        <div className="text-center">
-          <p className="text-xs text-[#808080]">
+        <div className="mt-12 border-t border-gray-800 pt-6 text-center">
+          <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} Timlukfab, All rights reserved
           </p>
         </div>
@@ -125,4 +127,5 @@ const AppFooter = () => {
     </footer>
   );
 };
+
 export default AppFooter;

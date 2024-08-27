@@ -10,7 +10,7 @@ const BrowseCategories = () => {
           BROWSE OUR CATEGORIES
         </span>
       </Divider>
-      <div className="grid grid-cols-3 max-md:grid-cols-1 max-md:gap-8">
+      <div className="grid grid-cols-3 gap-4 max-md:grid-cols-1 max-md:gap-8">
         {products.splice(0, 3).map((product) => (
           <div
             key={product.id}

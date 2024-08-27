@@ -16,7 +16,7 @@ const CartOverlay = memo(
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed left-0 top-0 z-[999999] h-screen w-full bg-black/50"
+      className="fixed left-0 top-0 z-[9999999] h-screen w-full bg-black/50"
     >
       <motion.div
         initial={{ x: "100%" }}

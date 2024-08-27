@@ -15,17 +15,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const BestSelling = () => {
   return (
-    <div className="wrapper my-16">
-      <div className="mb-8">
+    <div className="wrapper my-8 md:my-16">
+      <div className="mb-6 md:mb-8">
         <Divider>
-          <span className="text-2xl font-semibold max-md:text-lg">
+          <span className="text-xl font-semibold md:text-2xl">
             BEST SELLING PRODUCTS
           </span>
         </Divider>
       </div>
-      <div className="max-md:mx-auto max-md:w-[85%]">
+      <div className="mx-auto w-[95%] md:w-full">
         <Swiper
-          // install Swiper modules
           className=""
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
@@ -35,40 +34,42 @@ const BestSelling = () => {
           breakpoints={{
             0: {
               slidesPerView: 1,
+              spaceBetween: 10,
             },
             640: {
               slidesPerView: 2,
+              spaceBetween: 15,
             },
             768: {
               slidesPerView: 3,
+              spaceBetween: 20,
             },
             1024: {
               slidesPerView: 4,
+              spaceBetween: 25,
             },
           }}
         >
           {products.map((product) => (
             <SwiperSlide key={product.id}>
-              <div className="relative h-72 max-md:h-96">
+              <div className="group relative h-64 overflow-hidden md:h-72">
                 <Image
                   src={product.image}
                   alt={product.name}
                   height={500}
                   width={500}
-                  className="z-[-1] h-full w-full object-cover"
+                  className="z-[-1] h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className="absolute bottom-0 left-0 flex w-full items-center justify-center">
-                  <div className="w-[80%] bg-black py-2 text-center">
-                    <p className="text-xs font-semibold uppercase text-[#d9d9d9]">
-                      all collections
-                    </p>
-                    <p className="text-sm font-semibold text-white">
-                      {product.name}
-                    </p>
-                    <p className="text-base font-semibold text-white">
-                      ${formatNumberWithCommas(product.price)}
-                    </p>
-                  </div>
+                <div className="absolute bottom-0 left-0 w-full translate-y-full bg-black bg-opacity-70 p-3 transition-transform duration-300 group-hover:translate-y-0">
+                  <p className="mb-1 text-xs font-semibold uppercase text-[#d9d9d9]">
+                    all collections
+                  </p>
+                  <p className="mb-1 text-sm font-semibold text-white">
+                    {product.name}
+                  </p>
+                  <p className="text-base font-semibold text-white">
+                    ${formatNumberWithCommas(product.price)}
+                  </p>
                 </div>
               </div>
             </SwiperSlide>
@@ -78,4 +79,5 @@ const BestSelling = () => {
     </div>
   );
 };
+
 export default BestSelling;
