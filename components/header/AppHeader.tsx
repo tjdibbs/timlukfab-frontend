@@ -12,6 +12,7 @@ import { useCart } from "../cart/cartProvider";
 import { useAppSelector } from "@/lib/redux/store";
 import { useIsClient } from "@/hooks/useIsClient";
 import { v4 as uuidV4 } from "uuid";
+import Image from "next/image";
 
 const AppHeader = () => {
   const pathname = usePathname();
@@ -42,11 +43,16 @@ const AppHeader = () => {
           </div>
         </div>
         <div className="wrapper flex items-center justify-between pb-1 pt-2">
-          <Link
-            href="/"
-            className="text-2xl font-bold text-black hover:text-black/60"
-          >
-            Timlukfab
+          <Link href="/" className="block w-44 max-md:w-36">
+            <Image
+              src="/identity/logo.png"
+              alt="logo"
+              width={40}
+              height={40}
+              quality={100}
+              objectFit="contain"
+              className="w-full max-w-full"
+            />
           </Link>
           <NavLinks pathname={pathname} />
           <HeaderActions
