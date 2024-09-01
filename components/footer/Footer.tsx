@@ -109,7 +109,7 @@ const AppFooter = () => {
                 <li key={link.id}>
                   <Link
                     href={link.url}
-                    className="text-gray-400 transition-colors hover:text-white"
+                    className="text-sm text-gray-400 transition-colors hover:text-white"
                   >
                     {link.name}
                   </Link>

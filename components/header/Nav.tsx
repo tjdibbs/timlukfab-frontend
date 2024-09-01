@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppSelector } from "@/lib/redux/store";
 import { FacebookFilled, InstagramFilled, XOutlined } from "@ant-design/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -67,6 +68,8 @@ interface NavProps {
 const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
   const pathname = usePathname();
 
+  const auth = useAppSelector((state) => state.auth);
+
   useEffect(() => {
     document.body.style.overflowY = isOpen ? "hidden" : "auto";
     return () => {
@@ -116,6 +119,24 @@ const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
                   closeFn={closeFn}
                 />
               ))}
+
+              {!auth.token ? (
+                <NavLink
+                  key={"login"}
+                  path="/login"
+                  name="Login"
+                  isActive={pathname === "/login"}
+                  closeFn={closeFn}
+                />
+              ) : (
+                <NavLink
+                  key={"account"}
+                  path="/account"
+                  name="My Account"
+                  isActive={pathname.includes("/account")}
+                  closeFn={closeFn}
+                />
+              )}
             </ul>
             <footer className="flex items-center gap-4 p-3">
               <a href="/">
