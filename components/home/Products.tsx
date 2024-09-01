@@ -29,7 +29,7 @@ const Products = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-4 gap-6 max-lg:grid-cols-3 max-md:grid-cols-2">
+        <div className="grid grid-cols-4 gap-6 max-lg:grid-cols-3 max-md:grid-cols-2 max-md:gap-2">
           {products.map((product, index) => (
             <Product key={product.id} product={product} index={index} />
           ))}

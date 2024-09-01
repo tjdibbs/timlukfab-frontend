@@ -12,6 +12,7 @@ import MobileCartAction from "./MobileCartAction";
 import { motion, AnimatePresence } from "framer-motion";
 import useProductInteractions from "@/hooks/useProductInteractions";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 type Props = {
   product: PType;
@@ -127,7 +128,12 @@ const Product = ({ product, index }: Props) => {
         transition={{ duration: 0.3, delay: 0.2 }}
       >
         <div className="flex items-center justify-between gap-4">
-          <p className="text-sm font-semibold">{product.name}</p>
+          <Link
+            href={"/products/1"}
+            className="text-sm font-semibold text-black transition-colors hover:text-normal_grey"
+          >
+            {product.name}
+          </Link>
           <motion.button
             className="wishlist-btn"
             whileHover={{ scale: 1.1 }}
