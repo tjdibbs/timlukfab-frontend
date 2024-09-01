@@ -32,7 +32,7 @@ const AppFooter = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="wrapper pb-8 pt-16">
-        <div className="mb-12 max-w-xl">
+        <div className="mb-12">
           <h3 className="mb-4 text-2xl font-bold max-md:text-xl">
             Join Our Community
           </h3>
@@ -40,7 +40,7 @@ const AppFooter = () => {
             Get 10% off your first order and be the first to get the latest
             updates on our promotion campaigns, products and services.
           </p>
-          <form className="flex items-center gap-2 max-md:flex-col">
+          <form className="flex items-center gap-2 max-md:flex-col md:max-w-2xl">
             <Input
               placeholder="Enter your email"
               className="w-full border-gray-700 bg-gray-800 text-white"
@@ -54,15 +54,15 @@ const AppFooter = () => {
             </Button>
           </form>
         </div>
-        <div className="grid grid-cols-12 gap-12 max-md:grid-cols-1">
+        <div className="grid-cols-12 gap-12 max-md:space-y-12 md:grid">
           <div className="col-span-7 max-md:col-span-12">
             <Link
               href="/"
-              className="block text-3xl font-bold uppercase tracking-wider text-white max-md:text-2xl"
+              className="block text-2xl font-bold uppercase tracking-wider text-white max-md:text-xl"
             >
               Timlukfab
             </Link>
-            <p className="my-6 text-gray-400">
+            <p className="my-6 text-wrap text-sm text-gray-400">
               The premier e-commerce destination for men and women's style
               combining the best brands that focus on craftsmanship and
               elegance.

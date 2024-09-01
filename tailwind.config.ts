@@ -46,7 +46,8 @@ const config = {
       colors: {
         primary: "#CD0001",
         dark_grey: "#555555",
-        normal_grey: "#777777"
+        normal_grey: "#777777",
+        dark_blue: "#446084",
       },
       fontFamily: {
         nunito: ["nunito", "sans", "sans-serif"],

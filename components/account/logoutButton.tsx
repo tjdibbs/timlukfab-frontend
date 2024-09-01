@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-const LogoutButton: React.FC<Props> = ({ className, text }) => {
+const LogoutButton: React.FC<Props> = ({ className = "", text }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { alertMessage } = useMessage();
@@ -28,6 +28,10 @@ const LogoutButton: React.FC<Props> = ({ className, text }) => {
     router.replace("/");
   };
 
-  return <button onClick={logoutUser}>{text}</button>;
+  return (
+    <button onClick={logoutUser} className={className}>
+      {text}
+    </button>
+  );
 };
 export default LogoutButton;

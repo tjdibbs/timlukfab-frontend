@@ -170,6 +170,7 @@ export type User = {
   createdAt: string;
   updatedAt: string;
   contact: UserContact;
+  verified: boolean;
 };
 
 export type RegisterResponse = {

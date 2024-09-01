@@ -22,7 +22,7 @@ body.fixed {
 
 @layer components {
   .wrapper {
-    @apply container mx-auto max-w-6xl px-2 md:px-4;
+    @apply container mx-auto max-w-7xl px-2 md:px-4;
   }
 }
 
@@ -31,6 +31,10 @@ img {
 }
 
 input {
+  @apply focus:outline-none;
+}
+
+button {
   @apply focus:outline-none;
 }
 

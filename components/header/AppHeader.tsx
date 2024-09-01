@@ -12,7 +12,8 @@ import { useCart } from "../cart/cartProvider";
 import { useAppSelector } from "@/lib/redux/store";
 import { useIsClient } from "@/hooks/useIsClient";
 import { v4 as uuidV4 } from "uuid";
-import Image from "next/image";
+import { accountLinks } from "@/data";
+import LogoutButton from "../account/logoutButton";
 
 const AppHeader = () => {
   const pathname = usePathname();
@@ -43,16 +44,11 @@ const AppHeader = () => {
           </div>
         </div>
         <div className="wrapper flex items-center justify-between pb-1 pt-2">
-          <Link href="/" className="block w-44 max-md:w-36">
-            <Image
-              src="/identity/logo.png"
-              alt="logo"
-              width={40}
-              height={40}
-              quality={100}
-              objectFit="contain"
-              className="w-full max-w-full"
-            />
+          <Link
+            href="/"
+            className="text-2xl font-bold text-black hover:text-black/60"
+          >
+            Timlukfab
           </Link>
           <NavLinks pathname={pathname} />
           <HeaderActions
@@ -64,6 +60,57 @@ const AppHeader = () => {
         <CategoryList />
       </header>
     </Headroom>
+  );
+};
+
+const AccountDropdown = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleMouseEnter = () => setIsOpen(true);
+  const handleMouseLeave = () => setIsOpen(false);
+
+  return (
+    <div
+      className="relative max-md:hidden"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Link
+        href="/account"
+        className="font-semibold uppercase text-black hover:text-black/60"
+      >
+        My Account
+      </Link>
+      {isOpen && (
+        <div
+          className="absolute right-0 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div
+            className="py-1"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
+          >
+            {accountLinks.map((link) => (
+              <Link
+                key={link.id}
+                href={link.path}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                role="menuitem"
+              >
+                {link.name}
+              </Link>
+            ))}
+            <LogoutButton
+              text="Logout"
+              className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -102,14 +149,7 @@ const HeaderActions = memo(
     return (
       <div className="flex items-center justify-end gap-3 md:gap-4">
         {credentials ? (
-          <div>
-            <Link
-              href="/account"
-              className="font-semibold uppercase text-black hover:text-black/60 max-md:hidden"
-            >
-              My Account
-            </Link>
-          </div>
+          <AccountDropdown />
         ) : (
           <Link
             href="/login"

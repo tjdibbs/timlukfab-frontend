@@ -1,3 +1,5 @@
+import { v4 as uuidV4 } from "uuid";
+
 import product1 from "@/assets/images/products/product1.jpg";
 import product2 from "@/assets/images/products/product2.jpg";
 import product3 from "@/assets/images/products/product3.jpg";
@@ -15,6 +17,11 @@ import product14 from "@/assets/images/products/product14.jpg";
 import product15 from "@/assets/images/products/product15.jpg";
 import { StaticImageData } from "next/image";
 
+interface AccountLink {
+    id: string;
+    name: string;
+    path: string;
+}
 
 export interface Product {
     id: string | number;
@@ -41,3 +48,31 @@ export const products: Product[] = [
     { id: 14, name: "Sport Leggings", price: 29.99, image: product14 },
     { id: 15, name: "Wool Coat", price: 119.99, image: product15 }
 ];
+
+export const accountLinks: AccountLink[] = [
+    {
+        id: uuidV4(),
+        name: "Dashbaord",
+        path: "/account",
+    },
+    {
+        id: uuidV4(),
+        name: "Orders",
+        path: "/account/orders",
+    },
+    {
+        id: uuidV4(),
+        name: "Addresses",
+        path: "/account/addresses",
+    },
+    {
+        id: uuidV4(),
+        name: "Account details",
+        path: "/account/account-details",
+    },
+    {
+        id: uuidV4(),
+        name: "Wishlist",
+        path: "/account/wishlist",
+    }
+]

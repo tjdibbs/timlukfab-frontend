@@ -35,6 +35,7 @@ const App = memo(({ children }: Props) => {
           theme={{
             token: {
               fontFamily: lato.style.fontFamily,
+              fontSize: 16,
             },
           }}
         >

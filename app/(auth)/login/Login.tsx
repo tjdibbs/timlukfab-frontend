@@ -20,9 +20,13 @@ import { z } from "zod";
 import { LoginFormSchema } from "@/lib/schemas";
 import useMessage from "@/hooks/useMessage";
 import { useLoginUserMutation } from "@/lib/redux/services/auth";
-import { ErrorResponse } from "@/lib/types";
+import { AuthCredentials, ErrorResponse } from "@/lib/types";
 import Spinner from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/redux/store";
+import { setUser } from "@/lib/redux/features/user";
+import { setCredentials } from "@/lib/redux/features/auth";
+import Cookies from "js-cookie";
 
 type FormSchema = z.infer<typeof LoginFormSchema>;
 
@@ -38,6 +42,7 @@ const Login = () => {
   });
 
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const { alertMessage } = useMessage();
@@ -45,9 +50,24 @@ const Login = () => {
   async function onSubmit(values: FormSchema) {
     try {
       const response = await loginUser(values).unwrap();
-      console.log(response);
+      form.reset();
+      const { token, refreshToken, user } = response;
+      const credentials: AuthCredentials = {
+        id: user.id,
+        token,
+        refreshToken,
+      };
+
+      dispatch(setCredentials(credentials));
+      dispatch(setUser(user));
+
+      if (!user.verified) {
+        Cookies.set("email-verification", String(user.id));
+        router.push("/verify-email");
+      } else {
+        router.push("/account");
+      }
     } catch (error) {
-      console.log(error);
       const message =
         (error as ErrorResponse).data.message || "An error occurred";
       alertMessage(message, "error");

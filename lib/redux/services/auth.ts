@@ -23,8 +23,8 @@ const authApi = api.injectEndpoints({
                 body,
             })
         }),
-        loginUser: build.mutation({
-            query: (body: LoginForm) => ({
+        loginUser: build.mutation<RegisterResponse, LoginForm>({
+            query: (body) => ({
                 url: "/auth/login",
                 method: "POST",
                 body,
