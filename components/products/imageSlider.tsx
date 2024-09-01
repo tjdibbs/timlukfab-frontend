@@ -50,7 +50,7 @@ const ImageSlider = () => {
 
   return (
     <div className="col-span-5">
-      <div className="bg-red-500">
+      <div>
         <Flickity
           flickityRef={(c) => {
             setMainFlickity(c);
