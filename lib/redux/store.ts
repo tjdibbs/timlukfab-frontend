@@ -14,7 +14,6 @@ export const makeStore = () => configureStore({
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(api.middleware),
-    devTools: process.env.NODE_ENV !== "production"
 })
 
 export type AppStore = ReturnType<typeof makeStore>
