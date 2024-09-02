@@ -58,6 +58,8 @@ const Login = () => {
         refreshToken,
       };
 
+      alertMessage("Login successful", "success");
+
       dispatch(setCredentials(credentials));
       dispatch(setUser(user));
 

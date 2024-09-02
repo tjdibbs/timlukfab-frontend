@@ -1,12 +1,8 @@
 import { PropsWithChildren, ReactNode } from "react";
 import { Nunito, Inter, Poppins } from "next/font/google";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 
-import "./globals.css";
+import "../globals.css";
 import { Metadata, Viewport } from "next";
-import Layout from "antd/es/layout/layout";
-import AppHeader from "@/components/header/AppHeader";
-import AppFooter from "@/components/footer/Footer";
 import App from "@/components/providers/App";
 
 const nunito = Nunito({
