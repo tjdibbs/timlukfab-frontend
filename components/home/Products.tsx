@@ -1,6 +1,7 @@
 import Product from "@/components/product/Product";
 import { products } from "@/data";
 import { Divider } from "antd";
+import { Button } from "../ui/button";
 
 const Products = () => {
   if (!products || products.length === 0) {
@@ -36,9 +37,7 @@ const Products = () => {
         </div>
 
         <div className="mt-12 flex items-center justify-center">
-          <button className="w-full max-w-xs rounded-full bg-black py-3 text-sm font-semibold text-white transition-all duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
-            LOAD MORE
-          </button>
+          <Button className="w-full max-w-xs rounded-full">LOAD MORE</Button>
         </div>
       </div>
     </section>
