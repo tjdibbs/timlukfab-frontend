@@ -36,7 +36,7 @@ const Product = ({ product, index }: Props) => {
   const mobileCartActionButton = useMemo(
     () => (
       <motion.button
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md hover:bg-[#f0f0f0]"
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md hover:bg-[#f0f0f0]"
         onClick={displayMobileCartAction}
         whileTap={{ scale: 0.95 }}
       >
@@ -45,7 +45,7 @@ const Product = ({ product, index }: Props) => {
           alt="add to cart"
           height={24}
           width={24}
-          className="max-w-6"
+          className="max-w-5"
         />
       </motion.button>
     ),
@@ -82,7 +82,7 @@ const Product = ({ product, index }: Props) => {
           document.body,
         )}
       <motion.div
-        className="product-link relative block h-96 cursor-pointer overflow-hidden rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md max-md:h-72"
+        className="product-link relative block h-96 cursor-pointer overflow-hidden rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md max-md:h-64"
         onMouseEnter={showCartButton}
         onMouseLeave={hideCartButton}
         whileHover={{ scale: 1.02 }}
