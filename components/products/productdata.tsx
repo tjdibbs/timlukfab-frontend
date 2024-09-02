@@ -30,7 +30,6 @@ const ProductData = () => {
           REVIEWS
         </button>
       </div>
-      <RelatedProducts />
     </section>
   );
 };

@@ -29,7 +29,7 @@ const CartOverlay = memo(
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
         style={style}
-        className="fixed right-0 top-0 z-[9999999] h-screen w-full max-w-[400px] bg-white"
+        className="full-height fixed right-0 top-0 z-[9999999] w-full max-w-[400px] bg-white"
       >
         <header>
           <div className="flex items-center justify-between p-6 px-5">

@@ -63,6 +63,11 @@ a {
   fill: black;
 }
 
+.full-height {
+  height: 100vh;
+  height: 100dvh;
+}
+
 @media only screen and (min-width: 768px) {
   footer ul {
     row-gap: 2rem;
