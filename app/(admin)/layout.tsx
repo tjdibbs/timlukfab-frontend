@@ -5,6 +5,7 @@ import { PropsWithChildren, ReactNode } from "react";
 
 import "../globals.css";
 import { Metadata } from "next";
+import AdminApp from "@/components/providers/AdminApp";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -22,8 +23,10 @@ export default function AdminLayout({
   return (
     <html lang="en">
       <body className={lato.className}>
-        <AdminHeader />
-        <main>{children}</main>
+        <AdminApp>
+          <AdminHeader />
+          <main>{children}</main>
+        </AdminApp>
       </body>
     </html>
   );

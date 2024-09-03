@@ -1,7 +1,6 @@
 "use client";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -31,18 +30,33 @@ const links = [
     name: "Categories",
     href: "/admin/categories",
   },
+  {
+    id: 6,
+    name: "Sizes",
+    href: "/admin/sizes",
+  },
+  {
+    id: 7,
+    name: "Colors",
+    href: "/admin/colors",
+  },
+  {
+    id: 8,
+    name: "Media",
+    href: "/admin/media",
+  },
 ];
 
 const Navlinks = () => {
   const pathname = usePathname();
 
   return (
-    <ul className="flex items-center gap-4">
-      {links.map((link) => {
-        const isActive = pathname === link.href;
+    <ul className="flex items-center gap-6">
+      {links.map(link => {
+        const isActive = pathname.includes(link.href);
 
         return (
-          <li>
+          <li key={link.id}>
             <Link
               href={link.href}
               className={
@@ -62,22 +76,17 @@ const Navlinks = () => {
 const AdminHeader = () => {
   return (
     <header>
-      <div className="wrapper flex items-center py-4">
-        <div className="flex flex-[2] items-center gap-12">
-          <Link href="/" className="text-2xl font-bold">
-            Timlukfab
-          </Link>
-          <Navlinks />
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-4">
-            <Input type="text" placeholder="Search..." />
-            <Avatar>
-              <AvatarImage src="" alt="avatar" />
-              <AvatarFallback>BU</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
+      <div className="wrapper flex items-center justify-between py-4">
+        <Link href="/" className="text-2xl font-bold">
+          Timlukfab
+        </Link>
+
+        <Navlinks />
+
+        <Avatar>
+          <AvatarImage src="" alt="avatar" />
+          <AvatarFallback>BU</AvatarFallback>
+        </Avatar>
       </div>
     </header>
   );

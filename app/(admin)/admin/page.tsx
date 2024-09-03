@@ -1,6 +1,12 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BarChart, Users, ShoppingCart, DollarSign } from "lucide-react";
+import {
+  BarChart,
+  Users,
+  ShoppingCart,
+  DollarSign,
+  Package,
+} from "lucide-react";
 
 interface StatCardProps {
   title: string;
@@ -12,11 +18,14 @@ export default function Page() {
   return (
     <section className="min-h-screen bg-gray-50">
       <div className="wrapper py-8">
-        <h3 className="mb-6 text-3xl font-extrabold">Dashboard</h3>
+        <div className="mb-6">
+          <h3 className="mb-1 text-3xl font-extrabold">Dashboard</h3>
+          <p className="text-sm text-gray-500">Overview of your store</p>
+        </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="Total Sales"
+            title="Sales"
             value="$24,560"
             icon={<DollarSign className="h-8 w-8" />}
           />
@@ -26,14 +35,14 @@ export default function Page() {
             icon={<ShoppingCart className="h-8 w-8" />}
           />
           <StatCard
-            title="New Users"
+            title="Users"
             value="120"
             icon={<Users className="h-8 w-8" />}
           />
           <StatCard
-            title="Conversion Rate"
-            value="3.2%"
-            icon={<BarChart className="h-8 w-8" />}
+            title="Products"
+            value="7"
+            icon={<Package className="h-8 w-8" />}
           />
         </div>
 
