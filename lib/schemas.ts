@@ -37,3 +37,9 @@ export const CreateSizeSchema = z.object({
     description: z.string().min(1, "Description is required"),
 })
 
+export const CreateColorSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    description: z.string().min(1, "Description is required"),
+    hexCode: z.string().min(1, "Hex code is required"),
+})
+

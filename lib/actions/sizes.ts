@@ -6,12 +6,6 @@ import { SizesController } from "@/types/sizes";
 import { CreateSizeSchema } from "../schemas";
 import { Globals } from "@/types/globals";
 
-type Response<T> = Partial<{
-    success: boolean;
-    message: string;
-    data: T | null;
-}>
-
 type CreateSizeFormData = z.infer<typeof CreateSizeSchema>;
 
 export const getSizes = async () => {
@@ -22,7 +16,7 @@ export const getSizes = async () => {
     return data as SizesController.Get;
 };
 
-export async function createSize(formValues: CreateSizeFormData): Promise<Response<SizesController.Put>> {
+export async function createSize(formValues: CreateSizeFormData): Promise<Globals.ActionResponse<SizesController.Put>> {
     try {
         const res = await fetch(`${process.env.API_BASE_URL}/sizes/`, {
             headers: {
@@ -46,7 +40,7 @@ export async function createSize(formValues: CreateSizeFormData): Promise<Respon
     }
 }
 
-export async function updateSize(id: string, formValues: CreateSizeFormData): Promise<Response<SizesController.Patch>> {
+export async function updateSize(id: string, formValues: CreateSizeFormData): Promise<Globals.ActionResponse<SizesController.Patch>> {
     const res = await fetch(`${process.env.API_BASE_URL}/sizes/${id}`, {
         headers: {
             "Content-Type": "application/json",
@@ -64,7 +58,7 @@ export async function updateSize(id: string, formValues: CreateSizeFormData): Pr
     return { success: true, message: "Size updated successfully" };
 }
 
-export async function deleteSize(id: string): Promise<Response<SizesController.Delete>> {
+export async function deleteSize(id: string): Promise<Globals.ActionResponse<SizesController.Delete>> {
     const res = await fetch(`${process.env.API_BASE_URL}/sizes/${id}`, {
         method: "DELETE",
     });

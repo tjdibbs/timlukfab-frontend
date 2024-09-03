@@ -6,4 +6,10 @@ export namespace Globals {
         path: string;
         method: string;
     }
+
+    export interface ActionResponse<T> {
+        success: boolean;
+        message: string;
+        data?: T | null;
+    }
 }
