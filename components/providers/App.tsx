@@ -4,14 +4,12 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider, Layout } from "antd";
 import AppHeader from "../header/AppHeader";
 import AppFooter from "../footer/Footer";
-import { memo, ReactNode, useRef } from "react";
-import { Provider } from "react-redux";
-import { makeStore, AppStore } from "@/lib/redux/store";
+import { memo, ReactNode } from "react";
 import { SnackbarProvider } from "notistack";
 import { Lato } from "next/font/google";
 import CartProvider from "../cart/cartProvider";
 import GetUser from "@/lib/getUser";
-import { setupListeners } from "@reduxjs/toolkit/query";
+import StoreProvider from "./StoreProvider";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -20,16 +18,8 @@ type Props = {
 };
 
 const App = memo(({ children }: Props) => {
-  const storeRef = useRef<AppStore>();
-  if (!storeRef.current) {
-    // Create the store instance the first time this renders
-    storeRef.current = makeStore();
-  }
-
-  setupListeners(storeRef.current.dispatch);
-
   return (
-    <Provider store={storeRef.current}>
+    <StoreProvider>
       <AntdRegistry>
         <ConfigProvider
           theme={{
@@ -51,7 +41,7 @@ const App = memo(({ children }: Props) => {
           </CartProvider>
         </ConfigProvider>
       </AntdRegistry>
-    </Provider>
+    </StoreProvider>
   );
 });
 
