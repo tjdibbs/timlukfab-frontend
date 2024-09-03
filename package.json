@@ -43,6 +43,7 @@
     "cookie-session": "^2.1.0",
     "cookies": "^0.9.1",
     "crypto-js": "^4.2.0",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "eslint-plugin-cypress": "^3.5.0",
     "flickity": "^2.3.0",

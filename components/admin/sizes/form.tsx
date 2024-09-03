@@ -4,11 +4,9 @@ import { CreateSizeSchema } from "@/lib/schemas";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,12 +14,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "../ui/submit-button";
-import { createSize } from "@/lib/actions";
 import useMessage from "@/hooks/useMessage";
+import { createSize } from "@/lib/actions/sizes";
+import { useEffect, useState } from "react";
+import { Loader2Icon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type FormSchema = z.infer<typeof CreateSizeSchema>;
 
 const CreateForm = () => {
+  const [pending, setPending] = useState(false);
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(CreateSizeSchema),
     defaultValues: {
@@ -33,17 +36,14 @@ const CreateForm = () => {
   const { alertMessage } = useMessage();
 
   async function onSubmit(values: FormSchema) {
-    try {
-      const res = await createSize(values);
-      if (res.success) {
-        alertMessage("Size created successfully", "success");
-      } else {
-        alertMessage("Error creating size", "error");
-      }
-      form.reset();
-    } catch (error) {
-      alertMessage("Error creating size", "error");
+    setPending(true);
+    const res = await createSize(values);
+    if (res.success) {
+      alertMessage(res.message, "success");
+    } else {
+      alertMessage(res.message, "error");
     }
+    setPending(false);
   }
 
   return (
@@ -83,7 +83,13 @@ const CreateForm = () => {
               )}
             />
           </div>
-          <SubmitButton />
+          <Button type="submit" disabled={pending}>
+            {pending ? (
+              <Loader2Icon className="h-4 w-4 animate-spin" />
+            ) : (
+              "Submit"
+            )}
+          </Button>
         </form>
       </Form>
     </div>
