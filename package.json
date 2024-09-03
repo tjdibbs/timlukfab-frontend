@@ -69,6 +69,7 @@
     "react-country-region-selector": "^3.6.1",
     "react-custom-events": "^1.1.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
     "react-feather": "^2.0.10",
     "react-flickity-component": "^4.0.7",
     "react-headroom": "^3.2.1",

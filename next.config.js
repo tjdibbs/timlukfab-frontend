@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  experimental: { esmExternals: true },
 
   images: {
     remotePatterns: [
@@ -14,6 +13,12 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "api.frutiv.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.timlukfab.com",
         port: "",
         pathname: "/**",
       },

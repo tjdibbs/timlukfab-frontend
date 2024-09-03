@@ -18,9 +18,11 @@ export namespace FileController {
 
     export interface Get {
         success: boolean;
-        files: File[];
-        count: number;
-        hasMore: boolean;
+        result: {
+            files: File[];
+            count: number;
+            hasMore: boolean;
+        }
     }
 
     export interface GetSingle {
