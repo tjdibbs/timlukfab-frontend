@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import AccountHeader from "./header";
 import Sidebar from "./sidebar";
-import ProtectedRoute from "@/components/providers/ProtectedRoute";
 
 type Props = {
   children: ReactNode;

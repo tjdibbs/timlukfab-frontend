@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Register from "./Register";
-import GuestRoute from "@/components/providers/GuestRoute";
 
 export const metadata: Metadata = {
   title: "Register | Timlukfab Fashion Store",

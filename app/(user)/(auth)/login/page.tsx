@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Login from "./Login";
-import GuestRoute from "@/components/providers/GuestRoute";
 
 export const metadata: Metadata = {
   title: "Sign In",
