@@ -21,7 +21,7 @@ export default async function Page() {
       <div className="wrapper py-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h3 className="mb-1 text-3xl font-extrabold">Images({})</h3>
+            <h3 className="mb-1 text-3xl font-extrabold">Images({count})</h3>
             <p className="text-sm text-gray-500">Manage your media</p>
           </div>
           <UploadForm />
