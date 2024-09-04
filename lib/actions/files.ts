@@ -1,7 +1,6 @@
-import { Globals } from "@/types/globals";
-
 "use server"
 
+import { Globals } from "@/types/globals";
 import { FileController } from "@/types/files";
 import { revalidatePath } from "next/cache";
 
