@@ -16,7 +16,7 @@ export default async function Page() {
     return <ErrorMessage />;
   }
 
-  const sorted = categories.sort((a, b) => a.id - b.id);
+  const sorted = categories.sort((a, b) => b.id - a.id);
 
   return (
     <section className="min-h-screen bg-gray-50">

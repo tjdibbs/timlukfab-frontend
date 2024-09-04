@@ -14,7 +14,7 @@ export default async function Page() {
     return <ErrorMessage />;
   }
 
-  const sortedFiles = files.sort((a, b) => a.id - b.id);
+  const sortedFiles = files.sort((a, b) => b.id - a.id);
 
   return (
     <section className="min-h-screen bg-gray-50">
