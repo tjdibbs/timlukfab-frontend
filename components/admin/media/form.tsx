@@ -25,7 +25,7 @@ const UploadForm = () => {
   );
 
   const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 5,
+    maxFiles: 10,
     accept: {
       "image/jpeg": [".jpeg", ".jpg"],
       "image/png": [".png"],
@@ -87,7 +87,7 @@ const UploadForm = () => {
         open={open}
         setOpen={setOpen}
         title="Upload media"
-        description="Upload your images here"
+        description="Upload your images here (max of 10)"
       >
         <form onSubmit={onSubmit}>
           {images && (
