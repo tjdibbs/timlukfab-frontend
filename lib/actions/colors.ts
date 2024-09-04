@@ -32,6 +32,7 @@ export async function createColor(formValues: CreateColorFormData): Promise<Glob
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/colors");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Color created successfully" };
 }
 
@@ -51,6 +52,7 @@ export async function updateColor(id: string, formValues: CreateColorFormData): 
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/colors");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Color updated successfully" };
 }
 
@@ -66,5 +68,6 @@ export async function deleteColor(id: string): Promise<Globals.ActionResponse<Co
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/colors");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Color deleted successfully" };
 }

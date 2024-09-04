@@ -39,6 +39,7 @@ export const createCategory = async (formValues: CreateFormData): Promise<Global
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Category created successfully" };
 }
 
@@ -58,6 +59,7 @@ export const updateCategory = async (id: string, formValues: CreateFormData): Pr
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Category updated successfully" };
 }
 
@@ -73,5 +75,6 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Category deleted successfully" };
 }

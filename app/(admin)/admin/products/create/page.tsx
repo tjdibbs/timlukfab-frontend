@@ -1,6 +1,25 @@
+import CreateForm from "@/components/admin/products/form";
 import { Separator } from "@/components/ui/separator";
+import { getCategories } from "@/lib/actions/categories";
+import { getColors } from "@/lib/actions/colors";
+import { getFiles } from "@/lib/actions/files";
+import { getSizes } from "@/lib/actions/sizes";
+import { getSubCategories } from "@/lib/actions/sub-categories";
 
-export default function Page() {
+export default async function Page() {
+  const {
+    result: { colors },
+  } = await getColors();
+  const {
+    result: { files },
+  } = await getFiles();
+  const {
+    result: { categories },
+  } = await getCategories();
+  const {
+    result: { sizes },
+  } = await getSizes();
+
   return (
     <section className="min-h-screen bg-gray-50">
       <div className="wrapper py-8">
@@ -13,6 +32,12 @@ export default function Page() {
           </div>
           <Separator className="my-4" />
         </div>
+        <CreateForm
+          colors={colors}
+          sizes={sizes}
+          categories={categories}
+          images={files}
+        />
       </div>
     </section>
   );

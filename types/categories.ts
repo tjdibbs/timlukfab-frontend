@@ -11,7 +11,7 @@ export namespace CategoryController {
         deletedAt: string | null;
     };
 
-    interface SubCategory {
+    export interface SubCategory {
         id: number;
         name: string;
         description: string;

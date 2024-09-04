@@ -12,22 +12,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ProductController } from "@/types/products";
+import { format } from "date-fns";
 
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  size: string;
-  colors: string[];
-  stock: number;
-  category: string;
-  date: string;
-};
-
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<ProductController.Product>[] = [
   {
     accessorKey: "name",
     header: () => <div className="text-left">Name</div>,
+  },
+  {
+    accessorKey: "description",
+    header: () => <div className="text-left">Description</div>,
+    cell: ({ row }) => {
+      const description = row.original.description;
+      return <div className="text-left">{description}</div>;
+    },
   },
   {
     accessorKey: "price",
@@ -42,20 +41,13 @@ export const columns: ColumnDef<Product>[] = [
       return <div className="text-left font-medium">{formatted}</div>;
     },
   },
+
   {
-    accessorKey: "size",
-    header: () => <div className="text-left">Size</div>,
+    accessorKey: "stock",
+    header: () => <div className="text-left">Stock</div>,
     cell: ({ row }) => {
-      const size = row.original.size;
-      return <div className="text-left">{size}</div>;
-    },
-  },
-  {
-    accessorKey: "colors",
-    header: () => <div className="text-left">Colors</div>,
-    cell: ({ row }) => {
-      const colors = row.original.colors;
-      return <div className="text-left">{colors}</div>;
+      const stock = row.original.stock;
+      return <div className="text-left">{stock}</div>;
     },
   },
   {
@@ -67,19 +59,11 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "category",
-    header: () => <div className="text-left">Category</div>,
+    accessorKey: "createdAt",
+    header: () => <div className="text-left">Created At</div>,
     cell: ({ row }) => {
-      const category = row.original.category;
-      return <div className="text-left">{category}</div>;
-    },
-  },
-  {
-    accessorKey: "date",
-    header: () => <div className="text-left">Date</div>,
-    cell: ({ row }) => {
-      const date = row.original.date;
-      return <div className="text-left">{date}</div>;
+      const rowData = row.original;
+      return <div>{format(rowData.createdAt, "MMMM do, yyyy")}</div>;
     },
   },
   {
@@ -97,6 +81,7 @@ export const columns: ColumnDef<Product>[] = [
           <DropdownMenuContent>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem>View</DropdownMenuItem>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>

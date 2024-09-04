@@ -17,29 +17,26 @@ export const getSizes = async () => {
 };
 
 export async function createSize(formValues: CreateSizeFormData): Promise<Globals.ActionResponse<SizesController.Put>> {
-    try {
-        const res = await fetch(`${process.env.API_BASE_URL}/sizes/`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            method: "PUT",
-            body: JSON.stringify(formValues),
-        });
 
-        if (!res.ok) {
-            const errorData = (await res.json()) as Globals.Error;
-            return { success: false, message: errorData.message || "Failed to create size" };
-        }
+    const res = await fetch(`${process.env.API_BASE_URL}/sizes/`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(formValues),
+    });
 
-        revalidatePath("/admin");
-        revalidatePath("/admin/products");
-        revalidatePath("/admin/sizes");
-        return { success: true, message: "Size created successfully" };
-    } catch (error) {
-        console.log(error);
-        const errorData = (error as Globals.Error).message;
-        return { success: false, message: errorData || "Failed to create size" };
+    if (!res.ok) {
+        const errorData = (await res.json()) as Globals.Error;
+        return { success: false, message: errorData.message || "Failed to create size" };
     }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/products");
+    revalidatePath("/admin/sizes");
+    revalidatePath("/admin/products/create");
+    return { success: true, message: "Size created successfully" };
+
 }
 
 export async function updateSize(id: string, formValues: CreateSizeFormData): Promise<Globals.ActionResponse<SizesController.Patch>> {
@@ -59,6 +56,7 @@ export async function updateSize(id: string, formValues: CreateSizeFormData): Pr
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sizes");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Size updated successfully" };
 }
 
@@ -75,5 +73,6 @@ export async function deleteSize(id: string): Promise<Globals.ActionResponse<Siz
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sizes");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Size deleted successfully" };
 }

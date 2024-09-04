@@ -57,3 +57,27 @@ export const CreateSubCategorySchema = z.object({
     bannerId: z.string().optional(),
     description: z.string().optional()
 })
+
+export const CreateProductSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    description: z.string().min(1, "Description is required"),
+    price: z.number().positive("Price must be positive").min(1, "Price is required"),
+    stock: z.number().positive("Stock must be positive").min(1, "Stock is required"),
+    medias: z.array(z.number()).min(1, "At least one media item is required"),
+    colors: z.array(
+        z.object({
+            id: z.number(),
+            stock: z.number().positive("Stock must be positive"),
+            additionalPrice: z.number().positive("Price must be positive"),
+        })
+    ),
+    sizes: z.array(
+        z.object({
+            id: z.number(),
+            stock: z.number().positive("Stock must be positive"),
+            additionalPrice: z.number().positive("Price must be positive"),
+        })
+    ),
+    categories: z.array(z.number()).min(1, "At least one media item is required"),
+    subcategories: z.array(z.number()),
+});

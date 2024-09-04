@@ -25,6 +25,7 @@ export const uploadFile = async (formData: FormData): Promise<Globals.ActionResp
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/media");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Files uploaded successfully" };
 }
 
@@ -40,5 +41,6 @@ export const deleteFile = async (id: string): Promise<Globals.ActionResponse<Fil
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/media");
+    revalidatePath("/admin/products/create");
     return { success: true, message: "Image deleted successfully" };
 }
