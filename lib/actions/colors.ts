@@ -17,28 +17,22 @@ export const getColors = async () => {
 }
 
 export async function createColor(formValues: CreateColorFormData): Promise<Globals.ActionResponse<ColorsController.Put>> {
-    try {
-        const res = await fetch(`${process.env.API_BASE_URL}/colors/`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            method: "PUT",
-            body: JSON.stringify(formValues),
-        });
+    const res = await fetch(`${process.env.API_BASE_URL}/colors/`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(formValues),
+    });
 
-        if (!res.ok) {
-            const errorData = (await res.json()) as Globals.Error;
-            return { success: false, message: errorData.message || "Failed to create color" };
-        }
-        revalidatePath("/admin");
-        revalidatePath("/admin/products");
-        revalidatePath("/admin/colors");
-        return { success: true, message: "Color created successfully" };
-    } catch (error) {
-        console.log(error);
-        const errorData = (error as Globals.Error).message;
-        return { success: false, message: errorData || "Failed to create color" };
+    if (!res.ok) {
+        const errorData = (await res.json()) as Globals.Error;
+        return { success: false, message: errorData.message || "Failed to create color" };
     }
+    revalidatePath("/admin");
+    revalidatePath("/admin/products");
+    revalidatePath("/admin/colors");
+    return { success: true, message: "Color created successfully" };
 }
 
 export async function updateColor(id: string, formValues: CreateColorFormData): Promise<Globals.ActionResponse<ColorsController.Patch>> {
