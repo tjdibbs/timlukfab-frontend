@@ -43,3 +43,9 @@ export const CreateColorSchema = z.object({
     hexCode: z.string().min(1, "Hex code is required"),
 })
 
+export const CreateCategorySchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    imageId: z.string().min(1, "Image is required"),
+    bannerId: z.string().optional(),
+    description: z.string().optional()
+})
