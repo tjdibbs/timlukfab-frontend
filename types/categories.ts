@@ -11,6 +11,17 @@ export namespace CategoryController {
         deletedAt: string | null;
     };
 
+    interface SubCategory {
+        id: number;
+        name: string;
+        description: string;
+        imageId: number;
+        bannerId: number | null;
+        categoryId: number;
+        createdAt: string;
+        updatedAt: string
+    }
+
     export interface Category {
         id: number;
         name: string;
@@ -21,7 +32,7 @@ export namespace CategoryController {
         updatedAt: string;
         image: Image;
         banner: Image | null;
-        subcategories: any[];
+        subcategories: SubCategory[];
     }
     export interface Get {
         result: {
