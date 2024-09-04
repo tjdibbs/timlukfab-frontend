@@ -34,9 +34,6 @@ const UploadForm = () => {
     onDrop: acceptedFiles => {
       const files = acceptedFiles;
       setImages(files.map(file => URL.createObjectURL(file)));
-      if (files.length === 5) {
-        setText("Max files reached");
-      }
       setFiles(files);
       setText("Click to upload an image or drag and drop");
     },
@@ -90,7 +87,7 @@ const UploadForm = () => {
         open={open}
         setOpen={setOpen}
         title="Upload media"
-        description="Upload your images (max: 5)"
+        description="Upload your images here"
       >
         <form onSubmit={onSubmit}>
           {images && (
