@@ -1,8 +1,16 @@
 "use client";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 const links = [
   {
@@ -29,19 +37,23 @@ const links = [
     id: 5,
     name: "Categories",
     href: "/admin/categories",
+    subItems: [
+      { id: 51, name: "Categories", href: "/admin/categories" },
+      { id: 52, name: "Sub Categories", href: "/admin/sub-categories" },
+    ],
   },
   {
-    id: 6,
+    id: 7,
     name: "Sizes",
     href: "/admin/sizes",
   },
   {
-    id: 7,
+    id: 8,
     name: "Colors",
     href: "/admin/colors",
   },
   {
-    id: 8,
+    id: 9,
     name: "Media",
     href: "/admin/media",
   },
@@ -53,16 +65,44 @@ const Navlinks = () => {
   return (
     <ul className="flex items-center gap-6">
       {links.map(link => {
-        const isActive = pathname.includes(link.href);
+        const isActive =
+          pathname === link.href ||
+          (link.href !== "/admin" && pathname.startsWith(link.href));
+
+        if (link.subItems) {
+          return (
+            <li key={link.id}>
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  className={cn(
+                    "flex items-center font-semibold transition-colors hover:text-black",
+                    isActive ? "text-black" : "text-normal_grey"
+                  )}
+                >
+                  {link.name} <ChevronDown className="ml-1 h-4 w-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {link.subItems.map(subItem => (
+                    <DropdownMenuItem key={subItem.id}>
+                      <Link href={subItem.href} className="block w-full">
+                        {subItem.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </li>
+          );
+        }
 
         return (
           <li key={link.id}>
             <Link
               href={link.href}
-              className={
-                "block font-semibold transition-colors hover:text-black " +
-                (isActive ? "text-black" : "text-normal_grey")
-              }
+              className={cn(
+                "block font-semibold transition-colors hover:text-black",
+                isActive ? "text-black" : "text-normal_grey"
+              )}
             >
               {link.name}
             </Link>
