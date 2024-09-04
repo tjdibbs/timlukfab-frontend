@@ -30,7 +30,8 @@ export async function createColor(formValues: CreateColorFormData): Promise<Glob
             const errorData = (await res.json()) as Globals.Error;
             return { success: false, message: errorData.message || "Failed to create color" };
         }
-
+        revalidatePath("/admin");
+        revalidatePath("/admin/products");
         revalidatePath("/admin/colors");
         return { success: true, message: "Color created successfully" };
     } catch (error) {
@@ -53,7 +54,8 @@ export async function updateColor(id: string, formValues: CreateColorFormData): 
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to update color" };
     }
-
+    revalidatePath("/admin");
+    revalidatePath("/admin/products");
     revalidatePath("/admin/colors");
     return { success: true, message: "Color updated successfully" };
 }
@@ -67,7 +69,8 @@ export async function deleteColor(id: string): Promise<Globals.ActionResponse<Co
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to delete color" };
     }
-
+    revalidatePath("/admin");
+    revalidatePath("/admin/products");
     revalidatePath("/admin/colors");
     return { success: true, message: "Color deleted successfully" };
 }
