@@ -59,7 +59,9 @@ const CreateForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>
+                    Name<span className="text-lg text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="XL" {...field} />
                   </FormControl>
@@ -73,7 +75,9 @@ const CreateForm = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>
+                    Description<span className="text-lg text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Extra Large" {...field} />
                   </FormControl>

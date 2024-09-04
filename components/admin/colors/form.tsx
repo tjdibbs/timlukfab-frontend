@@ -60,7 +60,9 @@ const CreateForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>
+                    Name<span className="text-lg text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="black" {...field} />
                   </FormControl>
@@ -74,7 +76,9 @@ const CreateForm = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>
+                    Description<span className="text-lg text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Black Color" {...field} />
                   </FormControl>
@@ -90,7 +94,9 @@ const CreateForm = () => {
               name="hexCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Hex Code</FormLabel>
+                  <FormLabel>
+                    Hex Code<span className="text-lg text-red-600">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="#000000" {...field} />
                   </FormControl>
