@@ -49,3 +49,11 @@ export const CreateCategorySchema = z.object({
     bannerId: z.string().optional(),
     description: z.string().optional()
 })
+
+export const CreateSubCategorySchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    imageId: z.string().min(1, "Image is required"),
+    categoryId: z.string().min(1, "Category is required"),
+    bannerId: z.string().optional(),
+    description: z.string().optional()
+})

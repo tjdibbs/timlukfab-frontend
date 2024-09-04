@@ -1,5 +1,5 @@
-export namespace CategoryController {
-    interface Image {
+export namespace SubCategoryController {
+    interface CategoryImage {
         id: number;
         filename: string;
         originalName: string;
@@ -11,21 +11,33 @@ export namespace CategoryController {
         deletedAt: string | null;
     };
 
-    export interface Category {
+    interface NestedCategory {
         id: number;
         name: string;
-        description?: string;
+        description: string | null;
         imageId: number;
         bannerId: number | null;
         createdAt: string;
         updatedAt: string;
-        image: Image;
-        banner: Image | null;
-        subcategories: any[];
-    }
+    };
+
+    export interface Category {
+        id: number;
+        name: string;
+        description: string | null;
+        imageId: number;
+        bannerId: number | null;
+        categoryId: number;
+        createdAt: string;
+        updatedAt: string;
+        image: CategoryImage;
+        banner: CategoryImage | null;
+        category: NestedCategory;
+    };
+
     export interface Get {
         result: {
-            categories: Category[],
+            subcategories: Category[],
             count: number,
             hasMore: boolean
         },
