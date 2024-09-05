@@ -64,9 +64,9 @@ const Carousel = () => {
         loop={true}
         className="mySwiper"
       >
-        {banners.map((banner) => (
+        {banners.map(banner => (
           <SwiperSlide key={banner.id}>
-            <div className="relative h-[60vh] max-h-[600px] min-h-[400px] w-full">
+            <div className="relative h-[100vh] max-h-[600px] w-full">
               <Image
                 src={banner.image}
                 alt="Banner image"
