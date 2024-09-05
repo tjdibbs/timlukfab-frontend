@@ -6,8 +6,6 @@ export const metadata: Metadata = {
   description: "Sign in to your account",
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function Page() {
   return <Login />;
 }

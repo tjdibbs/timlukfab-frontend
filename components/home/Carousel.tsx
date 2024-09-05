@@ -20,35 +20,34 @@ import banner4 from "@/assets/images/banners/banner4.jpeg";
 import banner5 from "@/assets/images/banners/banner5.jpeg";
 import banner6 from "@/assets/images/banners/banner6.jpeg";
 import banner7 from "@/assets/images/banners/banner7.jpeg";
-import { v4 as uuidV4 } from "uuid";
 
 const banners = [
   {
-    id: uuidV4(),
+    id: 1,
     image: banner2,
   },
   {
-    id: uuidV4(),
+    id: 2,
     image: banner1,
   },
   {
-    id: uuidV4(),
+    id: 3,
     image: banner3,
   },
   {
-    id: uuidV4(),
+    id: 4,
     image: banner4,
   },
   {
-    id: uuidV4(),
+    id: 5,
     image: banner5,
   },
   {
-    id: uuidV4(),
+    id: 6,
     image: banner6,
   },
   {
-    id: uuidV4(),
+    id: 7,
     image: banner7,
   },
 ];
@@ -66,13 +65,13 @@ const Carousel = () => {
       >
         {banners.map(banner => (
           <SwiperSlide key={banner.id}>
-            <div className="relative h-[100vh] max-h-[600px] w-full">
+            <div className="relative h-[100vh] max-h-[600px] w-full overflow-hidden">
               <Image
                 src={banner.image}
                 alt="Banner image"
                 fill
                 priority
-                className="object-cover"
+                className="object-cover duration-1000 ease-linear hover:scale-125"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
                 <div className="p-4 text-center text-white">

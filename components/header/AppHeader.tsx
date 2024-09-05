@@ -18,7 +18,7 @@ import LogoutButton from "../account/logoutButton";
 const AppHeader = () => {
   const pathname = usePathname();
   const [isOpen, setOpen] = useState(false);
-  const cart = useAppSelector((state) => state.cart);
+  const cart = useAppSelector(state => state.cart);
 
   const openNav = useCallback(() => setOpen(true), []);
   const closeNav = useCallback(() => setOpen(false), []);
@@ -57,7 +57,7 @@ const AppHeader = () => {
             cartLength={cartLength}
           />
         </div>
-        <CategoryList />
+        {categories.length && <CategoryList />}
       </header>
     </Headroom>
   );
@@ -93,7 +93,7 @@ const AccountDropdown = () => {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            {accountLinks.map((link) => (
+            {accountLinks.map(link => (
               <Link
                 key={link.id}
                 href={link.path}
@@ -116,7 +116,7 @@ const AccountDropdown = () => {
 
 const NavLinks = memo(({ pathname }: { pathname: string }) => (
   <ul className="hidden items-center justify-center gap-6 md:flex">
-    {navLinks.map((link) => {
+    {navLinks.map(link => {
       const isActive = pathname === link.path;
       return (
         <li key={link.id}>
@@ -144,7 +144,7 @@ const HeaderActions = memo(
     openCart: () => void;
     cartLength: number;
   }) => {
-    const credentials = useAppSelector((state) => state.auth.token);
+    const credentials = useAppSelector(state => state.auth.token);
 
     return (
       <div className="flex items-center justify-end gap-3 md:gap-4">
@@ -183,7 +183,7 @@ const HeaderActions = memo(
         </button>
       </div>
     );
-  },
+  }
 );
 
 const CategoryList = memo(() => (
@@ -191,7 +191,7 @@ const CategoryList = memo(() => (
     <div className="wrapper no-scrollbar flex items-center overflow-x-auto">
       {categories.map((category, index) => (
         <p
-          key={uuidV4()}
+          key={index + 1}
           className={
             "category-text cursor-pointer whitespace-nowrap rounded px-4 py-1 text-[0.875rem] uppercase hover:bg-gray-100 max-md:text-xs " +
             (index === 0 ? "text-primary" : "text-black")
