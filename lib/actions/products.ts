@@ -63,3 +63,18 @@ export const updateProduct = async (id: string, formValues: CreateFormSchema): P
     revalidatePath("/admin/products/[id]/edit", "page")
     return { success: true, message: "Product updated successfully" };
 }
+
+export async function deleteProduct(id: string): Promise<Globals.ActionResponse<ProductController.Delete>> {
+    const res = await fetch(`${process.env.API_BASE_URL}/products/${id}`, {
+        method: "DELETE",
+    });
+
+    if (!res.ok) {
+        const errorData = (await res.json()) as Globals.Error;
+        return { success: false, message: errorData.message || "Failed to delete product" };
+    }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/products");
+    return { success: true, message: "Product deleted successfully" };
+}

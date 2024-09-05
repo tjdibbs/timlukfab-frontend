@@ -136,4 +136,8 @@ export namespace ProductController {
         product: Product;
         success: boolean
     }
+
+    export interface Delete {
+        success: boolean;
+    }
 }

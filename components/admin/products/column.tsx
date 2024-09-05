@@ -15,6 +15,8 @@ import {
 import { ProductController } from "@/types/products";
 import { format } from "date-fns";
 import Link from "next/link";
+import { deleteProduct } from "@/lib/actions/products";
+import useMessage from "@/hooks/useMessage";
 
 export const columns: ColumnDef<ProductController.Product>[] = [
   {
@@ -52,11 +54,24 @@ export const columns: ColumnDef<ProductController.Product>[] = [
     },
   },
   {
-    accessorKey: "stock",
-    header: () => <div className="text-left">Stock</div>,
+    accessorKey: "colors",
+    header: () => <div className="text-left">Colors</div>,
     cell: ({ row }) => {
-      const stock = row.original.stock;
-      return <div className="text-left">{stock}</div>;
+      const colors = row.original.colors;
+
+      const productColors = colors.map(color => color.hexCode);
+
+      return (
+        <div className="flex items-center gap-1">
+          {productColors.map(color => (
+            <div
+              key={color}
+              style={{ backgroundColor: color }}
+              className="h-3 w-3 rounded-full"
+            ></div>
+          ))}
+        </div>
+      );
     },
   },
   {
@@ -71,6 +86,17 @@ export const columns: ColumnDef<ProductController.Product>[] = [
     id: "actions",
     cell: ({ row }) => {
       const rowData = row.original;
+
+      const { alertMessage } = useMessage();
+
+      const handleDelete = async () => {
+        const res = await deleteProduct(String(rowData.id));
+        if (res.success) {
+          alertMessage(res.message, "success");
+        } else {
+          alertMessage(res.message, "error");
+        }
+      };
 
       return (
         <DropdownMenu>
@@ -88,7 +114,7 @@ export const columns: ColumnDef<ProductController.Product>[] = [
             <DropdownMenuItem>
               <Link href={`/admin/products/${rowData.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
