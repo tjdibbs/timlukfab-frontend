@@ -1,9 +1,9 @@
 "use client";
 
-import { categories, navLinks } from "@/lib/constants";
+import { navLinks } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Heart, Menu, Search, ShoppingCart } from "react-feather";
 import Headroom from "react-headroom";
@@ -14,10 +14,24 @@ import { useIsClient } from "@/hooks/useIsClient";
 import { v4 as uuidV4 } from "uuid";
 import { accountLinks } from "@/data";
 import LogoutButton from "../account/logoutButton";
+import { CategoryController } from "@/types/categories";
+import { getCategories } from "@/lib/actions/categories";
+import CategoryList from "./CategoryList";
+
+const fetchCategories = async () => {
+  const {
+    result: { categories },
+  } = await getCategories();
+
+  return categories;
+};
 
 const AppHeader = () => {
   const pathname = usePathname();
   const [isOpen, setOpen] = useState(false);
+  const [categories, setCategories] = useState<CategoryController.Category[]>(
+    []
+  );
   const cart = useAppSelector(state => state.cart);
 
   const openNav = useCallback(() => setOpen(true), []);
@@ -29,6 +43,10 @@ const AppHeader = () => {
 
   const isClient = useIsClient();
 
+  useEffect(() => {
+    fetchCategories().then(data => setCategories(data));
+  }, []);
+
   if (!isClient) {
     return <AppHeaderSkeleton />;
   }
@@ -37,13 +55,13 @@ const AppHeader = () => {
     <Headroom className="z-[999]">
       {isOpen &&
         createPortal(<Nav isOpen={isOpen} closeFn={closeNav} />, document.body)}
-      <header className="sticky top-0 z-[99999] border-b border-b-[#ccc] bg-white">
+      <header className="relative z-[99999] border-b border-b-[#ccc] bg-white">
         <div className="bg-black text-center text-white">
           <div className="wrapper py-2 text-center text-xs">
             Great news! Free shipping on all orders above N200,000
           </div>
         </div>
-        <div className="wrapper flex items-center justify-between pb-1 pt-2">
+        <div className="wrapper flex items-center justify-between py-4">
           <Link
             href="/"
             className="text-2xl font-bold text-black hover:text-black/60"
@@ -57,7 +75,9 @@ const AppHeader = () => {
             cartLength={cartLength}
           />
         </div>
-        {categories.length && <CategoryList />}
+        {categories.length > 0 && (
+          <CategoryList categories={categories} pathname={pathname} />
+        )}
       </header>
     </Headroom>
   );
@@ -123,7 +143,7 @@ const NavLinks = memo(({ pathname }: { pathname: string }) => (
           <Link
             href={link.path}
             className={`font-semibold uppercase hover:text-black/60 ${
-              isActive ? "text-primary" : "text-black"
+              isActive ? "text-black" : "text-black/60"
             }`}
           >
             {link.name}
@@ -185,24 +205,6 @@ const HeaderActions = memo(
     );
   }
 );
-
-const CategoryList = memo(() => (
-  <div className="bg-[#fefefe] py-4">
-    <div className="wrapper no-scrollbar flex items-center overflow-x-auto">
-      {categories.map((category, index) => (
-        <p
-          key={index + 1}
-          className={
-            "category-text cursor-pointer whitespace-nowrap rounded px-4 py-1 text-[0.875rem] uppercase hover:bg-gray-100 max-md:text-xs " +
-            (index === 0 ? "text-primary" : "text-black")
-          }
-        >
-          {category}
-        </p>
-      ))}
-    </div>
-  </div>
-));
 
 const AppHeaderSkeleton = () => (
   <div className="sticky top-0 z-[99999] border-b border-b-[#ccc] bg-white">
