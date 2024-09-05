@@ -31,6 +31,7 @@ export async function createSize(formValues: CreateSizeFormData): Promise<Global
         return { success: false, message: errorData.message || "Failed to create size" };
     }
 
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sizes");
@@ -53,6 +54,7 @@ export async function updateSize(id: string, formValues: CreateSizeFormData): Pr
         return { success: false, message: errorData.message || "Failed to update size" };
     }
 
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sizes");
@@ -70,6 +72,7 @@ export async function deleteSize(id: string): Promise<Globals.ActionResponse<Siz
         return { success: false, message: errorData.message || "Failed to delete size" };
     }
 
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sizes");

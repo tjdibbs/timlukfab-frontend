@@ -22,6 +22,8 @@ export const uploadFile = async (formData: FormData): Promise<Globals.ActionResp
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to upload files" };
     }
+
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/media");
@@ -38,6 +40,8 @@ export const deleteFile = async (id: string): Promise<Globals.ActionResponse<Fil
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to delete image" };
     }
+
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/media");

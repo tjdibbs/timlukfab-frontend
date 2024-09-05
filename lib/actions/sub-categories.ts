@@ -34,6 +34,8 @@ export const createCategory = async (formValues: CreateFormData): Promise<Global
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to create subcategory" };
     }
+
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sub-categories");
@@ -53,6 +55,8 @@ export const updateCategory = async (id: string, formValues: CreateFormData): Pr
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to update category" };
     }
+
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sub-categories");
@@ -68,6 +72,8 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
         const errorData = (await res.json()) as Globals.Error;
         return { success: false, message: errorData.message || "Failed to delete category" };
     }
+
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/sub-categories");

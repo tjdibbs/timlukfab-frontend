@@ -37,6 +37,7 @@ export const createProduct = async (formValues: CreateFormSchema): Promise<Globa
         return { success: false, message: errorData.message || "Failed to create product" };
     }
 
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/products/create");
@@ -57,6 +58,7 @@ export const updateProduct = async (id: string, formValues: CreateFormSchema): P
         return { success: false, message: errorData.message || "Failed to update product" };
     }
 
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/products/create");
@@ -74,6 +76,7 @@ export async function deleteProduct(id: string): Promise<Globals.ActionResponse<
         return { success: false, message: errorData.message || "Failed to delete product" };
     }
 
+    revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     return { success: true, message: "Product deleted successfully" };
