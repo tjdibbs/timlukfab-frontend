@@ -123,12 +123,17 @@ export namespace ProductController {
     }
 
     export interface GetSingle {
-        result: Product,
+        product: Product,
         success: boolean,
     }
 
     export interface Put {
         product: Product;
         success: boolean;
+    }
+
+    export interface Patch {
+        product: Product;
+        success: boolean
     }
 }

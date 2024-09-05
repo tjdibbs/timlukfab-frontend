@@ -42,3 +42,24 @@ export const createProduct = async (formValues: CreateFormSchema): Promise<Globa
     revalidatePath("/admin/products/create");
     return { success: true, message: "Product created successfully" };
 }
+
+export const updateProduct = async (id: string, formValues: CreateFormSchema): Promise<Globals.ActionResponse<ProductController.Patch>> => {
+    const res = await fetch(`${process.env.API_BASE_URL}/products/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(formValues),
+    })
+
+    if (!res.ok) {
+        const errorData = (await res.json()) as Globals.Error;
+        return { success: false, message: errorData.message || "Failed to update product" };
+    }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/products");
+    revalidatePath("/admin/products/create");
+    revalidatePath("/admin/products/[id]/edit", "page")
+    return { success: true, message: "Product updated successfully" };
+}

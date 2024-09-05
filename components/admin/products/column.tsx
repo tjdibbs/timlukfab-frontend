@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ProductController } from "@/types/products";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export const columns: ColumnDef<ProductController.Product>[] = [
   {
@@ -81,8 +82,12 @@ export const columns: ColumnDef<ProductController.Product>[] = [
           <DropdownMenuContent>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/products/${rowData.id}`}>View</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/products/${rowData.id}/edit`}>Edit</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
