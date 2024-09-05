@@ -14,7 +14,7 @@ interface StatCardProps {
   icon: JSX.Element;
 }
 
-export default function Page() {
+export default async function Page() {
   return (
     <section className="min-h-screen bg-gray-50">
       <div className="wrapper py-8">

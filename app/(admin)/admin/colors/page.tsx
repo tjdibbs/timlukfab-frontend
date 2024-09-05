@@ -36,7 +36,7 @@ export default async function Page() {
           </Button>
         </div>
         <div>
-          <DataTable columns={columns} data={sortedColors} />
+          <DataTable columns={columns} data={sortedColors} searchKey="name" />
         </div>
       </div>
     </section>

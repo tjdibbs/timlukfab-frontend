@@ -1,7 +1,7 @@
 import { AlertCircle } from "lucide-react";
 
 const ErrorMessage = () => (
-  <div className="flex min-h-screen items-center justify-center bg-gray-50">
+  <div className="flex h-screen max-h-[400px] items-center justify-center bg-gray-50">
     <div className="text-center">
       <AlertCircle className="mx-auto mb-4 h-12 w-12 text-red-500" />
       <h2 className="mb-2 text-2xl font-bold text-gray-900">

@@ -27,7 +27,7 @@ export default async function Page() {
           <UploadForm />
         </div>
         <div>
-          <DataTable columns={columns} data={sortedFiles} />
+          <DataTable columns={columns} data={sortedFiles} searchKey="name" />
         </div>
       </div>
     </section>

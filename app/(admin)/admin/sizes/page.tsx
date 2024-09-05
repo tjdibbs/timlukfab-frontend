@@ -36,7 +36,7 @@ export default async function Page() {
           </Button>
         </div>
         <div>
-          <DataTable columns={columns} data={sortedSizes} />
+          <DataTable columns={columns} data={sortedSizes} searchKey="name" />
         </div>
       </div>
     </section>

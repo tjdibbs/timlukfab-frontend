@@ -25,7 +25,11 @@ export default async function Page() {
           <p className="text-sm text-gray-500">Manage your customers</p>
         </div>
         <div>
-          <DataTable columns={columns} data={sortedUsers} />
+          <DataTable
+            columns={columns}
+            data={sortedUsers}
+            searchKey="fullName"
+          />
         </div>
       </div>
     </section>
