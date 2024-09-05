@@ -1,29 +1,17 @@
-import { columns } from "@/components/admin/colors/columns";
-import ErrorMessage from "@/components/admin/ui/error-message";
+import TableSkeletonLoader from "@/components/admin/ui/table-skeleton";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
-import { getColors } from "@/lib/actions/colors";
 import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
+import Table from "./table";
 
 export default async function Page() {
-  const {
-    result: { count, colors },
-    success,
-  } = await getColors();
-
-  if (!success) {
-    return <ErrorMessage />;
-  }
-
-  const sortedColors = colors.sort((a, b) => b.id - a.id);
-
   return (
     <section className="min-h-screen bg-gray-50">
       <div className="wrapper py-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h3 className="mb-1 text-3xl font-extrabold">Colors({count})</h3>
+            <h3 className="mb-1 text-3xl font-extrabold">Colors</h3>
             <p className="text-sm text-gray-500">Manage your colors</p>
           </div>
           <Button>
@@ -35,9 +23,9 @@ export default async function Page() {
             </Link>
           </Button>
         </div>
-        <div>
-          <DataTable columns={columns} data={sortedColors} searchKey="name" />
-        </div>
+        <Suspense fallback={<TableSkeletonLoader />}>
+          <Table />
+        </Suspense>
       </div>
     </section>
   );

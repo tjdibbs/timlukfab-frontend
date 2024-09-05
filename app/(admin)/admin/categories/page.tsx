@@ -5,27 +5,17 @@ import { DataTable } from "@/components/ui/data-table";
 import { getCategories } from "@/lib/actions/categories";
 import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
+import Table from "./table";
+import TableSkeletonLoader from "@/components/admin/ui/table-skeleton";
 
 export default async function Page() {
-  const {
-    result: { count, categories },
-    success,
-  } = await getCategories();
-
-  if (!success) {
-    return <ErrorMessage />;
-  }
-
-  const sorted = categories.sort((a, b) => b.id - a.id);
-
   return (
     <section className="min-h-screen bg-gray-50">
       <div className="wrapper py-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h3 className="mb-1 text-3xl font-extrabold">
-              Categories({count})
-            </h3>
+            <h3 className="mb-1 text-3xl font-extrabold">Categories</h3>
             <p className="text-sm text-gray-500">Manage your categories</p>
           </div>
           <Button>
@@ -37,9 +27,9 @@ export default async function Page() {
             </Link>
           </Button>
         </div>
-        <div>
-          <DataTable columns={columns} data={sorted} searchKey="name" />
-        </div>
+        <Suspense fallback={<TableSkeletonLoader />}>
+          <Table />
+        </Suspense>
       </div>
     </section>
   );
