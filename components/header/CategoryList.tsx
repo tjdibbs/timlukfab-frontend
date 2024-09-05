@@ -63,14 +63,14 @@ const CategoryDropdown = ({
       <AnimatePresence>
         {open && category.subcategories.length > 0 && (
           <motion.div
-            className="absolute left-0 top-full block h-44 w-full bg-white px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+            className="absolute left-0 top-full block min-h-44 w-full bg-white px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
             role="menuitem"
             initial={{ y: 0 }}
             animate={{ y: 0 }}
             exit={{ y: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ul className="space-y-4 py-1">
+            <ul className={"space-y-4 pb-2 pt-1"}>
               {category.subcategories.map(subcategory => (
                 <li key={subcategory.id}>
                   <Link
