@@ -23,10 +23,6 @@ import banner7 from "@/assets/images/banners/banner7.jpeg";
 
 const banners = [
   {
-    id: 1,
-    image: banner2,
-  },
-  {
     id: 2,
     image: banner1,
   },

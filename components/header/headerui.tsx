@@ -34,7 +34,7 @@ const HeaderWrapper = ({ children }: { children: ReactNode }) => {
 
   return (
     <Fragment>
-      <header className="z-50 bg-white">
+      <header className="sticky top-0 z-50 bg-white">
         <Suspense fallback={<AppHeaderSkeleton />}>{children}</Suspense>
       </header>
     </Fragment>
