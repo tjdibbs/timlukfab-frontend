@@ -14,7 +14,7 @@ const BrowseCategories = () => {
         {products.slice(0, 3).map(product => (
           <div
             key={product.id}
-            className="relative h-96 max-md:mx-auto max-md:w-[80%] md:h-72 xl:h-80"
+            className="relative aspect-[11/12] max-md:mx-auto max-md:w-[80%]"
           >
             <Image
               src={product.image}

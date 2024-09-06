@@ -54,15 +54,17 @@ const Product = ({ product, index }: Props) => {
 
   const productImage = useMemo(
     () => (
-      <Image
-        src={product.image}
-        height={260}
-        width={260}
-        alt={product.name}
-        className="h-full w-full max-w-full object-cover transition-transform duration-700 ease-linear hover:scale-105"
-      />
+      <Link href={`/products/${product.id}`} className="block h-full w-full">
+        <Image
+          src={product.image}
+          height={260}
+          width={260}
+          alt={product.name}
+          className="h-full w-full max-w-full object-cover transition-transform duration-700 ease-linear hover:scale-105"
+        />
+      </Link>
     ),
-    [product.image, product.name]
+    [product.image, product.name, product.id]
   );
 
   return (
@@ -82,7 +84,7 @@ const Product = ({ product, index }: Props) => {
           document.body
         )}
       <motion.div
-        className="product-link relative block h-96 cursor-pointer overflow-hidden rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md max-lg:h-72 max-md:h-64 max-sm:h-56"
+        className="product-link relative block aspect-[4/6] cursor-pointer overflow-hidden rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md"
         onMouseEnter={showCartButton}
         onMouseLeave={hideCartButton}
         whileHover={{ scale: 1.02 }}
