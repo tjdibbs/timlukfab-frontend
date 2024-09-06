@@ -11,10 +11,10 @@ const BrowseCategories = () => {
         </span>
       </Divider>
       <div className="grid grid-cols-3 gap-4 max-md:grid-cols-1 max-md:gap-8">
-        {products.slice(0, 3).map((product) => (
+        {products.slice(0, 3).map(product => (
           <div
             key={product.id}
-            className="relative h-80 max-md:mx-auto max-md:h-96 max-md:w-[80%]"
+            className="relative h-96 max-md:mx-auto max-md:w-[80%] md:h-72 xl:h-80"
           >
             <Image
               src={product.image}

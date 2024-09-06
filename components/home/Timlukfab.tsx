@@ -28,16 +28,16 @@ const Timlukfab = () => {
   return (
     <section className="bg-gray-50 py-16">
       <div className="wrapper">
-        <h1 className="mb-8 text-center text-3xl font-bold text-gray-800 max-md:text-xl">
+        <h1 className="mb-8 text-center text-2xl font-bold uppercase text-gray-800 max-md:text-xl">
           Why Choose Timlukfab
         </h1>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {reasons.map((item) => (
+          {reasons.map(item => (
             <div
               key={item.title}
               className="flex flex-col items-center text-center"
             >
-              <div className="mb-4 h-24 w-24 overflow-hidden rounded-full border-4 border-gray-300 shadow-lg">
+              <div className="mb-4 h-20 w-20 overflow-hidden rounded-full border-4 border-gray-300 shadow-lg">
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -46,10 +46,10 @@ const Timlukfab = () => {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <h2 className="mb-2 text-xl font-semibold text-gray-700 max-md:text-lg">
+              <h2 className="mb-2 text-lg font-semibold text-gray-700 max-md:text-base">
                 {item.title}
               </h2>
-              <p className="text-gray-600">{item.description}</p>
+              <p className="text-sm text-gray-600">{item.description}</p>
             </div>
           ))}
         </div>

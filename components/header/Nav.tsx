@@ -55,7 +55,7 @@ const NavLink: React.FC<NavLinkProps> = memo(
         {name}
       </Link>
     </li>
-  ),
+  )
 );
 
 NavLink.displayName = "NavLink";
@@ -68,7 +68,7 @@ interface NavProps {
 const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
   const pathname = usePathname();
 
-  const auth = useAppSelector((state) => state.auth);
+  const auth = useAppSelector(state => state.auth);
 
   useEffect(() => {
     document.body.style.overflowY = isOpen ? "hidden" : "auto";
@@ -83,7 +83,7 @@ const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
         closeFn();
       }
     },
-    [closeFn],
+    [closeFn]
   );
 
   return (
@@ -94,7 +94,7 @@ const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed left-0 top-0 z-[9999999] flex h-screen w-full items-center bg-black/50 md:hidden"
+          className="fixed left-0 top-0 z-[9999999] flex h-screen w-full items-center bg-black/50 lg:hidden"
           onClick={handleBackdropClick}
         >
           <motion.div
@@ -111,7 +111,7 @@ const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
               </button>
             </header>
             <ul className="no-scrollbar h-full overflow-y-scroll">
-              {links.map((item) => (
+              {links.map(item => (
                 <NavLink
                   key={item.path}
                   {...item}

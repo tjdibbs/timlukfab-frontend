@@ -10,9 +10,9 @@ export default function AccountLayout({ children }: Props) {
   return (
     <section>
       <AccountHeader />
-      <div className="wrapper py-6 md:grid md:grid-cols-12">
+      <div className="wrapper py-6 lg:grid lg:grid-cols-12">
         <Sidebar />
-        <div className="col-span-9 md:px-4">{children}</div>
+        <div className="col-span-9 lg:px-4">{children}</div>
       </div>
     </section>
   );

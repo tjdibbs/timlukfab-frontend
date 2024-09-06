@@ -52,7 +52,7 @@ export const products: Product[] = [
 export const accountLinks: AccountLink[] = [
     {
         id: uuidV4(),
-        name: "Dashbaord",
+        name: "Dashboard",
         path: "/account",
     },
     {

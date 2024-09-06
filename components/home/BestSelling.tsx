@@ -50,9 +50,9 @@ const BestSelling = () => {
             },
           }}
         >
-          {products.map((product) => (
+          {products.map(product => (
             <SwiperSlide key={product.id}>
-              <div className="group relative h-64 overflow-hidden md:h-72">
+              <div className="group relative h-72 overflow-hidden max-md:h-80">
                 <Image
                   src={product.image}
                   alt={product.name}

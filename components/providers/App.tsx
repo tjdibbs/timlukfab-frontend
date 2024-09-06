@@ -10,6 +10,7 @@ import { Lato } from "next/font/google";
 import CartProvider from "../cart/cartProvider";
 import GetUser from "@/lib/getUser";
 import StoreProvider from "./StoreProvider";
+import Header from "../header/header";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -32,8 +33,8 @@ const App = memo(({ children }: Props) => {
           <CartProvider>
             <SnackbarProvider maxSnack={3}>
               <GetUser />
-              <Layout className={"app bg-white"}>
-                <AppHeader />
+              <Layout className={"app bg-gray-50"}>
+                <Header />
                 <main className="bg-white">{children}</main>
                 <AppFooter />
               </Layout>

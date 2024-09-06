@@ -49,7 +49,7 @@ const Product = ({ product, index }: Props) => {
         />
       </motion.button>
     ),
-    [displayMobileCartAction],
+    [displayMobileCartAction]
   );
 
   const productImage = useMemo(
@@ -62,7 +62,7 @@ const Product = ({ product, index }: Props) => {
         className="h-full w-full max-w-full object-cover transition-transform duration-700 ease-linear hover:scale-105"
       />
     ),
-    [product.image, product.name],
+    [product.image, product.name]
   );
 
   return (
@@ -79,10 +79,10 @@ const Product = ({ product, index }: Props) => {
             closeFn={hideMobileCartAction}
             isOpen={openMobileCartAction}
           />,
-          document.body,
+          document.body
         )}
       <motion.div
-        className="product-link relative block h-96 cursor-pointer overflow-hidden rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md max-md:h-64"
+        className="product-link relative block h-96 cursor-pointer overflow-hidden rounded-lg shadow-sm transition-shadow duration-300 hover:shadow-md max-lg:h-72 max-md:h-64 max-sm:h-56"
         onMouseEnter={showCartButton}
         onMouseLeave={hideCartButton}
         whileHover={{ scale: 1.02 }}
@@ -122,7 +122,7 @@ const Product = ({ product, index }: Props) => {
         )}
       </motion.div>
       <motion.div
-        className="mt-3 space-y-1"
+        className="mt-3 space-y-[0.125rem]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.2 }}
@@ -142,7 +142,7 @@ const Product = ({ product, index }: Props) => {
             <Heart className="w-5 text-gray-600 transition-colors hover:text-red-500" />
           </motion.button>
         </div>
-        <p className="text-xl font-bold max-md:text-lg">
+        <p className="text-lg font-bold max-md:text-base">
           ${formatNumberWithCommas(product.price)}
         </p>
         <p className="text-xs font-semibold text-primary">
