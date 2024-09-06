@@ -2,7 +2,6 @@
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider, Layout } from "antd";
-import AppHeader from "../header/AppHeader";
 import AppFooter from "../footer/Footer";
 import { memo, ReactNode } from "react";
 import { SnackbarProvider } from "notistack";
