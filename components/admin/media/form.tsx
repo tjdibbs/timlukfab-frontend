@@ -30,6 +30,7 @@ const UploadForm = () => {
       "image/jpeg": [".jpeg", ".jpg"],
       "image/png": [".png"],
       "image/svg": [".svg"],
+      "image/avif": [".avif"],
     },
     onDrop: acceptedFiles => {
       const files = acceptedFiles;
