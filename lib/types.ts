@@ -202,3 +202,10 @@ export type ApiResponse<T> = {
   data: T;
 }
 
+export type BreadCrumbLink = {
+  id: number,
+  name: string,
+  href: string;
+  isPage: boolean;
+  isClickable?: boolean;
+}

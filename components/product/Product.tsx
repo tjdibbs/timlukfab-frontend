@@ -60,6 +60,7 @@ const Product = ({ product, index }: Props) => {
           height={260}
           width={260}
           alt={product.name}
+          priority
           className="h-full w-full max-w-full object-cover transition-transform duration-700 ease-linear hover:scale-105"
         />
       </Link>

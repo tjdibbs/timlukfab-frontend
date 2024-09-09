@@ -25,7 +25,7 @@ const Header = () => {
   );
 };
 
-const HeaderLogo = () => {
+export const HeaderLogo = () => {
   return (
     <Link href="/" className="block w-40 max-md:w-28">
       <Image
@@ -33,6 +33,7 @@ const HeaderLogo = () => {
         alt="logo"
         height={50}
         width={50}
+        priority
         className="w-full max-w-full"
       />
     </Link>

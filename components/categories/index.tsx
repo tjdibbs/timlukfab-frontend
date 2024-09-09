@@ -1,32 +1,29 @@
-import Sidebar from "./sidebar";
-import Products from "./products";
-import SidebarMobile from "./sidebar-mobile";
-import { Fragment, Suspense } from "react";
 import { BreadCrumbLink } from "@/lib/types";
 import BreadCrumbComponent from "../ui/breadcrumb-component";
+import SidebarMobile from "./sidebar-mobile";
+import { Suspense } from "react";
 import SidebarSkeleton from "../ui/sidebarskeleton";
+import Sidebar from "./sidebar";
+import Products from "./products";
+import { Skeleton } from "../ui/skeleton";
+import { getSingleCategory } from "@/lib/actions/categories";
 
-const breadCrumbLinks: BreadCrumbLink[] = [
-  {
-    id: 1,
-    name: "Home",
-    href: "/",
-    isPage: false,
-  },
-  {
-    id: 2,
-    name: "Shop",
-    href: "/shop",
-    isPage: true,
-  },
-];
+const BreadCrumbSkeleton = () => {
+  return (
+    <div>
+      <Skeleton className="h-8 w-56" />
+    </div>
+  );
+};
 
-const Shop = () => {
+const Category = ({ id }: { id: string }) => {
   return (
     <div>
       <div className="mb-8 flex items-center max-md:flex-col max-md:gap-4 md:justify-between">
         <div>
-          <BreadCrumbComponent links={breadCrumbLinks} />
+          <Suspense fallback={<BreadCrumbSkeleton />}>
+            <BreadCrumb id={id} />
+          </Suspense>
         </div>
         <SidebarMobile />
         <div className="flex items-center justify-end gap-8">
@@ -57,4 +54,32 @@ const Shop = () => {
     </div>
   );
 };
-export default Shop;
+
+const BreadCrumb = async ({ id }: { id: string }) => {
+  const { category } = await getSingleCategory(id);
+
+  const breadCrumbLinks: BreadCrumbLink[] = [
+    {
+      id: 1,
+      name: "Home",
+      href: "/",
+      isPage: false,
+    },
+    {
+      id: 2,
+      name: "Categories",
+      href: "/categories",
+      isPage: false,
+      isClickable: false,
+    },
+    {
+      id: 3,
+      name: category.name,
+      href: `/categories/${id}`,
+      isPage: true,
+    },
+  ];
+
+  return <BreadCrumbComponent links={breadCrumbLinks} />;
+};
+export default Category;

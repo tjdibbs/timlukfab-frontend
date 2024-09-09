@@ -1,4 +1,5 @@
 "use client";
+
 import image from "@/assets/images/products/product10.jpg";
 import Image from "next/image";
 

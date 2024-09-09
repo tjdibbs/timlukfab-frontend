@@ -11,6 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { Menu } from "react-feather";
+import { Button } from "@/components/ui/button";
+import { createPortal } from "react-dom";
 
 const links = [
   {
@@ -63,7 +67,7 @@ const Navlinks = () => {
   const pathname = usePathname();
 
   return (
-    <ul className="flex items-center gap-6">
+    <ul className="hidden items-center gap-6 lg:flex">
       {links.map(link => {
         const isActive =
           pathname === link.href ||
@@ -113,20 +117,38 @@ const Navlinks = () => {
   );
 };
 
+const MobileNav = () => {
+  return (
+    <nav className="fixed left-0 top-0 z-[999] flex h-screen w-full items-center bg-black/50 lg:hidden"></nav>
+  );
+};
+
 const AdminHeader = () => {
   return (
     <header>
+      {/* {createPortal(<MobileNav />, document.body)} */}
       <div className="wrapper flex items-center justify-between py-4">
-        <Link href="/" className="text-2xl font-bold">
-          Timlukfab
+        <Link href="/" className="block w-40 max-md:w-28">
+          <Image
+            src={"/identity/logo.png"}
+            alt="logo"
+            height={50}
+            width={50}
+            className="w-full max-w-full"
+          />
         </Link>
 
         <Navlinks />
 
-        <Avatar>
-          <AvatarImage src="" alt="avatar" />
-          <AvatarFallback>BU</AvatarFallback>
-        </Avatar>
+        <div className="flex items-center gap-1">
+          <Button className="lg:hidden" variant={"ghost"}>
+            <Menu />
+          </Button>
+          <Avatar>
+            <AvatarImage src="" alt="avatar" />
+            <AvatarFallback>BU</AvatarFallback>
+          </Avatar>
+        </div>
       </div>
     </header>
   );

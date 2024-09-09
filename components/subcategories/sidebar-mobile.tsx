@@ -8,8 +8,8 @@ import { X } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
 import { AnimatePresence, motion } from "framer-motion";
 import { CategoryController } from "@/types/categories";
-import { CategoryLinks } from "./client";
 import RecentlyViewed from "../ui/recently-viewed";
+import { CategoryLinks } from "./ui";
 import { MobileSidebarSkeleton } from "../ui/sidebarskeleton";
 
 const getCategories = async () => {

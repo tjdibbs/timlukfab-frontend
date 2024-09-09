@@ -1,10 +1,10 @@
-import FilterSlider from "@/components/shop/range";
 import { getCategories } from "@/lib/actions/categories";
 import { Fragment } from "react";
 import { CategoryController } from "@/types/categories";
 import Link from "next/link";
-import { CategoryLinks } from "./client";
+import { CategoryLinks } from "./ui";
 import RecentlyViewed from "../ui/recently-viewed";
+import FilterSlider from "./range";
 
 const Sidebar = async () => {
   const {
