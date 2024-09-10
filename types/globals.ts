@@ -12,4 +12,9 @@ export namespace Globals {
         message: string;
         data?: T | null;
     }
+
+    export interface TokenResponse {
+        renewed: boolean;
+        accessToken: string;
+    }
 }

@@ -30,8 +30,9 @@ async function ProductsWrapper() {
     result: { products, hasMore },
   } = await getProducts();
 
-  if (!products.length)
+  if (!products.length) {
     return <div className="py-8 text-center">No products in store</div>;
+  }
 
   return <Products products={products} hasMore={hasMore} />;
 }

@@ -27,6 +27,11 @@ const authSlice = createSlice({
             Cookies.set("auth", JSON.stringify(state))
             localStorage.setItem("token", JSON.stringify(state))
         },
+        setAccessToken: (state, action: PayloadAction<string>) => {
+            state.token = action.payload
+            Cookies.set("auth", JSON.stringify(state))
+            localStorage.setItem("token", JSON.stringify(state))
+        },
         logout: (state) => {
             state.token = null
             state.refreshToken = null
@@ -36,5 +41,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { setCredentials, logout } = authSlice.actions
+export const { setCredentials, logout, setAccessToken } = authSlice.actions
 export default authSlice.reducer

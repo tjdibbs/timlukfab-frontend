@@ -1,6 +1,5 @@
 import { User } from "@/lib/types"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import userApi from "../services/user"
 
 const getUser = (): User | null => {
     if (typeof window !== "undefined") {
@@ -24,11 +23,6 @@ const userSlice = createSlice({
             state = null
             localStorage.removeItem("user")
         }
-    },
-    extraReducers: (builder) => {
-        builder.addMatcher(userApi.endpoints.getUser.matchFulfilled, (state, action) => {
-            state = action.payload
-        })
     }
 })
 
