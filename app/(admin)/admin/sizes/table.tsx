@@ -1,11 +1,10 @@
-import { columns } from "@/components/admin/sizes/columns";
 import ErrorMessage from "@/components/admin/ui/error-message";
-import { DataTable } from "@/components/ui/data-table";
 import { getSizes } from "@/lib/actions/sizes";
+import ClientTable from "./client";
 
 const Table = async () => {
   const {
-    result: { count, sizes },
+    result: { count, sizes, hasMore },
     success,
   } = await getSizes();
 
@@ -17,7 +16,7 @@ const Table = async () => {
 
   return (
     <div>
-      <DataTable columns={columns} data={sortedSizes} searchKey="name" />
+      <ClientTable data={sortedSizes} hasMore={hasMore} />
     </div>
   );
 };

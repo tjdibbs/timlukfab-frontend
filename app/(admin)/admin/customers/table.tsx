@@ -1,11 +1,10 @@
-import { columns } from "@/components/admin/customers/columns";
 import ErrorMessage from "@/components/admin/ui/error-message";
-import { DataTable } from "@/components/ui/data-table";
 import { getUsers } from "@/lib/actions/users";
+import ClientTable from "./client";
 
 const Table = async () => {
   const {
-    users: { count, users },
+    users: { count, users, hasMore },
     success,
   } = await getUsers();
 
@@ -16,7 +15,7 @@ const Table = async () => {
   const sortedUsers = users.sort((a, b) => b.id - a.id);
   return (
     <div>
-      <DataTable columns={columns} data={sortedUsers} searchKey="fullName" />
+      <ClientTable data={sortedUsers} hasMore={hasMore} />
     </div>
   );
 };

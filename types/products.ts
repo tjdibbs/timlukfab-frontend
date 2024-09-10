@@ -8,7 +8,7 @@ export namespace ProductController {
         updatedAt: string;
     }
 
-    interface Size {
+    export interface Size {
         id: number;
         name: string;
         description: string;
@@ -28,7 +28,7 @@ export namespace ProductController {
         deletedAt: string | null;
     }
 
-    interface Color {
+    export interface Color {
         id: number;
         name: string;
         hexCode: string;
@@ -46,7 +46,7 @@ export namespace ProductController {
         updatedAt: string;
     }
 
-    interface Subcategory {
+    export interface Subcategory {
         id: number;
         name: string;
         description: string;
@@ -66,7 +66,7 @@ export namespace ProductController {
         updatedAt: string;
     }
 
-    interface Category {
+    export interface Category {
         id: number;
         name: string;
         description: string;
@@ -84,7 +84,7 @@ export namespace ProductController {
         updatedAt: string;
     }
 
-    interface Media {
+    export interface Media {
         id: number;
         filename: string;
         originalName: string;

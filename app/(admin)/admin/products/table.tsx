@@ -1,11 +1,10 @@
-import { columns } from "@/components/admin/products/column";
 import ErrorMessage from "@/components/admin/ui/error-message";
-import { DataTable } from "@/components/ui/data-table";
 import { getProducts } from "@/lib/actions/products";
+import ClientTable from "./client";
 
 const Table = async () => {
   const {
-    result: { products, count },
+    result: { products, count, hasMore },
     success,
   } = await getProducts();
 
@@ -16,7 +15,7 @@ const Table = async () => {
   const sortedProducts = products.sort((a, b) => b.id - a.id);
   return (
     <div>
-      <DataTable columns={columns} data={sortedProducts} searchKey="name" />
+      <ClientTable data={sortedProducts} hasMore={hasMore} />
     </div>
   );
 };

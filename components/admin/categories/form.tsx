@@ -23,7 +23,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import useMessage from "@/hooks/useMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,12 +33,26 @@ import { createCategory } from "@/lib/actions/categories";
 
 type Props = {
   images: FileController.File[];
+  hasMore: boolean;
 };
 
 type FormSchema = z.infer<typeof CreateCategorySchema>;
 
-const CreateForm = ({ images }: Props) => {
+const getFiles = async (pageNumber: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/files?pageNumber=${pageNumber}`,
+    {
+      next: { revalidate: 300 },
+    }
+  );
+  const data = await res.json();
+  return data as FileController.Get;
+};
+
+const CreateForm = ({ images, hasMore }: Props) => {
   const [pending, setPending] = useState(false);
+  const [itHasMore, setItHasmore] = useState(hasMore);
+  const [allFiles, setAllFiles] = useState(images);
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(CreateCategorySchema),
@@ -63,6 +77,25 @@ const CreateForm = ({ images }: Props) => {
     console.log(values);
     setPending(false);
   }
+
+  useEffect(() => {
+    let pageNumber = 2;
+    const fetchOtherPages = async () => {
+      const {
+        result: { files, hasMore },
+      } = await getFiles(pageNumber);
+
+      setItHasmore(hasMore);
+      setAllFiles([...allFiles, ...files]);
+      pageNumber++;
+    };
+
+    if (itHasMore) {
+      (async () => {
+        await fetchOtherPages();
+      })();
+    }
+  }, [itHasMore]);
 
   return (
     <div>
@@ -117,17 +150,17 @@ const CreateForm = ({ images }: Props) => {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value?.toString()}
-                    disabled={images.length === 0}
+                    disabled={allFiles.length === 0}
                   >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue
-                          placeholder={`${images.length ? "Select category image" : "No images available"}`}
+                          placeholder={`${allFiles.length ? "Select category image" : "No images available"}`}
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {images.map(image => (
+                      {allFiles.map(image => (
                         <SelectItem key={image.id} value={image.id.toString()}>
                           <div className="flex items-center gap-2">
                             <div className="h-10 w-10 rounded shadow">
@@ -162,17 +195,17 @@ const CreateForm = ({ images }: Props) => {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value?.toString()}
-                    disabled={images.length === 0}
+                    disabled={allFiles.length === 0}
                   >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue
-                          placeholder={`${images.length ? "Select banner image" : "No images available"}`}
+                          placeholder={`${allFiles.length ? "Select banner image" : "No images available"}`}
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {images.map(image => (
+                      {allFiles.map(image => (
                         <SelectItem key={image.id} value={image.id.toString()}>
                           <div className="flex items-center gap-2">
                             <div className="h-10 w-10 rounded shadow">

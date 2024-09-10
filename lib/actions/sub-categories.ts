@@ -8,8 +8,8 @@ import { revalidatePath } from "next/cache"
 
 type CreateFormData = z.infer<typeof CreateSubCategorySchema>
 export const getSubCategories = async (): Promise<SubCategoryController.Get> => {
-    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/`, {
-        next: { revalidate: 3600 }
+    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories?pageSize=25`, {
+        next: { revalidate: 120 }
     })
 
     return res.json()
@@ -37,7 +37,7 @@ export const createCategory = async (formValues: CreateFormData): Promise<Global
 
     revalidatePath("/")
     revalidatePath("/admin");
-    revalidatePath("/admin/products");
+    revalidatePath("/admin/products/create");
     revalidatePath("/admin/sub-categories");
     return { success: true, message: "Sub Category created successfully" };
 }
@@ -58,7 +58,7 @@ export const updateCategory = async (id: string, formValues: CreateFormData): Pr
 
     revalidatePath("/")
     revalidatePath("/admin");
-    revalidatePath("/admin/products");
+    revalidatePath("/admin/products/create");
     revalidatePath("/admin/sub-categories");
     return { success: true, message: "Category updated successfully" };
 }
@@ -75,7 +75,7 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
 
     revalidatePath("/")
     revalidatePath("/admin");
-    revalidatePath("/admin/products");
+    revalidatePath("/admin/products/create");
     revalidatePath("/admin/sub-categories");
     return { success: true, message: "Category deleted successfully" };
 }

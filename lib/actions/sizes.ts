@@ -9,8 +9,8 @@ import { Globals } from "@/types/globals";
 type CreateSizeFormData = z.infer<typeof CreateSizeSchema>;
 
 export const getSizes = async () => {
-    const res = await fetch(`${process.env.API_BASE_URL}/sizes/`, {
-        next: { revalidate: 3600 },
+    const res = await fetch(`${process.env.API_BASE_URL}/sizes?pageSize=25`, {
+        next: { revalidate: 120 },
     });
     const data = await res.json();
     return data as SizesController.Get;

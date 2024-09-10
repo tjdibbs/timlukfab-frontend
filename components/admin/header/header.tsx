@@ -15,6 +15,7 @@ import Image from "next/image";
 import { Menu } from "react-feather";
 import { Button } from "@/components/ui/button";
 import { createPortal } from "react-dom";
+import logo from "@/assets/images/logo.png";
 
 const links = [
   {
@@ -130,7 +131,7 @@ const AdminHeader = () => {
       <div className="wrapper flex items-center justify-between py-4">
         <Link href="/" className="block w-40 max-md:w-28">
           <Image
-            src={"/identity/logo.png"}
+            src={logo}
             alt="logo"
             height={50}
             width={50}

@@ -8,8 +8,8 @@ import { revalidatePath } from "next/cache";
 
 type CreateFormData = z.infer<typeof CreateCategorySchema>
 export const getCategories = async () => {
-    const res = await fetch(`${process.env.API_BASE_URL}/categories/`, {
-        next: { revalidate: 3600 },
+    const res = await fetch(`${process.env.API_BASE_URL}/categories?pageSize=25`, {
+        next: { revalidate: 120 },
     })
 
     const data = await res.json()
@@ -17,7 +17,9 @@ export const getCategories = async () => {
 }
 
 export const getSingleCategory = async (id: string) => {
-    const res = await fetch(`${process.env.API_BASE_URL}/categories/${id}`)
+    const res = await fetch(`${process.env.API_BASE_URL}/categories/${id}`, {
+        next: { revalidate: 300 }
+    })
 
     const data = await res.json();
     return data as CategoryController.GetSingle
@@ -41,6 +43,7 @@ export const createCategory = async (formValues: CreateFormData): Promise<Global
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/sub-categories/create");
     revalidatePath("/admin/products/create");
     return { success: true, message: "Category created successfully" };
 }
@@ -63,6 +66,7 @@ export const updateCategory = async (id: string, formValues: CreateFormData): Pr
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/sub-categories/create");
     revalidatePath("/admin/products/create");
     return { success: true, message: "Category updated successfully" };
 }

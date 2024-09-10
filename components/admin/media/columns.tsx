@@ -46,7 +46,7 @@ export const columns: ColumnDef<FileController.File>[] = [
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "originalName",
     header: () => <div className="text-left">Name</div>,
     cell: ({ row }) => {
       const rowData = row.original;

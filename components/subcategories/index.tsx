@@ -7,6 +7,8 @@ import SidebarSkeleton from "../ui/sidebarskeleton";
 import Sidebar from "./sidebar";
 import Products from "./products";
 import SidebarMobile from "./sidebar-mobile";
+import { getProducts } from "@/lib/actions/products";
+import ProductsSkeleton from "../ui/product-skeleton";
 
 const BreadCrumbSkeleton = () => {
   return (
@@ -14,6 +16,22 @@ const BreadCrumbSkeleton = () => {
       <Skeleton className="h-8 w-56" />
     </div>
   );
+};
+
+const ProductsWrapper = async ({
+  subcategoryId,
+}: {
+  subcategoryId: number;
+}) => {
+  const {
+    result: { products, hasMore },
+  } = await getProducts();
+
+  const sorted = products.filter(product =>
+    product.subcategories.some(subcategory => subcategory.id === subcategoryId)
+  );
+
+  return <Products data={sorted} hasMore={hasMore} />;
 };
 
 const Subcategory = ({ subcategoryId }: { subcategoryId: string }) => {
@@ -49,7 +67,9 @@ const Subcategory = ({ subcategoryId }: { subcategoryId: string }) => {
         <Suspense fallback={<SidebarSkeleton />}>
           <Sidebar />
         </Suspense>
-        <Products />
+        <Suspense fallback={<ProductsSkeleton />}>
+          <ProductsWrapper subcategoryId={Number(subcategoryId)} />
+        </Suspense>
       </div>
     </div>
   );

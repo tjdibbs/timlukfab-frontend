@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import HeaderWrapper, { HeaderActions, NavLinks } from "./headerui";
+import HeaderWrapper, { HeaderActions, NavLinks } from "./ui";
+import logo from "@/assets/images/logo.png";
 
 const Header = () => {
   return (
@@ -29,7 +30,7 @@ export const HeaderLogo = () => {
   return (
     <Link href="/" className="block w-40 max-md:w-28">
       <Image
-        src={"/identity/logo.png"}
+        src={logo}
         alt="logo"
         height={50}
         width={50}

@@ -6,7 +6,9 @@ const useProductInteractions = () => {
     const [openMobileCartAction, setOpenMobileCartAction] = useState(false);
 
     const showCartButton = useCallback(() => {
-        setShowCartActionButton(true);
+        if (!showCartAction) {
+            setShowCartActionButton(true);
+        }
     }, []);
 
     const hideCartButton = useCallback(() => {
@@ -14,6 +16,7 @@ const useProductInteractions = () => {
     }, []);
 
     const displayCartAction = useCallback(() => {
+        setShowCartActionButton(false);
         setShowCartAction(true);
     }, []);
 

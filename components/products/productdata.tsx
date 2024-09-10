@@ -4,14 +4,15 @@ import { Rating } from "@mui/material";
 import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { ProductController } from "@/types/products";
 
 type Option = "description" | "reviews";
 
-const ProductData = () => {
-  const [activeBtn, setActiveBtn] = useState<Option>("reviews");
+const ProductData = ({ product }: { product: ProductController.Product }) => {
+  const [activeBtn, setActiveBtn] = useState<Option>("description");
 
   return (
-    <section className="mt-12">
+    <section className="mb-8 mt-12">
       <div className="items-center gap-4 border-t border-t-gray-400 max-md:space-y-2 md:flex">
         <button
           className={`whitespace-nowrap border-t-2 py-2 text-left text-sm font-semibold text-normal_grey transition-colors hover:text-black max-md:w-full ${activeBtn === "description" ? "border-t-dark_blue text-black" : "border-t-transparent"}`}
@@ -28,18 +29,19 @@ const ProductData = () => {
         </button>
       </div>
 
-      {activeBtn === "description" ? <DescriptionData /> : <Reviews />}
+      {activeBtn === "description" ? (
+        <DescriptionData description={product.description} />
+      ) : (
+        <Reviews />
+      )}
     </section>
   );
 };
 
-const DescriptionData = () => {
+const DescriptionData = ({ description }: { description: string }) => {
   return (
     <div>
-      <p className="mt-4 text-gray-500">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam dolore
-        qui explicabo veritatis non repudiandae.
-      </p>
+      <p className="mt-4 text-gray-500">{description}</p>
     </div>
   );
 };

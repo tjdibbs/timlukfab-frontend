@@ -1,11 +1,10 @@
-import { columns } from "@/components/admin/colors/columns";
 import ErrorMessage from "@/components/admin/ui/error-message";
-import { DataTable } from "@/components/ui/data-table";
 import { getColors } from "@/lib/actions/colors";
+import ClientTable from "./client";
 
 const Table = async () => {
   const {
-    result: { count, colors },
+    result: { count, colors, hasMore },
     success,
   } = await getColors();
 
@@ -17,7 +16,7 @@ const Table = async () => {
 
   return (
     <div>
-      <DataTable columns={columns} data={sortedColors} searchKey="name" />
+      <ClientTable data={sortedColors} hasMore={hasMore} />
     </div>
   );
 };

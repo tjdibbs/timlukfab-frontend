@@ -11,7 +11,7 @@ export default async function Page() {
     result: { colors },
   } = await getColors();
   const {
-    result: { files },
+    result: { files, hasMore },
   } = await getFiles();
   const {
     result: { categories },
@@ -37,6 +37,7 @@ export default async function Page() {
           sizes={sizes}
           categories={categories}
           images={files}
+          imagesHasMore={hasMore}
         />
       </div>
     </section>

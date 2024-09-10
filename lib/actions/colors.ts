@@ -9,8 +9,8 @@ import { CreateColorSchema } from "../schemas";
 type CreateColorFormData = z.infer<typeof CreateColorSchema>;
 
 export const getColors = async () => {
-    const res = await fetch(`${process.env.API_BASE_URL}/colors/`, {
-        next: { revalidate: 3600 },
+    const res = await fetch(`${process.env.API_BASE_URL}/colors?pageSize=25`, {
+        next: { revalidate: 120 },
     });
     const data = await res.json();
     return data as ColorsController.Get;

@@ -1,11 +1,10 @@
-import { columns } from "@/components/admin/categories/columns";
 import ErrorMessage from "@/components/admin/ui/error-message";
-import { DataTable } from "@/components/ui/data-table";
 import { getCategories } from "@/lib/actions/categories";
+import ClientTable from "./client";
 
 const Table = async () => {
   const {
-    result: { count, categories },
+    result: { count, categories, hasMore },
     success,
   } = await getCategories();
 
@@ -17,7 +16,7 @@ const Table = async () => {
 
   return (
     <div>
-      <DataTable columns={columns} data={sorted} searchKey="name" />
+      <ClientTable data={sorted} hasMore={hasMore} />
     </div>
   );
 };

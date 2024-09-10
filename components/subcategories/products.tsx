@@ -1,13 +1,53 @@
-import Product from "@/components/product/Product";
-import { products } from "@/data";
+"use client";
 
-const Products = () => {
+import Product from "@/components/product";
+import { ProductController } from "@/types/products";
+import { Fragment, useState } from "react";
+import {
+  Pagination,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
+
+type Props = {
+  data: ProductController.Product[];
+  hasMore: boolean;
+};
+
+const getProducts = async (): Promise<ProductController.Get> => {
+  const res = await fetch(`${process.env.API_BASE_URL}/products`, {
+    next: {
+      revalidate: 100,
+    },
+  });
+
+  return res.json();
+};
+
+const Products = ({ data, hasMore }: Props) => {
   return (
-    <div className="col-span-9 grid grid-cols-2 gap-2 lg:grid-cols-3">
-      {products.map((product, index) => (
-        <Product key={product.id} product={product} index={index} />
-      ))}
-    </div>
+    <Fragment>
+      <div
+        style={{ rowGap: "0.75rem" }}
+        className="col-span-9 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4"
+      >
+        {data.map((product, index) => (
+          <Product key={product.id} product={product} />
+        ))}
+      </div>
+      {/* <div>
+        <Pagination>
+          <PaginationItem>
+            <PaginationPrevious />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext />
+          </PaginationItem>
+        </Pagination>
+      </div> */}
+    </Fragment>
   );
 };
+
 export default Products;

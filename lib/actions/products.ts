@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 
 type CreateFormSchema = z.infer<typeof CreateProductSchema>
 export const getProducts = async (): Promise<ProductController.Get> => {
-    const res = await fetch(`${process.env.API_BASE_URL}/products`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/products?pageSize=25`, {
         next: {
             revalidate: 100
         },
@@ -16,6 +16,19 @@ export const getProducts = async (): Promise<ProductController.Get> => {
 
     return res.json()
 }
+
+// export const getProductsForSpecificCategory = async (id: number): Promise<ProductController.Product[]> => {
+//     const res = await fetch(`${process.env.API_BASE_URL}/products?pageSize=25`, {
+//         next: {
+//             revalidate: 100
+//         },
+//     })
+
+//     const data: ProductController.Get = await res.json()
+//     const { result: { products } } = data
+
+//     return []
+// }
 
 export const getSingleProduct = async (id: string): Promise<ProductController.GetSingle> => {
     const res = await fetch(`${process.env.API_BASE_URL}/products/${id}`)
@@ -40,7 +53,6 @@ export const createProduct = async (formValues: CreateFormSchema): Promise<Globa
     revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
-    revalidatePath("/admin/products/create");
     return { success: true, message: "Product created successfully" };
 }
 
@@ -61,7 +73,6 @@ export const updateProduct = async (id: string, formValues: CreateFormSchema): P
     revalidatePath("/")
     revalidatePath("/admin");
     revalidatePath("/admin/products");
-    revalidatePath("/admin/products/create");
     revalidatePath("/admin/products/[id]/edit", "page")
     return { success: true, message: "Product updated successfully" };
 }

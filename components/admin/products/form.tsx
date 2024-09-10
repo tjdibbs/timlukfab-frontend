@@ -39,12 +39,32 @@ type Props = {
   sizes: SizesController.Size[];
   categories: CategoryController.Category[];
   images: FileController.File[];
+  imagesHasMore: boolean;
 };
 
 type FormSchema = z.infer<typeof CreateProductSchema>;
 
-const CreateForm = ({ colors, sizes, categories, images }: Props) => {
+const getFiles = async (pageNumber: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/files?pageNumber=${pageNumber}`,
+    {
+      next: { revalidate: 300 },
+    }
+  );
+  const data = await res.json();
+  return data as FileController.Get;
+};
+
+const CreateForm = ({
+  colors,
+  sizes,
+  categories,
+  images,
+  imagesHasMore,
+}: Props) => {
   const [pending, setPending] = useState(false);
+  const [itHasMore, setItHasmore] = useState(imagesHasMore);
+  const [allFiles, setAllFiles] = useState(images);
   const [subcategories, setSubcategories] = useState<
     CategoryController.SubCategory[]
   >([]);
@@ -80,6 +100,25 @@ const CreateForm = ({ colors, sizes, categories, images }: Props) => {
     }
     setPending(false);
   }
+
+  useEffect(() => {
+    let pageNumber = 2;
+    const fetchOtherPages = async () => {
+      const {
+        result: { files, hasMore },
+      } = await getFiles(pageNumber);
+
+      setItHasmore(hasMore);
+      setAllFiles([...allFiles, ...files]);
+      pageNumber++;
+    };
+
+    if (itHasMore) {
+      (async () => {
+        await fetchOtherPages();
+      })();
+    }
+  }, [itHasMore]);
 
   return (
     <div>
@@ -534,7 +573,7 @@ const CreateForm = ({ colors, sizes, categories, images }: Props) => {
             <FormLabel className="block text-lg font-bold">Images</FormLabel>
             <div className="flex flex-wrap items-center gap-1">
               {mediaValues.map(value => {
-                const image = images.find(img => img.id === value);
+                const image = allFiles.find(img => img.id === value);
 
                 if (!image) {
                   return null;
@@ -564,7 +603,7 @@ const CreateForm = ({ colors, sizes, categories, images }: Props) => {
               </PopoverTrigger>
               <PopoverContent>
                 <div className="grid h-64 grid-cols-3 gap-1 overflow-y-auto">
-                  {images.map(image => (
+                  {allFiles.map(image => (
                     <FormField
                       key={image.id}
                       control={form.control}

@@ -1,9 +1,10 @@
 "use client";
 
-import { products } from "@/data";
+import { ProductController } from "@/types/products";
 import { formatNumberWithCommas } from "@/utils/functions";
 import { Divider } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Navigation,
   Pagination,
@@ -13,7 +14,11 @@ import {
 } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const BestSelling = () => {
+type Props = {
+  products: ProductController.Product[];
+};
+
+const BestSelling = ({ products }: Props) => {
   return (
     <div className="wrapper my-8 md:my-16">
       <div className="mb-6 md:mb-8">
@@ -29,7 +34,7 @@ const BestSelling = () => {
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
           autoplay={{ delay: 5000 }}
-          loop={true}
+          loop={products.length > 4}
           scrollbar={{ draggable: true }}
           breakpoints={{
             0: {
@@ -54,21 +59,24 @@ const BestSelling = () => {
             <SwiperSlide key={product.id}>
               <div className="group relative aspect-[5/6] overflow-hidden">
                 <Image
-                  src={product.image}
+                  src={product.medias[0].path}
                   alt={product.name}
                   height={500}
                   width={500}
                   className="z-[-1] h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute bottom-0 left-0 w-full translate-y-full bg-black bg-opacity-70 p-3 transition-transform duration-300 group-hover:translate-y-0">
-                  <p className="mb-1 text-xs font-semibold uppercase text-[#d9d9d9]">
-                    all collections
-                  </p>
+                  <Link
+                    href="/shop"
+                    className="mb-1 text-xs font-semibold uppercase text-[#d9d9d9]"
+                  >
+                    shop
+                  </Link>
                   <p className="mb-1 text-sm font-semibold text-white">
                     {product.name}
                   </p>
                   <p className="text-base font-semibold text-white">
-                    ${formatNumberWithCommas(product.price)}
+                    ${formatNumberWithCommas(Number(product.price))}
                   </p>
                 </div>
               </div>

@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 
 export default async function Page() {
   const {
-    result: { files },
+    result: { files, hasMore },
   } = await getFiles();
 
   const {
@@ -29,7 +29,7 @@ export default async function Page() {
           </div>
           <Separator className="my-4" />
         </div>
-        <CreateForm images={sorted} categories={categories} />
+        <CreateForm images={sorted} categories={categories} hasMore={hasMore} />
       </div>
     </section>
   );

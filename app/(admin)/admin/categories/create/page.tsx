@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 export default async function Page() {
   const {
-    result: { files },
+    result: { files, hasMore },
   } = await getFiles();
 
   const sorted = files.sort((a, b) => a.id - b.id);
@@ -22,7 +22,7 @@ export default async function Page() {
           </div>
           <Separator className="my-4" />
         </div>
-        <CreateForm images={sorted} />
+        <CreateForm images={sorted} hasMore={hasMore} />
       </div>
     </section>
   );

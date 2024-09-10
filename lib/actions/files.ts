@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export const getFiles = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/files/`, {
-        next: { revalidate: 3600 },
+        next: { revalidate: 120 },
     });
     const data = await res.json();
     return data as FileController.Get;
@@ -27,6 +27,8 @@ export const uploadFile = async (formData: FormData): Promise<Globals.ActionResp
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/media");
+    revalidatePath("/admin/categories/create");
+    revalidatePath("/admin/sub-categories/create");
     revalidatePath("/admin/products/create");
     return { success: true, message: "Files uploaded successfully" };
 }
@@ -45,6 +47,8 @@ export const deleteFile = async (id: string): Promise<Globals.ActionResponse<Fil
     revalidatePath("/admin");
     revalidatePath("/admin/products");
     revalidatePath("/admin/media");
+    revalidatePath("/admin/categories/create");
+    revalidatePath("/admin/sub-categories/create");
     revalidatePath("/admin/products/create");
     return { success: true, message: "Image deleted successfully" };
 }
