@@ -7,6 +7,8 @@ import { Fragment, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import MobileCartAction from "./mobile-action";
+import { useIsClient } from "@/hooks/useIsClient";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {
   product: ProductController.Product;
@@ -24,6 +26,16 @@ const Product = ({ product }: Props) => {
     displayMobileCartAction,
     hideMobileCartAction,
   } = useProductInteractions();
+
+  const isClient = useIsClient();
+
+  if (!isClient) {
+    return (
+      <div>
+        <Skeleton className="aspect-[4/6] w-full" />
+      </div>
+    );
+  }
 
   return (
     <Fragment>

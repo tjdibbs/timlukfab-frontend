@@ -15,10 +15,6 @@ type Props = {
 
 const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
   useEffect(() => {
-    console.log("is displaying");
-  }, []);
-
-  useEffect(() => {
     if (isOpen) {
       document.body.style.overflowY = "hidden";
     } else {

@@ -10,6 +10,8 @@ import { Button } from "../ui/button";
 import { Heart, ShoppingCart, X } from "lucide-react";
 import { formatNumberWithCommas } from "@/utils/functions";
 import { useAppSelector } from "@/lib/redux/store";
+import { useIsClient } from "@/hooks/useIsClient";
+import { Skeleton } from "../ui/skeleton";
 
 export const CartActionButton = memo(() => {
   return <MotionDiv></MotionDiv>;
@@ -87,6 +89,8 @@ export const ProductImage = memo(
   }) => {
     const productHasSizes = useMemo(() => product.sizes.length > 0, [product]);
 
+    const isClient = useIsClient();
+
     const action = () => {
       if (productHasSizes) {
         displayCartAction();
@@ -98,6 +102,14 @@ export const ProductImage = memo(
         displayMobileCartAction();
       }
     };
+
+    if (!isClient) {
+      return (
+        <div>
+          <Skeleton className="aspect-[4/6] w-full" />
+        </div>
+      );
+    }
 
     return (
       <div className="relative hover:shadow-md">
