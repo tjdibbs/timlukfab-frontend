@@ -1,6 +1,6 @@
 "use server"
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { SizesController } from "@/types/sizes";
 import { CreateSizeSchema } from "../schemas";
@@ -10,7 +10,7 @@ type CreateSizeFormData = z.infer<typeof CreateSizeSchema>;
 
 export const getSizes = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/sizes?pageSize=25`, {
-        next: { revalidate: 120 },
+        next: { revalidate: 120, tags: ["Sizes"] },
     });
     const data = await res.json();
     return data as SizesController.Get;
@@ -31,11 +31,7 @@ export async function createSize(formValues: CreateSizeFormData): Promise<Global
         return { success: false, message: errorData.message || "Failed to create size" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/sizes");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Sizes")
     return { success: true, message: "Size created successfully" };
 
 }
@@ -54,11 +50,7 @@ export async function updateSize(id: string, formValues: CreateSizeFormData): Pr
         return { success: false, message: errorData.message || "Failed to update size" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/sizes");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Sizes")
     return { success: true, message: "Size updated successfully" };
 }
 
@@ -72,10 +64,6 @@ export async function deleteSize(id: string): Promise<Globals.ActionResponse<Siz
         return { success: false, message: errorData.message || "Failed to delete size" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/sizes");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Sizes")
     return { success: true, message: "Size deleted successfully" };
 }

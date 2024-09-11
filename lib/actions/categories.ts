@@ -4,12 +4,12 @@ import { CategoryController } from "@/types/categories";
 import { Globals } from "@/types/globals";
 import { z } from "zod";
 import { CreateCategorySchema } from "../schemas";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type CreateFormData = z.infer<typeof CreateCategorySchema>
 export const getCategories = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/categories?pageSize=25`, {
-        next: { revalidate: 120 },
+        next: { revalidate: 120, tags: ["Categories"] },
     })
 
     const data = await res.json()
@@ -39,12 +39,7 @@ export const createCategory = async (formValues: CreateFormData): Promise<Global
         return { success: false, message: errorData.message || "Failed to create category" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/categories");
-    revalidatePath("/admin/sub-categories/create");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Categories")
     return { success: true, message: "Category created successfully" };
 }
 
@@ -62,12 +57,7 @@ export const updateCategory = async (id: string, formValues: CreateFormData): Pr
         return { success: false, message: errorData.message || "Failed to update category" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/categories");
-    revalidatePath("/admin/sub-categories/create");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Categories")
     return { success: true, message: "Category updated successfully" };
 }
 
@@ -81,10 +71,6 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
         return { success: false, message: errorData.message || "Failed to delete category" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/categories");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Categories")
     return { success: true, message: "Category deleted successfully" };
 }

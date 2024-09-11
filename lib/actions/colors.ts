@@ -2,7 +2,7 @@
 
 import { Globals } from "@/types/globals";
 import { ColorsController } from "@/types/colors";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { CreateColorSchema } from "../schemas";
 
@@ -10,7 +10,7 @@ type CreateColorFormData = z.infer<typeof CreateColorSchema>;
 
 export const getColors = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/colors?pageSize=25`, {
-        next: { revalidate: 120 },
+        next: { revalidate: 120, tags: ["Colors"] },
     });
     const data = await res.json();
     return data as ColorsController.Get;
@@ -30,11 +30,7 @@ export async function createColor(formValues: CreateColorFormData): Promise<Glob
         return { success: false, message: errorData.message || "Failed to create color" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/colors");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Colors")
     return { success: true, message: "Color created successfully" };
 }
 
@@ -52,11 +48,7 @@ export async function updateColor(id: string, formValues: CreateColorFormData): 
         return { success: false, message: errorData.message || "Failed to update color" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/colors");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Colors")
     return { success: true, message: "Color updated successfully" };
 }
 
@@ -70,10 +62,6 @@ export async function deleteColor(id: string): Promise<Globals.ActionResponse<Co
         return { success: false, message: errorData.message || "Failed to delete color" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/colors");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Colors")
     return { success: true, message: "Color deleted successfully" };
 }

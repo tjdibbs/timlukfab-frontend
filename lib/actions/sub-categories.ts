@@ -4,19 +4,21 @@ import { Globals } from "@/types/globals"
 import { SubCategoryController } from "@/types/sub-categories"
 import { z } from "zod"
 import { CreateSubCategorySchema } from "../schemas"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 type CreateFormData = z.infer<typeof CreateSubCategorySchema>
 export const getSubCategories = async (): Promise<SubCategoryController.Get> => {
     const res = await fetch(`${process.env.API_BASE_URL}/sub-categories?pageSize=25`, {
-        next: { revalidate: 120 }
+        next: { revalidate: 120, tags: ["SubCategories"] }
     })
 
     return res.json()
 }
 
 export const getSingleCategory = async (id: string): Promise<SubCategoryController.GetSingle> => {
-    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/${id}`)
+    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/${id}`, {
+        next: { revalidate: 300 }
+    })
 
     return res.json()
 }
@@ -35,10 +37,7 @@ export const createCategory = async (formValues: CreateFormData): Promise<Global
         return { success: false, message: errorData.message || "Failed to create subcategory" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products/create");
-    revalidatePath("/admin/sub-categories");
+    revalidateTag("SubCategories")
     return { success: true, message: "Sub Category created successfully" };
 }
 
@@ -56,10 +55,7 @@ export const updateCategory = async (id: string, formValues: CreateFormData): Pr
         return { success: false, message: errorData.message || "Failed to update category" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products/create");
-    revalidatePath("/admin/sub-categories");
+    revalidateTag("SubCategories")
     return { success: true, message: "Category updated successfully" };
 }
 
@@ -73,10 +69,7 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
         return { success: false, message: errorData.message || "Failed to delete category" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products/create");
-    revalidatePath("/admin/sub-categories");
+    revalidateTag("SubCategories")
     return { success: true, message: "Category deleted successfully" };
 }
 

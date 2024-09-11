@@ -2,11 +2,11 @@
 
 import { Globals } from "@/types/globals";
 import { FileController } from "@/types/files";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const getFiles = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/files/`, {
-        next: { revalidate: 120 },
+        next: { revalidate: 120, tags: ["Files"] },
     });
     const data = await res.json();
     return data as FileController.Get;
@@ -23,13 +23,7 @@ export const uploadFile = async (formData: FormData): Promise<Globals.ActionResp
         return { success: false, message: errorData.message || "Failed to upload files" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/media");
-    revalidatePath("/admin/categories/create");
-    revalidatePath("/admin/sub-categories/create");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Files")
     return { success: true, message: "Files uploaded successfully" };
 }
 
@@ -43,12 +37,6 @@ export const deleteFile = async (id: string): Promise<Globals.ActionResponse<Fil
         return { success: false, message: errorData.message || "Failed to delete image" };
     }
 
-    revalidatePath("/")
-    revalidatePath("/admin");
-    revalidatePath("/admin/products");
-    revalidatePath("/admin/media");
-    revalidatePath("/admin/categories/create");
-    revalidatePath("/admin/sub-categories/create");
-    revalidatePath("/admin/products/create");
+    revalidateTag("Files")
     return { success: true, message: "Image deleted successfully" };
 }
