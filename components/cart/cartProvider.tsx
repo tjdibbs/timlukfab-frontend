@@ -11,33 +11,20 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Separator } from "../ui/separator";
-import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
-import { Button } from "../ui/button";
-import { Minus, Plus } from "lucide-react";
-import Image from "next/image";
-import {
-  addToCart,
-  removeFromCart,
-  clearCart,
-  incrementQuantity,
-  decrementQuantity,
-} from "@/lib/redux/features/cart";
-import { motion, AnimatePresence } from "framer-motion";
-import { CartItem as CartItemType } from "@/lib/types";
-import CartItem from "./cartItem";
+import { AnimatePresence } from "framer-motion";
 import CartOverlay from "./cartOverlay";
+import { useGetCartQuery } from "@/lib/redux/services/cart";
 
 type Context = {
   open: boolean;
-  total: number;
+  cartLength: number;
   openCart: () => void;
   closeCart: () => void;
 };
 
 const CartContext = createContext<Context>({
   open: false,
-  total: 0,
+  cartLength: 0,
   openCart: () => {},
   closeCart: () => {},
 });
@@ -51,34 +38,9 @@ const CartProvider = memo(({ children }: { children: ReactNode }) => {
   const openCart = useCallback(() => setOpen(true), []);
   const closeCart = useCallback(() => setOpen(false), []);
 
-  const cart = useAppSelector((state) => state.cart);
-  const dispatch = useAppDispatch();
+  const { data, isLoading } = useGetCartQuery({});
 
-  const increaseQuantity = useCallback(
-    (item: CartItemType) => dispatch(incrementQuantity(item)),
-    [dispatch],
-  );
-
-  const decreaseQuantity = useCallback(
-    (item: CartItemType) => {
-      if (item.quantity > 1) {
-        dispatch(decrementQuantity(item));
-      } else {
-        dispatch(removeFromCart(item));
-      }
-    },
-    [dispatch],
-  );
-
-  const removeItem = useCallback(
-    (item: CartItemType) => dispatch(removeFromCart(item)),
-    [dispatch],
-  );
-
-  const total = useMemo(
-    () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
-    [cart],
-  );
+  const cartLength = useMemo(() => data?.cartItems.length || 0, [data]);
 
   useEffect(() => {
     document.body.style.overflowY = open ? "hidden" : "auto";
@@ -88,37 +50,35 @@ const CartProvider = memo(({ children }: { children: ReactNode }) => {
   }, [open]);
 
   const cartItems = useMemo(() => {
-    if (cart.length === 0) {
+    if (data?.cartItems.length === 0) {
       return <p className="p-5 text-center">Your cart is empty</p>;
     }
 
-    return cart.map((item) => (
-      <CartItem
-        key={item.id}
-        item={item}
-        increaseQuantity={increaseQuantity}
-        decreaseQuantity={decreaseQuantity}
-        removeItem={removeItem}
-      />
+    if (isLoading) {
+      return <p className="p-5 text-center">Loading...</p>;
+    }
+
+    return data?.cartItems.map(item => (
+      <p key={item.id}>{item.product.name}</p>
     ));
-  }, [cart, increaseQuantity, decreaseQuantity, removeItem]);
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
 
   const contextValue = useMemo(
-    () => ({ open, openCart, closeCart, total }),
-    [open, openCart, closeCart, total],
+    () => ({ open, openCart, closeCart, cartLength }),
+    [open, openCart, closeCart, cartLength]
   );
 
   return (
     <CartContext.Provider value={contextValue}>
       {children}
       <AnimatePresence>
-        {open && (
-          <CartOverlay
-            closeCart={closeCart}
-            cartItems={cartItems}
-            total={total}
-          />
-        )}
+        {open && <CartOverlay closeCart={closeCart} cartItems={cartItems} />}
       </AnimatePresence>
     </CartContext.Provider>
   );

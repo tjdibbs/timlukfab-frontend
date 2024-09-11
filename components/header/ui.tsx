@@ -26,6 +26,7 @@ import { useIsClient } from "@/hooks/useIsClient";
 import { createPortal } from "react-dom";
 import Nav from "./Nav";
 import LogoutButton from "../account/logoutButton";
+import { Button } from "../ui/button";
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -92,10 +93,9 @@ const AppHeaderSkeleton = () => (
 
 export const HeaderActions = memo(() => {
   const [open, setOpen] = useState(false);
-  const cart = useAppSelector(state => state.cart);
   const credentials = useAppSelector(state => state.auth.token);
 
-  const cartLength = useMemo(() => cart.length, [cart]);
+  const { cartLength } = useCart();
 
   const openNav = useCallback(() => setOpen(true), []);
   const closeNav = useCallback(() => setOpen(false), []);
@@ -117,23 +117,24 @@ export const HeaderActions = memo(() => {
             Login
           </Link>
         )}
-        <button className="flex items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9">
+        <Button size={"icon"} variant={"ghost"}>
           <Search className="max-md:4 w-5" />
-        </button>
-        <button className="flex items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9">
-          <Heart className="max-md:4 w-5" />
-        </button>
-        <div
-          className="relative flex cursor-pointer items-center justify-center rounded-full hover:bg-gray-100 md:h-9 md:w-9"
-          onClick={openCart}
-        >
-          <ShoppingCart className="max-md:4 w-5" />
-          {cartLength > 0 && (
-            <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-              {cartLength}
-            </div>
-          )}
-        </div>
+        </Button>
+        {!!credentials && (
+          <Fragment>
+            <Button size={"icon"} variant={"ghost"}>
+              <Heart className="max-md:4 w-5" />
+            </Button>
+            <Button size={"icon"} variant={"ghost"} onClick={openCart}>
+              <ShoppingCart className="max-md:4 w-5" />
+              {cartLength > 0 && (
+                <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  {cartLength}
+                </div>
+              )}
+            </Button>
+          </Fragment>
+        )}
         <button
           onClick={openNav}
           className="flex items-center justify-center rounded-full hover:bg-gray-100 lg:hidden"

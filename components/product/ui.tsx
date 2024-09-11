@@ -12,6 +12,9 @@ import { formatNumberWithCommas } from "@/utils/functions";
 import { useAppSelector } from "@/lib/redux/store";
 import { useIsClient } from "@/hooks/useIsClient";
 import { Skeleton } from "../ui/skeleton";
+import { useAddToCartMutation } from "@/lib/redux/services/cart";
+import { TailwindSpinner } from "../ui/spinner";
+import useMessage from "@/hooks/useMessage";
 
 export const CartActionButton = memo(() => {
   return <MotionDiv></MotionDiv>;
@@ -26,6 +29,26 @@ export const CartAction = memo(
     closeFn: () => void;
   }) => {
     const ref = useRef<HTMLDivElement>(null);
+
+    const [addToCart, { isLoading }] = useAddToCartMutation();
+
+    const { alertMessage } = useMessage();
+
+    const handleAddToCart = async (sizeId: number) => {
+      try {
+        const data = await addToCart({
+          productId: product.id,
+          quantity: 1,
+          productSizeId: sizeId,
+        }).unwrap();
+        alertMessage("Product added to cart", "success");
+      } catch (error) {
+        alertMessage("Something went wrong", "error");
+        console.log(error);
+      } finally {
+        closeFn();
+      }
+    };
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -57,7 +80,12 @@ export const CartAction = memo(
                 variant={"outline"}
                 size="sm"
                 key={size.id}
-                className="text-xs font-semibold text-black"
+                disabled={isLoading}
+                onClick={() => handleAddToCart(size.id)}
+                className={
+                  "text-xs font-semibold text-black " +
+                  (isLoading ? "cursor-not-allowed opacity-65" : "")
+                }
               >
                 {size.name}
               </Button>
@@ -91,9 +119,28 @@ export const ProductImage = memo(
 
     const isClient = useIsClient();
 
+    const { alertMessage } = useMessage();
+
+    const [addToCart, { isLoading }] = useAddToCartMutation();
+
+    const handleAddToCart = async () => {
+      try {
+        const data = await addToCart({
+          productId: product.id,
+          quantity: 1,
+        }).unwrap();
+        alertMessage("Product added to cart", "success");
+      } catch (error) {
+        alertMessage("Something went wrong", "error");
+        console.log(error);
+      }
+    };
+
     const action = () => {
       if (productHasSizes) {
         displayCartAction();
+      } else {
+        handleAddToCart();
       }
     };
 
@@ -137,8 +184,13 @@ export const ProductImage = memo(
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={action}
+                disabled={isLoading}
               >
-                Quick Add
+                {isLoading ? (
+                  <TailwindSpinner className="h-4 w-4" />
+                ) : (
+                  "Quick Add"
+                )}
               </MotionButton>
             </MotionDiv>
           )}

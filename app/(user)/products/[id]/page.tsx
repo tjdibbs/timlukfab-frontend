@@ -4,12 +4,33 @@ import ProductInfo from "@/components/products/productInfo";
 import RelatedProducts from "@/components/products/relatedproducts";
 import ProductsSkeleton from "@/components/ui/product-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getSingleProduct } from "@/lib/actions/products";
+import { getProducts, getSingleProduct } from "@/lib/actions/products";
 import { Fragment, Suspense } from "react";
 
 export const generateStaticParams = async () => {
-  return [];
+  const {
+    result: { products },
+  } = await getProducts();
+  return products.map(product => ({
+    id: product.id.toString(),
+  }));
 };
+
+export default function Page({ params }: { params: { id: string } }) {
+  return (
+    <section className="py-4">
+      <div className="wrapper">
+        <Suspense fallback={<SkeletonLoader />}>
+          <ProductWrapper id={params.id} />
+        </Suspense>
+
+        <Suspense fallback={<ProductsSkeleton number={5} />}>
+          <RelatedProducts id={params.id} />
+        </Suspense>
+      </div>
+    </section>
+  );
+}
 
 const SkeletonLoader = () => {
   return (
@@ -37,19 +58,3 @@ const ProductWrapper = async ({ id }: { id: string }) => {
     </Fragment>
   );
 };
-
-export default function Page({ params }: { params: { id: string } }) {
-  return (
-    <section className="py-4">
-      <div className="wrapper">
-        <Suspense fallback={<SkeletonLoader />}>
-          <ProductWrapper id={params.id} />
-        </Suspense>
-
-        <Suspense fallback={<ProductsSkeleton number={5} />}>
-          <RelatedProducts id={params.id} />
-        </Suspense>
-      </div>
-    </section>
-  );
-}

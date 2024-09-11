@@ -7,9 +7,12 @@ const userApi = api.injectEndpoints({
             query: (id: string) => ({
                 url: `/users/${id}`,
                 method: "GET"
-            })
-        })
-    })
+            }),
+            providesTags: ["User"],
+        }),
+
+    }),
+
 })
 
 export const { useGetUserQuery } = userApi
