@@ -30,24 +30,21 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     await mutex.waitForUnlock();
     let result = await baseQuery(args, api, extraOptions);
 
-    const isCustomError = (error: unknown): error is CustomError => {
-        return typeof error === 'object' && error !== null &&
-            'name' in error && 'statusCode' in error;
-    }
-
     if (result?.error) {
         const err = result.error;
-        const isAuthError = err.status === 401 ||
-            (isCustomError(err.data) &&
-                (err.data.statusCode === 403 &&
-                    err.data.name === "FORBIDDEN" &&
-                    err.data.message === "Not Authorized"));
 
-        if (isAuthError) {
+        if (err.status === 403) {
+
             if (!mutex.isLocked()) {
+
                 const release = await mutex.acquire();
                 try {
-                    const refreshResult = await baseQuery("/auth/renew-token", api, extraOptions)
+                    const token = (api.getState() as RootState).auth.refreshToken
+                    const refreshResult = await baseQuery({
+                        url: "/auth/renew-token",
+                        method: "POST",
+                        body: { refreshToken: token }
+                    }, api, extraOptions)
                     if (refreshResult?.data) {
                         const refreshData = refreshResult.data as Globals.TokenResponse
                         if (refreshData.renewed) {
@@ -65,10 +62,12 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
                     release()
                 }
             } else {
+
                 await mutex.waitForUnlock();
                 result = await baseQuery(args, api, extraOptions);
             }
         }
+
     }
     return result
 }

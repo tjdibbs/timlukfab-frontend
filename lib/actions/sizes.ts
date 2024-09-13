@@ -10,7 +10,7 @@ type CreateSizeFormData = z.infer<typeof CreateSizeSchema>;
 
 export const getSizes = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/sizes?pageSize=25`, {
-        next: { revalidate: 120, tags: ["Sizes"] },
+        next: { revalidate: 1200, tags: ["Sizes"] },
     });
     const data = await res.json();
     return data as SizesController.Get;
@@ -32,6 +32,7 @@ export async function createSize(formValues: CreateSizeFormData): Promise<Global
     }
 
     revalidateTag("Sizes")
+    revalidatePath("/")
     return { success: true, message: "Size created successfully" };
 
 }
@@ -51,6 +52,7 @@ export async function updateSize(id: string, formValues: CreateSizeFormData): Pr
     }
 
     revalidateTag("Sizes")
+    revalidatePath("/")
     return { success: true, message: "Size updated successfully" };
 }
 
@@ -64,6 +66,10 @@ export async function deleteSize(id: string): Promise<Globals.ActionResponse<Siz
         return { success: false, message: errorData.message || "Failed to delete size" };
     }
 
-    revalidateTag("Sizes")
+    revalidatePath("/")
+    revalidatePath("/admin")
+    revalidatePath("/admin/sizes")
+    revalidatePath("/admin/products")
+    revalidatePath("/admin/products/create")
     return { success: true, message: "Size deleted successfully" };
 }

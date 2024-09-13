@@ -1,3 +1,5 @@
+import { ProductController } from "./products";
+
 export namespace CategoryController {
     interface Image {
         id: number;
@@ -39,8 +41,20 @@ export namespace CategoryController {
             categories: Category[],
             count: number,
             hasMore: boolean
+            pageSize: string,
+            pageNumber: string;
         },
         success: boolean
+    }
+
+    export interface GetProducts {
+        result: {
+            products: ProductController.Product[],
+            count: number,
+            hasMore: boolean,
+            pageSize: string,
+            pageNumber: string;
+        }
     }
 
     export interface PUT {

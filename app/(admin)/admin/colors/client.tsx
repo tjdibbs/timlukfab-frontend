@@ -14,7 +14,7 @@ const getColors = async (pageNumber: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/colors?pageNumber=${pageNumber}`,
     {
-      next: { revalidate: 300 },
+      next: { tags: ["Colors"] },
     }
   );
   const data = await res.json();

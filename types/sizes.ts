@@ -18,7 +18,9 @@ export namespace SizesController {
         result: {
             sizes: Size[],
             count: number,
-            hasMore: boolean
+            hasMore: boolean,
+            pageSize: string,
+            pageNumber: string;
         },
         success: boolean
     }

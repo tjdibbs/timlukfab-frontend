@@ -10,7 +10,7 @@ type CreateFormSchema = z.infer<typeof CreateProductSchema>
 export const getProducts = async (): Promise<ProductController.Get> => {
     const res = await fetch(`${process.env.API_BASE_URL}/products?pageSize=25`, {
         next: {
-            revalidate: 100,
+            revalidate: 1200,
             tags: ["Products"],
         },
     })
@@ -54,6 +54,10 @@ export const createProduct = async (formValues: CreateFormSchema): Promise<Globa
     }
 
     revalidateTag("Products")
+    revalidatePath("/")
+    revalidatePath("/products/[id]", "page")
+    revalidatePath("/categories/[id]", "page")
+    revalidatePath("/categories/[id]/subcategories/[subcategoryId]", "page")
     return { success: true, message: "Product created successfully" };
 }
 
@@ -72,6 +76,10 @@ export const updateProduct = async (id: string, formValues: CreateFormSchema): P
     }
 
     revalidateTag("Products")
+    revalidatePath("/")
+    revalidatePath("/products/[id]", "page")
+    revalidatePath("/categories/[id]", "page")
+    revalidatePath("/categories/[id]/subcategories/[subcategoryId]", "page")
     return { success: true, message: "Product updated successfully" };
 }
 
@@ -85,6 +93,12 @@ export async function deleteProduct(id: string): Promise<Globals.ActionResponse<
         return { success: false, message: errorData.message || "Failed to delete product" };
     }
 
-    revalidateTag("Products")
+    revalidatePath("/")
+    revalidatePath("/admin")
+    revalidatePath("/admin/products")
+    revalidatePath("/admin/products/create")
+    revalidatePath("/products/[id]", "page")
+    revalidatePath("/categories/[id]", "page")
+    revalidatePath("/categories/[id]/subcategories/[subcategoryId]", "page")
     return { success: true, message: "Product deleted successfully" };
 }

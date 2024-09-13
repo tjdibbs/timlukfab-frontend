@@ -1,13 +1,18 @@
 "use client";
 
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import React, { Fragment, memo, useMemo, useState } from "react";
-import { Button } from "../ui/button";
-import { HeartOutlined } from "@ant-design/icons";
-import { BreadCrumbLink } from "@/lib/types";
-import { ProductController } from "@/types/products";
 import BreadCrumbComponent from "../ui/breadcrumb-component";
+import clsx from "clsx";
+import React, { Fragment, memo, useCallback, useMemo, useState } from "react";
+import useMessage from "@/hooks/useMessage";
+import { BreadCrumbLink } from "@/lib/types";
+import { Button } from "../ui/button";
+import { CartController } from "@/types/cart";
 import { formatNumberWithCommas } from "@/utils/functions";
+import { HeartOutlined } from "@ant-design/icons";
+import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { ProductController } from "@/types/products";
+import { TailwindSpinner } from "../ui/spinner";
+import { useAddToCartMutation } from "@/lib/redux/services/cart";
 
 type Props = {
   product: ProductController.Product;
@@ -38,35 +43,79 @@ const Breadcrumb = ({ name }: { name: string }) => {
   return <BreadCrumbComponent links={breadcrumbLinks} />;
 };
 
-const ProductSizes = memo(({ sizes }: { sizes: ProductController.Size[] }) => {
-  return (
-    <Fragment>
-      <h6 className="my-4">Select size</h6>
-      <div className="grid grid-cols-4 gap-3">
-        {sizes.map(size => (
-          <Button variant={"outline"} key={size.id}>
-            {size.name}
-          </Button>
-        ))}
-      </div>
-    </Fragment>
-  );
-});
+const ProductSizes = memo(
+  ({
+    sizes,
+    handleChange,
+    productSizeId,
+  }: {
+    sizes: ProductController.Size[];
+    productSizeId: number | null;
+    handleChange: (sizeId: number) => void;
+  }) => {
+    const productSizes = useMemo(() => {
+      return sizes.filter(size => size.ProductSize.stock > 0);
+    }, [sizes]);
+
+    const handleSizeChange = (sizeId: number) => {
+      handleChange(sizeId);
+    };
+
+    return (
+      <Fragment>
+        <h6 className="my-4">Select size</h6>
+        <div className="grid grid-cols-4 gap-3">
+          {productSizes.map(size => (
+            <Button
+              variant={size.id === productSizeId ? "default" : "outline"}
+              key={size.id}
+              onClick={() => handleSizeChange(size.id)}
+            >
+              {size.name}
+            </Button>
+          ))}
+        </div>
+      </Fragment>
+    );
+  }
+);
 
 const ProductColors = memo(
-  ({ colors }: { colors: ProductController.Color[] }) => {
+  ({
+    colors,
+    handleColor,
+    productColorId,
+  }: {
+    colors: ProductController.Color[];
+    productColorId: number | null;
+    handleColor: (colorId: number) => void;
+  }) => {
+    const productColors = useMemo(() => {
+      return colors.filter(color => color.ProductColor.stock > 0);
+    }, [colors]);
+
+    const handleChange = (colorId: number) => {
+      handleColor(colorId);
+    };
+
     return (
       <div>
         <h6 className="my-4">Select color</h6>
         <div className="mt-4 flex items-center gap-2">
-          {colors.map(color => (
+          {productColors.map(color => (
             <button
               key={color.id}
-              className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-transparent hover:border-black"
+              onClick={() => handleChange(color.id)}
+              className={clsx(
+                "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 hover:border-black",
+                {
+                  "border-black": color.id === productColorId,
+                }
+              )}
             >
               <div
                 style={{ backgroundColor: color.hexCode }}
-                className="h-full w-full rounded-full hover:scale-90"
+                className="h-[90%] w-[90%] rounded-full"
               />
             </button>
           ))}
@@ -78,26 +127,60 @@ const ProductColors = memo(
 
 const ProductInfo = memo(({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
+  const [productColorId, setProductColorId] = useState<number | null>(null);
+  const [productSizeId, setProductSizeId] = useState<number | null>(null);
 
-  const productHasSizes = useMemo(
-    () => product.sizes.length > 0,
-    [product.sizes]
-  );
-
-  const productHasColors = useMemo(
-    () => product.colors.length > 0,
-    [product.colors]
-  );
+  const [addToCart, { isLoading }] = useAddToCartMutation();
 
   const handleIncrease = () => {
-    setQuantity(prev => prev + 1);
-    // if (quantity < stock) {
-    // }
+    if (quantity < product.stock) {
+      setQuantity(prev => prev + 1);
+    }
   };
 
   const handleDecrease = () => {
     if (quantity > 1) {
       setQuantity(prev => prev - 1);
+    }
+  };
+
+  const handleSizeChange = useCallback((sizeId: number) => {
+    setProductSizeId(sizeId);
+  }, []);
+
+  const handleColorChange = useCallback((colorId: number) => {
+    setProductColorId(colorId);
+  }, []);
+
+  const { alertMessage } = useMessage();
+
+  const handleAddToCart = async () => {
+    if (!productColorId || !productSizeId) {
+      alertMessage("Please select size and color", "error");
+      return;
+    }
+
+    const payload: CartController.AddItem = {
+      productId: product.id,
+      quantity,
+      productSizeId,
+      productColorId,
+    };
+
+    console.log(payload);
+
+    try {
+      const response = await addToCart(payload).unwrap();
+      if (!response) {
+        throw new Error("Failed to add item to cart");
+      }
+      alertMessage("Item added to cart", "success");
+      setQuantity(1);
+      setProductColorId(null);
+      setProductSizeId(null);
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+      alertMessage("Failed to add item to cart", "error");
     }
   };
 
@@ -116,9 +199,27 @@ const ProductInfo = memo(({ product }: Props) => {
           ${formatNumberWithCommas(Number(product.price))}
         </p>
 
+        <p className="mt-2 text-sm text-gray-600">
+          {!!product.stock ? (
+            `Stock: ${product.stock} available`
+          ) : (
+            <span className="text-red-500">out of stock</span>
+          )}
+        </p>
+
         <div>
-          {productHasSizes && <ProductSizes sizes={product.sizes} />}
-          {productHasColors && <ProductColors colors={product.colors} />}
+          <ProductSizes
+            handleChange={handleSizeChange}
+            productSizeId={productSizeId}
+            sizes={product.sizes}
+          />
+
+          <ProductColors
+            productColorId={productColorId}
+            handleColor={handleColorChange}
+            colors={product.colors}
+          />
+
           <div>
             <h6 className="my-4">Quantity</h6>
             <div className="mt-4 flex max-w-[150px] items-center">
@@ -132,7 +233,17 @@ const ProductInfo = memo(({ product }: Props) => {
             </div>
           </div>
           <div className="mt-6 flex items-center gap-2">
-            <Button className="flex-1">Add to cart</Button>
+            <Button
+              disabled={isLoading}
+              className="flex-1"
+              onClick={handleAddToCart}
+            >
+              {isLoading ? (
+                <TailwindSpinner className="h-5 w-5" />
+              ) : (
+                "Add to cart"
+              )}
+            </Button>
             <Button
               variant={"outline"}
               size={"icon"}

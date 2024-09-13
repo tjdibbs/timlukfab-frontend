@@ -36,10 +36,11 @@ export const CartAction = memo(
 
     const handleAddToCart = async (sizeId: number) => {
       try {
-        const data = await addToCart({
+        await addToCart({
           productId: product.id,
           quantity: 1,
           productSizeId: sizeId,
+          productColorId: product.colors[0].id,
         }).unwrap();
         alertMessage("Product added to cart", "success");
       } catch (error) {
@@ -119,29 +120,8 @@ export const ProductImage = memo(
 
     const isClient = useIsClient();
 
-    const { alertMessage } = useMessage();
-
-    const [addToCart, { isLoading }] = useAddToCartMutation();
-
-    const handleAddToCart = async () => {
-      try {
-        const data = await addToCart({
-          productId: product.id,
-          quantity: 1,
-        }).unwrap();
-        alertMessage("Product added to cart", "success");
-      } catch (error) {
-        alertMessage("Something went wrong", "error");
-        console.log(error);
-      }
-    };
-
     const action = () => {
-      if (productHasSizes) {
-        displayCartAction();
-      } else {
-        handleAddToCart();
-      }
+      displayCartAction();
     };
 
     const mobileAction = () => {
@@ -184,13 +164,8 @@ export const ProductImage = memo(
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={action}
-                disabled={isLoading}
               >
-                {isLoading ? (
-                  <TailwindSpinner className="h-4 w-4" />
-                ) : (
-                  "Quick Add"
-                )}
+                Quick Add
               </MotionButton>
             </MotionDiv>
           )}

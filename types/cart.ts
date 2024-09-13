@@ -1,4 +1,29 @@
 export namespace CartController {
+    export interface Media {
+        id: number;
+        path: string;
+        size: number;
+    }
+
+    export interface Size {
+        id: number;
+        name: string;
+        description: string;
+        createdAt: string;
+        updatedAt: string;
+        deletedAt: string | null;
+    }
+
+    export interface Color {
+        id: number;
+        name: string;
+        hexCode: string;
+        description: string;
+        createdAt: string;
+        updatedAt: string;
+        deletedAt: string | null;
+    }
+
     export interface Product {
         id: number;
         name: string;
@@ -9,36 +34,28 @@ export namespace CartController {
         createdAt: string;
         updatedAt: string;
         deletedAt: string | null;
+        medias: Media[]
     };
 
     export interface ProductSize {
         id: number;
-        productId: number;
-        sizeId: number;
         stock: number;
         additionalPrice: string;
-        createdAt: string;
-        updatedAt: string;
-    };
+        size: Size;
+    }
 
     export interface ProductColor {
         id: number;
-        productId: number;
-        colorId: number;
         stock: number;
         additionalPrice: string;
-        createdAt: string;
-        updatedAt: string;
-        deletedAt: string | null;
-    };
+        color: Color;
+    }
 
     export interface CartItem {
         id: number;
         cartId: number;
         productId: number;
         quantity: number;
-        productColorId: number;
-        productSizeId: number;
         price: string;
         createdAt: string;
         updatedAt: string;
@@ -89,13 +106,15 @@ export namespace CartController {
     export interface AddItem {
         productId: number;
         quantity: number;
-        productColorId?: number;
-        productSizeId?: number;
+        productColorId: number;
+        productSizeId: number;
     }
 
     export interface UpdateItem {
         cartItemId: number;
-        updateData: AddItem;
+        productSizeId: number;
+        quantity: number;
+        productColorId: number;
     }
 
     export interface RemoveItem {

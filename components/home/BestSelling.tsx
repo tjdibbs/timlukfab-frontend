@@ -34,7 +34,7 @@ const BestSelling = ({ products }: Props) => {
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
           autoplay={{ delay: 5000 }}
-          loop={products.length > 4}
+          loop={products.length > 5}
           scrollbar={{ draggable: true }}
           breakpoints={{
             0: {
@@ -68,13 +68,16 @@ const BestSelling = ({ products }: Props) => {
                 <div className="absolute bottom-0 left-0 w-full translate-y-full bg-black bg-opacity-70 p-3 transition-transform duration-300 group-hover:translate-y-0">
                   <Link
                     href="/shop"
-                    className="mb-1 text-xs font-semibold uppercase text-[#d9d9d9]"
+                    className="mb-1 block text-xs font-semibold uppercase text-[#d9d9d9]"
                   >
                     shop
                   </Link>
-                  <p className="mb-1 text-sm font-semibold text-white">
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="mb-1 block text-sm font-semibold text-white"
+                  >
                     {product.name}
-                  </p>
+                  </Link>
                   <p className="text-base font-semibold text-white">
                     ${formatNumberWithCommas(Number(product.price))}
                   </p>

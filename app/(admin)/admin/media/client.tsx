@@ -14,7 +14,7 @@ const getFiles = async (pageNumber: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/files?pageNumber=${pageNumber}`,
     {
-      next: { revalidate: 300 },
+      next: { tags: ["Files"] },
     }
   );
   const data = await res.json();

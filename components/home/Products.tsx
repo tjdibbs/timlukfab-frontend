@@ -1,16 +1,14 @@
-"use client";
-
+import Link from "next/link";
 import Product from "@/components/product";
-import { Divider } from "antd";
 import { Button } from "../ui/button";
+import { Divider } from "antd";
 import { ProductController } from "@/types/products";
 
 type Props = {
   products: ProductController.Product[];
-  hasMore: boolean;
 };
 
-const Products = ({ products, hasMore }: Props) => {
+const Products = ({ products }: Props) => {
   return (
     <section className="bg-gray-50 py-12">
       <div className="wrapper">
@@ -26,11 +24,13 @@ const Products = ({ products, hasMore }: Props) => {
           ))}
         </div>
 
-        {!!hasMore && (
-          <div className="mt-12 flex items-center justify-center">
-            <Button className="w-full max-w-xs rounded-full">LOAD MORE</Button>
-          </div>
-        )}
+        <div className="mt-12 flex items-center justify-center">
+          <Button className="w-40 text-sm" size={"default"}>
+            <Link href="/shop" className="text-white">
+              SEE MORE
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

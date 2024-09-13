@@ -9,10 +9,19 @@ import { revalidatePath, revalidateTag } from "next/cache"
 type CreateFormData = z.infer<typeof CreateSubCategorySchema>
 export const getSubCategories = async (): Promise<SubCategoryController.Get> => {
     const res = await fetch(`${process.env.API_BASE_URL}/sub-categories?pageSize=25`, {
-        next: { revalidate: 120, tags: ["SubCategories"] }
+        next: { revalidate: 1200, tags: ["SubCategories"] }
     })
 
     return res.json()
+}
+
+export const getSubcategoryProducts = async (id: string) => {
+    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/${id}/products?pageSize=25`, {
+        next: { revalidate: 1200, tags: ["Products"] },
+    })
+
+    const data = await res.json();
+    return data as SubCategoryController.GetProducts
 }
 
 export const getSingleCategory = async (id: string): Promise<SubCategoryController.GetSingle> => {
@@ -69,7 +78,11 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
         return { success: false, message: errorData.message || "Failed to delete category" };
     }
 
-    revalidateTag("SubCategories")
+    revalidatePath("/")
+    revalidatePath("/admin")
+    revalidatePath("/admin/sub-categories")
+    revalidatePath("/admin/products")
+    revalidatePath("/admin/products/create")
     return { success: true, message: "Category deleted successfully" };
 }
 

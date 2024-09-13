@@ -14,7 +14,7 @@ const getSizes = async (pageNumber: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/sizes?pageNumber=${pageNumber}`,
     {
-      next: { revalidate: 3600 },
+      next: { tags: ["Sizes"] },
     }
   );
   const data = await res.json();

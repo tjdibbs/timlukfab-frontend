@@ -17,7 +17,7 @@ const getProducts = async (
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?pageNumber=${pageNumber}`,
     {
       next: {
-        revalidate: 100,
+        tags: ["products"],
       },
     }
   );

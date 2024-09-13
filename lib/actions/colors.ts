@@ -10,7 +10,7 @@ type CreateColorFormData = z.infer<typeof CreateColorSchema>;
 
 export const getColors = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/colors?pageSize=25`, {
-        next: { revalidate: 120, tags: ["Colors"] },
+        next: { revalidate: 1200, tags: ["Colors"] },
     });
     const data = await res.json();
     return data as ColorsController.Get;
@@ -62,6 +62,10 @@ export async function deleteColor(id: string): Promise<Globals.ActionResponse<Co
         return { success: false, message: errorData.message || "Failed to delete color" };
     }
 
-    revalidateTag("Colors")
+    revalidatePath("/")
+    revalidatePath("/admin")
+    revalidatePath("/admin/colors")
+    revalidatePath("/admin/products")
+    revalidatePath("/admin/products/create")
     return { success: true, message: "Color deleted successfully" };
 }

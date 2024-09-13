@@ -15,12 +15,15 @@ type Props = {
   hasMore: boolean;
 };
 
-const getProducts = async (): Promise<ProductController.Get> => {
-  const res = await fetch(`${process.env.API_BASE_URL}/products`, {
-    next: {
-      revalidate: 100,
-    },
-  });
+const getProducts = async (id: string): Promise<ProductController.Get> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories/${id}/products`,
+    {
+      next: {
+        revalidate: 100,
+      },
+    }
+  );
 
   return res.json();
 };

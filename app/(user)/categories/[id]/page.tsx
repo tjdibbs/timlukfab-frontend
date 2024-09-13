@@ -1,14 +1,7 @@
 import Category from "@/components/categories";
-import { getCategories } from "@/lib/actions/categories";
 
 export const generateStaticParams = async () => {
-  const {
-    result: { categories },
-  } = await getCategories();
-
-  return categories.map(category => ({
-    id: category.id.toString(),
-  }));
+  return [];
 };
 
 export default function Page({ params }: { params: { id: string } }) {

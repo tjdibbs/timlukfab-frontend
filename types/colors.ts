@@ -13,7 +13,10 @@ export namespace ColorsController {
         result: {
             colors: Color[],
             count: number,
-            hasMore: boolean
+            hasMore: boolean,
+            pageSize: string,
+            pageNumber: string;
+
         },
         success: boolean
     }

@@ -70,14 +70,14 @@ export const CreateProductSchema = z.object({
             stock: z.number().positive("Stock must be positive"),
             additionalPrice: z.number().positive("Price must be positive"),
         })
-    ),
+    ).min(1, "At least one color is required"),
     sizes: z.array(
         z.object({
             id: z.number(),
             stock: z.number().positive("Stock must be positive"),
             additionalPrice: z.number().positive("Price must be positive"),
         })
-    ),
+    ).min(1, "At least one size is required"),
     categories: z.array(z.number()).min(1, "At least one media item is required"),
     subcategories: z.array(z.number()),
 });

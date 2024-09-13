@@ -1,101 +1,47 @@
 export namespace ProductController {
-    interface ProductSize {
-        productId: number;
-        sizeId: number;
-        stock: number;
+
+
+    interface ProductSizeDetails {
         additionalPrice: string;
-        createdAt: string;
-        updatedAt: string;
+        stock: number;
     }
 
     export interface Size {
         id: number;
         name: string;
-        description: string;
-        createdAt: string;
-        updatedAt: string;
-        deletedAt: string | null;
-        ProductSize: ProductSize;
+        ProductSize: ProductSizeDetails;
     }
 
-    interface ProductColor {
-        productId: number;
-        colorId: number;
-        stock: number;
+    interface ProductColorDetails {
         additionalPrice: string;
-        createdAt: string;
-        updatedAt: string;
-        deletedAt: string | null;
+        stock: number;
     }
 
     export interface Color {
         id: number;
         name: string;
         hexCode: string;
-        description: string;
-        createdAt: string;
-        updatedAt: string;
-        deletedAt: string | null;
-        ProductColor: ProductColor;
-    }
-
-    interface ProductSubcategory {
-        productId: number;
-        subcategoryId: number;
-        createdAt: string;
-        updatedAt: string;
+        ProductColor: ProductColorDetails;
     }
 
     export interface Subcategory {
         id: number;
         name: string;
         description: string;
-        imageId: number;
-        bannerId: number | null;
-        categoryId: number;
-        createdAt: string;
-        updatedAt: string;
-        ProductSubcategory: ProductSubcategory;
-    }
-
-
-    interface ProductCategory {
-        productId: number;
-        categoryId: number;
-        createdAt: string;
-        updatedAt: string;
     }
 
     export interface Category {
         id: number;
         name: string;
         description: string;
-        imageId: number;
-        bannerId: number | null;
-        createdAt: string;
-        updatedAt: string;
-        ProductCategory: ProductCategory;
-    }
-
-    interface ProductMedia {
-        productId: number;
-        fileId: number;
-        createdAt: string;
-        updatedAt: string;
     }
 
     export interface Media {
         id: number;
-        filename: string;
-        originalName: string;
-        mimeType: string;
-        path: string;
         size: number;
-        createdAt: string;
-        updatedAt: string;
-        deletedAt: string | null;
-        ProductMedia: ProductMedia;
+        path: string;
     }
+
 
     export interface Product {
         id: number;
@@ -108,16 +54,19 @@ export namespace ProductController {
         updatedAt: string;
         deletedAt: string | null;
         medias: Media[];
-        categories: Category[];
-        subcategories: Subcategory[];
         colors: Color[];
         sizes: Size[];
+        subcategories: Subcategory[];
+        categories: Category[];
     }
+
     export interface Get {
         result: {
             products: Product[],
             count: number,
             hasMore: boolean,
+            pageSize: string,
+            pageNumber: string;
         },
         success: boolean,
     }

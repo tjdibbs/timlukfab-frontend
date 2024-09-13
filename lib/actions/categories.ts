@@ -4,16 +4,25 @@ import { CategoryController } from "@/types/categories";
 import { Globals } from "@/types/globals";
 import { z } from "zod";
 import { CreateCategorySchema } from "../schemas";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type CreateFormData = z.infer<typeof CreateCategorySchema>
 export const getCategories = async () => {
     const res = await fetch(`${process.env.API_BASE_URL}/categories?pageSize=25`, {
-        next: { revalidate: 120, tags: ["Categories"] },
+        next: { revalidate: 1200, tags: ["Categories"] },
     })
 
     const data = await res.json()
     return data as CategoryController.Get
+}
+
+export const getCategoryProducts = async (id: string) => {
+    const res = await fetch(`${process.env.API_BASE_URL}/categories/${id}/products?pageSize=25`, {
+        next: { revalidate: 1200, tags: ["Products"] },
+    })
+
+    const data = await res.json();
+    return data as CategoryController.GetProducts
 }
 
 export const getSingleCategory = async (id: string) => {
@@ -71,6 +80,10 @@ export async function deleteCategory(id: string): Promise<Globals.ActionResponse
         return { success: false, message: errorData.message || "Failed to delete category" };
     }
 
-    revalidateTag("Categories")
+    revalidatePath("/")
+    revalidatePath("/admin")
+    revalidatePath("/admin/categories")
+    revalidatePath("/admin/products")
+    revalidatePath("/admin/products/create")
     return { success: true, message: "Category deleted successfully" };
 }

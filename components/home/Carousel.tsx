@@ -61,13 +61,13 @@ const Carousel = () => {
       >
         {banners.map(banner => (
           <SwiperSlide key={banner.id}>
-            <div className="relative h-[100vh] max-h-[600px] w-full overflow-hidden">
+            <div className="relative z-0 h-[100vh] max-h-[600px] w-full overflow-hidden">
               <Image
                 src={banner.image}
                 alt="Banner image"
                 fill
                 priority
-                className="object-cover duration-1000 ease-linear hover:scale-125"
+                className="z-0 object-cover duration-1000 ease-linear hover:scale-125"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
                 <div className="p-4 text-center text-white">

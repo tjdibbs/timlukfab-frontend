@@ -8,12 +8,7 @@ import { getProducts, getSingleProduct } from "@/lib/actions/products";
 import { Fragment, Suspense } from "react";
 
 export const generateStaticParams = async () => {
-  const {
-    result: { products },
-  } = await getProducts();
-  return products.map(product => ({
-    id: product.id.toString(),
-  }));
+  return [];
 };
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -34,7 +29,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
 const SkeletonLoader = () => {
   return (
-    <div className="grid-cols-12 gap-8 lg:grid lg:items-start">
+    <div className="mb-8 grid-cols-12 gap-8 lg:grid lg:items-start">
       <div className="col-span-7">
         <Skeleton className="h-96 w-full" />
       </div>

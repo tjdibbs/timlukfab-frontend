@@ -27,7 +27,9 @@ export namespace UserController {
         users: {
             users: User[],
             count: number,
-            hasMore: boolean
+            hasMore: boolean,
+            pageSize: string,
+            pageNumber: string;
         },
         success: true
     }

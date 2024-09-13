@@ -14,7 +14,7 @@ const getCategories = async (pageNumber: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?pageNumber=${pageNumber}`,
     {
-      next: { revalidate: 3600 },
+      next: { tags: ["Categories"] },
     }
   );
 

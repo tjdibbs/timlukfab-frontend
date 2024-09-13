@@ -1,3 +1,4 @@
+import { CartController } from "@/types/cart";
 
 
 export function formatNumberWithCommas(number: number): string {
@@ -25,3 +26,27 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 
     return shuffledArray;
 };
+
+export function calculateCartTotal(cartItems: CartController.CartItem[]): number {
+    return cartItems.reduce((total, item) => {
+        const itemPrice = parseFloat(item.price);
+        const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
+        const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
+        const itemTotal = (itemPrice + sizeAdditionalPrice + colorAdditionalPrice) * item.quantity;
+        return total + itemTotal;
+    }, 0);
+}
+
+export function calculateCartItemTotal(item: CartController.CartItem): number {
+    const itemPrice = parseFloat(item.price);
+    const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
+    const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
+    const itemTotal = (itemPrice + sizeAdditionalPrice + colorAdditionalPrice) * item.quantity;
+    return itemTotal;
+}
+
+export function calculateCartItemAdditionalPrice(item: CartController.CartItem): number {
+    const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
+    const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
+    return sizeAdditionalPrice + colorAdditionalPrice;
+}

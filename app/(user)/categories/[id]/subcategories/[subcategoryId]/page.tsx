@@ -2,14 +2,7 @@ import Subcategory from "@/components/subcategories";
 import { getSubCategories } from "@/lib/actions/sub-categories";
 
 export const generateStaticParams = async () => {
-  const {
-    result: { subcategories },
-  } = await getSubCategories();
-
-  return subcategories.map(subcategory => ({
-    id: subcategory.categoryId.toString(),
-    subcategoryId: subcategory.id.toString(),
-  }));
+  return [];
 };
 
 export default function Page({

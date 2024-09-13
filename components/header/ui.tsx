@@ -10,6 +10,7 @@ import {
   ReactNode,
   Suspense,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -34,11 +35,9 @@ const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   if (!isClient) return <AppHeaderSkeleton />;
 
   return (
-    <Fragment>
-      <header className="sticky top-0 z-50 bg-white">
-        <Suspense fallback={<AppHeaderSkeleton />}>{children}</Suspense>
-      </header>
-    </Fragment>
+    <header className="sticky top-0 z-40 border-b border-b-gray-100 bg-white">
+      <Suspense fallback={<AppHeaderSkeleton />}>{children}</Suspense>
+    </header>
   );
 };
 
@@ -80,7 +79,7 @@ const AppHeaderSkeleton = () => (
     </div>
     <div className="bg-[#fefefe] py-4">
       <div className="wrapper no-scrollbar flex items-center overflow-x-auto">
-        {[...Array(6)].map((_, index) => (
+        {[...Array(12)].map((_, index) => (
           <div
             key={index}
             className="mx-2 h-6 w-20 animate-pulse rounded bg-gray-200"
@@ -122,10 +121,12 @@ export const HeaderActions = memo(() => {
         </Button>
         {!!credentials && (
           <Fragment>
-            <Button size={"icon"} variant={"ghost"}>
-              <Heart className="max-md:4 w-5" />
-            </Button>
-            <Button size={"icon"} variant={"ghost"} onClick={openCart}>
+            <Button
+              size={"icon"}
+              variant={"ghost"}
+              className="relative"
+              onClick={openCart}
+            >
               <ShoppingCart className="max-md:4 w-5" />
               {cartLength > 0 && (
                 <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">

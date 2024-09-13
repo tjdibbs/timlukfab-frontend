@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "../ui/submit-button";
 import useMessage from "@/hooks/useMessage";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ColorsController } from "@/types/colors";
@@ -33,6 +33,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { createProduct } from "@/lib/actions/products";
+import clsx from "clsx";
 
 type Props = {
   colors: ColorsController.Color[];
@@ -48,7 +49,7 @@ const getFiles = async (pageNumber: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/files?pageNumber=${pageNumber}`,
     {
-      next: { revalidate: 300 },
+      next: { tags: ["Files"] },
     }
   );
   const data = await res.json();
@@ -291,61 +292,68 @@ const CreateForm = ({
               </div>
             </div>
 
-            <Separator />
-
             {subcategories.length > 0 && (
-              <div>
-                <FormLabel>
-                  Select Subcategory
-                  <span className="text-lg text-red-600">*</span>
-                </FormLabel>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  {subcategories.map(category => (
-                    <FormField
-                      key={category.id}
-                      control={form.control}
-                      name="subcategories"
-                      render={({ field }) => {
-                        return (
-                          <FormItem
-                            key={category.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(category.id)}
-                                onCheckedChange={checked => {
-                                  return checked
-                                    ? field.onChange([
-                                        ...field.value,
-                                        category.id,
-                                      ])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          value => value !== category.id
-                                        )
-                                      );
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-sm font-normal">
-                              {category.name}
-                            </FormLabel>
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  ))}
+              <Fragment>
+                <Separator />
+                <div>
+                  <FormLabel>
+                    Select Subcategory
+                    <span className="text-lg text-red-600">*</span>
+                  </FormLabel>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    {subcategories.map(category => (
+                      <FormField
+                        key={category.id}
+                        control={form.control}
+                        name="subcategories"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={category.id}
+                              className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(category.id)}
+                                  onCheckedChange={checked => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          category.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            value => value !== category.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm font-normal">
+                                {category.name}
+                              </FormLabel>
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <FormMessage />
                 </div>
-                <FormMessage />
-              </div>
+              </Fragment>
             )}
           </div>
 
           <Separator />
 
           <div className="space-y-8">
-            <FormLabel className="block text-lg font-bold">Colors</FormLabel>
+            <FormLabel
+              className={clsx("block text-lg font-bold", {
+                "text-red-500": !!form.formState.errors.colors,
+              })}
+            >
+              Colors*
+            </FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant={"outline"}>Click to choose colors</Button>
@@ -453,13 +461,23 @@ const CreateForm = ({
                 );
               })}
             </div>
-            <FormMessage />
+            {!!form.formState.errors.colors && (
+              <p className="text-xs text-red-500">
+                {form.formState.errors.colors.message}
+              </p>
+            )}
           </div>
 
           <Separator />
 
           <div className="space-y-8">
-            <FormLabel className="block text-lg font-bold">Sizes</FormLabel>
+            <FormLabel
+              className={clsx("block text-lg font-bold", {
+                "text-red-500": !!form.formState.errors.sizes,
+              })}
+            >
+              Sizes*
+            </FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant={"outline"}>Click to choose sizes</Button>
@@ -564,13 +582,23 @@ const CreateForm = ({
                 );
               })}
             </div>
-            <FormMessage />
+            {!!form.formState.errors.sizes && (
+              <p className="text-xs text-red-500">
+                {form.formState.errors.sizes.message}
+              </p>
+            )}
           </div>
 
           <Separator />
 
           <div className="space-y-8">
-            <FormLabel className="block text-lg font-bold">Images</FormLabel>
+            <FormLabel
+              className={clsx("block text-lg font-bold", {
+                "text-red-500": !!form.formState.errors.medias,
+              })}
+            >
+              Images*
+            </FormLabel>
             <div className="flex flex-wrap items-center gap-1">
               {mediaValues.map(value => {
                 const image = allFiles.find(img => img.id === value);
@@ -594,12 +622,7 @@ const CreateForm = ({
             </div>
             <Popover>
               <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={`${form.formState.errors.medias && "border-red-500"}`}
-                >
-                  Click to choose images
-                </Button>
+                <Button variant={"outline"}>Click to choose images</Button>
               </PopoverTrigger>
               <PopoverContent>
                 <div className="grid h-64 grid-cols-3 gap-1 overflow-y-auto">
@@ -645,7 +668,11 @@ const CreateForm = ({
                 </div>
               </PopoverContent>
             </Popover>
-            <FormMessage />
+            {!!form.formState.errors.medias && (
+              <p className="text-xs text-red-500">
+                {form.formState.errors.medias.message}
+              </p>
+            )}
           </div>
 
           <Button type="submit" disabled={pending}>

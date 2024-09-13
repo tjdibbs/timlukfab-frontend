@@ -6,7 +6,10 @@ import SidebarSkeleton from "../ui/sidebarskeleton";
 import Sidebar from "./sidebar";
 import Products from "./products";
 import { Skeleton } from "../ui/skeleton";
-import { getSingleCategory } from "@/lib/actions/categories";
+import {
+  getCategoryProducts,
+  getSingleCategory,
+} from "@/lib/actions/categories";
 import { getProducts } from "@/lib/actions/products";
 import ProductsSkeleton from "../ui/product-skeleton";
 
@@ -49,13 +52,9 @@ const BreadCrumb = async ({ id }: { id: string }) => {
 const ProductsWrapper = async ({ id }: { id: number }) => {
   const {
     result: { products, hasMore },
-  } = await getProducts();
+  } = await getCategoryProducts(id.toString());
 
-  const sorted = products.filter(product =>
-    product.categories.some(category => category.id === id)
-  );
-
-  return <Products data={sorted} hasMore={hasMore} />;
+  return <Products data={products} hasMore={hasMore} />;
 };
 
 const Category = ({ id }: { id: string }) => {

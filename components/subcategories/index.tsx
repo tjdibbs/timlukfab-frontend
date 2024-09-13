@@ -1,7 +1,10 @@
 import { BreadCrumbLink } from "@/lib/types";
 import BreadCrumbComponent from "../ui/breadcrumb-component";
 import { Skeleton } from "../ui/skeleton";
-import { getSingleCategory } from "@/lib/actions/sub-categories";
+import {
+  getSingleCategory,
+  getSubcategoryProducts,
+} from "@/lib/actions/sub-categories";
 import { Suspense } from "react";
 import SidebarSkeleton from "../ui/sidebarskeleton";
 import Sidebar from "./sidebar";
@@ -25,13 +28,9 @@ const ProductsWrapper = async ({
 }) => {
   const {
     result: { products, hasMore },
-  } = await getProducts();
+  } = await getSubcategoryProducts(subcategoryId.toString());
 
-  const sorted = products.filter(product =>
-    product.subcategories.some(subcategory => subcategory.id === subcategoryId)
-  );
-
-  return <Products data={sorted} hasMore={hasMore} />;
+  return <Products data={products} hasMore={hasMore} />;
 };
 
 const Subcategory = ({ subcategoryId }: { subcategoryId: string }) => {

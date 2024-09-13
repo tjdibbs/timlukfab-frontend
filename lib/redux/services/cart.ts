@@ -23,8 +23,6 @@ const cartApi = api.injectEndpoints({
                         cartId: draft.id,
                         productId: arg.productId,
                         quantity: arg.quantity,
-                        productColorId: arg.productColorId || 0,
-                        productSizeId: arg.productSizeId || 0,
                         price: "0",
                         createdAt: new Date().toISOString(),
                         updatedAt: new Date().toISOString(),

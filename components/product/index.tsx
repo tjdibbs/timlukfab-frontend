@@ -3,7 +3,7 @@
 import useProductInteractions from "@/hooks/useProductInteractions";
 import { ProductController } from "@/types/products";
 import { ProductImage, ProductInfo } from "./ui";
-import { Fragment, useEffect } from "react";
+import { Fragment, memo, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import MobileCartAction from "./mobile-action";
@@ -14,7 +14,7 @@ type Props = {
   product: ProductController.Product;
 };
 
-const Product = ({ product }: Props) => {
+const Product = memo(({ product }: Props) => {
   const {
     showCartAction,
     showCartActionButton,
@@ -71,6 +71,7 @@ const Product = ({ product }: Props) => {
       </div>
     </Fragment>
   );
-};
+});
 
+Product.displayName = "Product";
 export default Product;

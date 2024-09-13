@@ -22,6 +22,8 @@ export namespace FileController {
             files: File[];
             count: number;
             hasMore: boolean;
+            pageSize: string,
+            pageNumber: string;
         }
     }
 

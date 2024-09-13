@@ -6,6 +6,10 @@ import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useAddToCartMutation } from "@/lib/redux/services/cart";
+import { CartController } from "@/types/cart";
+import useMessage from "@/hooks/useMessage";
+import { TailwindSpinner } from "../ui/spinner";
 
 type Props = {
   product: ProductController.Product;
@@ -14,6 +18,27 @@ type Props = {
 };
 
 const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
+  const [addToCart, { isLoading }] = useAddToCartMutation();
+
+  const { alertMessage } = useMessage();
+
+  const handleAddToCart = async (id: number) => {
+    try {
+      const payload: CartController.AddItem = {
+        productId: product.id,
+        productColorId: product.colors[0].id,
+        productSizeId: id,
+        quantity: 1,
+      };
+      await addToCart(payload).unwrap();
+      alertMessage("Product added to cart", "success");
+      closeFn();
+    } catch (error) {
+      console.log(error);
+      alertMessage("Something went wrong", "error");
+    }
+  };
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflowY = "hidden";
@@ -43,11 +68,15 @@ const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
             className="w-full max-w-md rounded-t-2xl bg-white p-6 shadow-lg"
           >
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Select size</h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-semibold">Select size</h2>
+                {isLoading && <TailwindSpinner className="h-4 w-4" />}
+              </div>
               <Button
                 variant={"ghost"}
                 className="rounded-full p-2 text-gray-500 hover:bg-gray-100"
                 onClick={closeFn}
+                disabled={isLoading}
               >
                 <X width={20} />
               </Button>
@@ -59,6 +88,8 @@ const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   key={size.id}
+                  disabled={isLoading}
+                  onClick={() => handleAddToCart(size.id)}
                 >
                   {size.name}
                 </MotionButton>

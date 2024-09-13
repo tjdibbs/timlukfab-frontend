@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { deleteProduct } from "@/lib/actions/products";
 import useMessage from "@/hooks/useMessage";
+import Image from "next/image";
 
 export const columns: ColumnDef<ProductController.Product>[] = [
   {
@@ -29,6 +30,24 @@ export const columns: ColumnDef<ProductController.Product>[] = [
     cell: ({ row }) => {
       const description = row.original.description;
       return <div className="text-left">{description}</div>;
+    },
+  },
+  {
+    accessorKey: "medias",
+    header: () => <div className="text-left">Media</div>,
+    cell: ({ row }) => {
+      const media = row.original.medias[0];
+      return (
+        <div className="flex w-12 items-center justify-center">
+          <Image
+            src={media.path}
+            alt="product image"
+            width={100}
+            height={100}
+            className="aspect-square w-full object-cover"
+          />
+        </div>
+      );
     },
   },
   {

@@ -16,7 +16,7 @@ const getSubCategories = async (
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/sub-categories?pageNumber=${pageNumber}`,
     {
-      next: { revalidate: 300 },
+      next: { tags: ["SubCategories"] },
     }
   );
 
