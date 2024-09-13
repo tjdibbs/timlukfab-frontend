@@ -5,7 +5,7 @@ import { ProductController } from "@/types/products";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { memo, useEffect, useMemo, useRef } from "react";
+import { Fragment, memo, useEffect, useMemo, useRef } from "react";
 import { Button } from "../ui/button";
 import { Heart, ShoppingCart, X } from "lucide-react";
 import { formatNumberWithCommas } from "@/utils/functions";
@@ -15,6 +15,11 @@ import { Skeleton } from "../ui/skeleton";
 import { useAddToCartMutation } from "@/lib/redux/services/cart";
 import { TailwindSpinner } from "../ui/spinner";
 import useMessage from "@/hooks/useMessage";
+import {
+  useAddToWishesMutation,
+  useRemoveFromWishesMutation,
+} from "@/lib/redux/services/wishes";
+import { WishesController } from "@/types/wishes";
 
 export const CartActionButton = memo(() => {
   return <MotionDiv></MotionDiv>;
@@ -196,26 +201,87 @@ export const ProductImage = memo(
 );
 
 export const ProductInfo = memo(
-  ({ id, name, price }: { id: number; name: string; price: number }) => {
+  ({
+    product,
+    wishes,
+  }: {
+    product: ProductController.Product;
+    wishes?: WishesController.WishResult;
+  }) => {
     const user = useAppSelector(state => state.user);
+
+    const isInWishist: boolean = useMemo(() => {
+      return (
+        wishes?.wishes.some(wish => wish.productId === product.id) || false
+      );
+    }, [wishes]);
+
+    const [addToWishes, { isLoading }] = useAddToWishesMutation();
+    const [removeFromWishes, { isLoading: isPending }] =
+      useRemoveFromWishesMutation();
+
+    const { alertMessage } = useMessage();
+
+    const handleAddToWishes = async () => {
+      try {
+        await addToWishes({
+          productId: product.id,
+          description: product.description || "description",
+        }).unwrap();
+        alertMessage("Added to wishlist", "success");
+      } catch (error) {
+        console.log(error);
+        alertMessage("Something went wrong", "error");
+      }
+    };
+
+    const handleDeleteWishist = async () => {
+      if (!wishes) return;
+      try {
+        const wishToDelete = wishes.wishes.find(
+          wish => wish.productId === product.id
+        );
+        if (!wishToDelete) {
+          throw new Error("Wishlist not found");
+        }
+        await removeFromWishes({
+          productId: product.id,
+          wishesId: wishToDelete.id,
+        }).unwrap();
+        alertMessage("Removed from wishlist", "success");
+      } catch (error) {
+        console.log(error);
+        alertMessage("Something went wrong", "error");
+      }
+    };
 
     return (
       <div className="py-2">
         <div className="flex items-center justify-between">
           <Link
-            href={`/products/${id}`}
+            href={`/products/${product.id}`}
             className="text-sm font-semibold text-black transition-colors hover:text-normal_grey"
           >
-            {name}
+            {product.name}
           </Link>
           {!!user && (
-            <Button variant={"ghost"} size={"sm"} className="self-start">
-              <Heart width={16} />
+            <Button
+              disabled={isLoading || isPending}
+              variant={"ghost"}
+              size={"sm"}
+              className="self-start"
+              onClick={isInWishist ? handleDeleteWishist : handleAddToWishes}
+            >
+              {isLoading || isPending ? (
+                <TailwindSpinner className="h-4 w-4" />
+              ) : (
+                <Heart width={16} fill={isInWishist ? "#FF0000" : "none"} />
+              )}
             </Button>
           )}
         </div>
         <p className="text-lg font-bold max-md:text-base">
-          ${formatNumberWithCommas(price)}
+          ${formatNumberWithCommas(Number(product.price))}
         </p>
         <p className="text-xs font-semibold text-primary">
           Buy one, get one free

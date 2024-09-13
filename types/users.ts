@@ -33,4 +33,9 @@ export namespace UserController {
         },
         success: true
     }
+
+    export interface GetSingle {
+        success: true,
+        user: User
+    }
 }

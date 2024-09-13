@@ -9,12 +9,14 @@ import { createPortal } from "react-dom";
 import MobileCartAction from "./mobile-action";
 import { useIsClient } from "@/hooks/useIsClient";
 import { Skeleton } from "../ui/skeleton";
+import { WishesController } from "@/types/wishes";
 
 type Props = {
   product: ProductController.Product;
+  wishes?: WishesController.WishResult;
 };
 
-const Product = memo(({ product }: Props) => {
+const Product = memo(({ product, wishes }: Props) => {
   const {
     showCartAction,
     showCartActionButton,
@@ -63,11 +65,7 @@ const Product = memo(({ product }: Props) => {
           showCartAction={showCartAction}
           hideCartAction={hideCartAction}
         />
-        <ProductInfo
-          id={product.id}
-          name={product.name}
-          price={Number(product.price)}
-        />
+        <ProductInfo product={product} wishes={wishes} />
       </div>
     </Fragment>
   );

@@ -10,6 +10,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Fragment, Suspense } from "react";
+import { CategoryController } from "@/types/categories";
 
 const Header = () => {
   return (
@@ -59,6 +60,14 @@ const CategoryBar = async () => {
 
   if (!categories.length) return null;
 
+  return <Categories categories={categories} />;
+};
+
+const Categories = ({
+  categories,
+}: {
+  categories: CategoryController.Category[];
+}) => {
   return (
     <div className="wrapper no-scrollbar flex flex-nowrap items-center overflow-x-auto">
       {categories.map(category => (
@@ -77,7 +86,7 @@ const CategoryBar = async () => {
             <HoverCardContent>
               <ul>
                 {category.subcategories.map(subcategory => (
-                  <li>
+                  <li key={subcategory.id}>
                     <Button variant={"ghost"} size={"sm"}>
                       <Link
                         href={`/categories/${category.id}/subcategories/${subcategory.id}`}

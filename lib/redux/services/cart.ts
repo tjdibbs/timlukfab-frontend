@@ -53,7 +53,7 @@ const cartApi = api.injectEndpoints({
                 const patchResult = dispatch(cartApi.util.updateQueryData("getCart", undefined, (draft) => {
                     const item = draft.cartItems.find(item => item.id === arg.cartItemId);
                     if (item) {
-                        Object.assign(item, arg.updateData);
+                        Object.assign(item, arg);
                         item.updatedAt = new Date().toISOString();
                     }
                 }))

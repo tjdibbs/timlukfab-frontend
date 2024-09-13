@@ -13,6 +13,14 @@ import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import { ProductController } from "@/types/products";
 import { TailwindSpinner } from "../ui/spinner";
 import { useAddToCartMutation } from "@/lib/redux/services/cart";
+import {
+  useAddToWishesMutation,
+  useGetWishesQuery,
+  useRemoveFromWishesMutation,
+} from "@/lib/redux/services/wishes";
+import { Heart } from "lucide-react";
+import { useAppSelector } from "@/lib/redux/store";
+import { useRouter } from "next/navigation";
 
 type Props = {
   product: ProductController.Product;
@@ -129,8 +137,22 @@ const ProductInfo = memo(({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [productColorId, setProductColorId] = useState<number | null>(null);
   const [productSizeId, setProductSizeId] = useState<number | null>(null);
+  const user = useAppSelector(state => state.user);
+
+  const router = useRouter();
 
   const [addToCart, { isLoading }] = useAddToCartMutation();
+  const [addToWishes, { isLoading: isFetching }] = useAddToWishesMutation();
+  const [removeFromWishes, { isLoading: isPending }] =
+    useRemoveFromWishesMutation();
+
+  const { data } = useGetWishesQuery(undefined);
+
+  const isInWishlist: boolean = useMemo(() => {
+    return (
+      data?.result.wishes.some(item => item.productId === product.id) || false
+    );
+  }, [data]);
 
   const handleIncrease = () => {
     if (quantity < product.stock) {
@@ -154,7 +176,45 @@ const ProductInfo = memo(({ product }: Props) => {
 
   const { alertMessage } = useMessage();
 
+  const handleAddToWishes = async () => {
+    try {
+      await addToWishes({
+        productId: product.id,
+        description: product.description || "description",
+      }).unwrap();
+      alertMessage("Added to wishlist", "success");
+    } catch (error) {
+      console.log(error);
+      alertMessage("Something went wrong", "error");
+    }
+  };
+
+  const handleDeleteWishist = async () => {
+    if (!data) return;
+    try {
+      const wishToDelete = data.result.wishes.find(
+        wish => wish.productId === product.id
+      );
+      if (!wishToDelete) {
+        throw new Error("Wishlist not found");
+      }
+      await removeFromWishes({
+        productId: product.id,
+        wishesId: wishToDelete.id,
+      }).unwrap();
+      alertMessage("Removed from wishlist", "success");
+    } catch (error) {
+      console.log(error);
+      alertMessage("Something went wrong", "error");
+    }
+  };
+
   const handleAddToCart = async () => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
     if (!productColorId || !productSizeId) {
       alertMessage("Please select size and color", "error");
       return;
@@ -166,8 +226,6 @@ const ProductInfo = memo(({ product }: Props) => {
       productSizeId,
       productColorId,
     };
-
-    console.log(payload);
 
     try {
       const response = await addToCart(payload).unwrap();
@@ -244,13 +302,21 @@ const ProductInfo = memo(({ product }: Props) => {
                 "Add to cart"
               )}
             </Button>
-            <Button
-              variant={"outline"}
-              size={"icon"}
-              className="flex items-center justify-center rounded-full border border-[#eee] text-lg hover:bg-[#eee]"
-            >
-              <HeartOutlined />
-            </Button>
+            {!!user && (
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                disabled={isFetching || isPending}
+                onClick={isInWishlist ? handleDeleteWishist : handleAddToWishes}
+                className="flex items-center justify-center rounded-full border border-[#eee] text-lg hover:bg-[#eee]"
+              >
+                {isFetching || isPending ? (
+                  <TailwindSpinner className="h-5 w-5" />
+                ) : (
+                  <Heart fill={isInWishlist ? "#FF0000" : "none"} />
+                )}
+              </Button>
+            )}
           </div>
         </div>
       </div>

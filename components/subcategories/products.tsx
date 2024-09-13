@@ -9,6 +9,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import ProductsComponent from "../ui/products";
+import { products } from "../../data/index";
 
 type Props = {
   data: ProductController.Product[];
@@ -28,14 +30,10 @@ const getProducts = async (): Promise<ProductController.Get> => {
 const Products = ({ data, hasMore }: Props) => {
   return (
     <Fragment>
-      <div
-        style={{ rowGap: "0.75rem" }}
+      <ProductsComponent
         className="col-span-9 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4"
-      >
-        {data.map((product, index) => (
-          <Product key={product.id} product={product} />
-        ))}
-      </div>
+        products={data}
+      />
       {/* <div>
         <Pagination>
           <PaginationItem>

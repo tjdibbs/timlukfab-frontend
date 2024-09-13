@@ -1,8 +1,18 @@
-import { products } from "@/data";
-import Image from "next/image";
-import { X } from "react-feather";
+"use client";
 
-const DesktopWishlist = () => {
+import { Button } from "@/components/ui/button";
+import { TailwindSpinner } from "@/components/ui/spinner";
+import useMessage from "@/hooks/useMessage";
+import { useRemoveFromWishesMutation } from "@/lib/redux/services/wishes";
+import { WishesController } from "@/types/wishes";
+import Image from "next/image";
+import Link from "next/link";
+
+type Props = {
+  wishlists: WishesController.Wish[];
+};
+
+const DesktopWishlist = ({ wishlists }: Props) => {
   return (
     <div className="hidden md:block">
       <table className="w-full">
@@ -10,45 +20,73 @@ const DesktopWishlist = () => {
           <tr className="text-left text-gray-500">
             <th className="pb-2">PRODUCT NAME</th>
             <th className="pb-2">UNIT PRICE</th>
-            <th className="pb-2">STOCK STATUS</th>
             <th className="pb-2"></th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id} className="border-t border-gray-200">
-              <td className="flex items-center gap-2 py-4">
-                <button className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-gray-400 text-gray-400 hover:border-gray-600 hover:text-gray-600">
-                  <X className="w-3" />
-                </button>
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={60}
-                  height={60}
-                  className="mr-4"
-                />
-                <span>{product.name}</span>
-              </td>
-              <td className="py-4">
-                <span className="mr-2 text-gray-400 line-through">
-                  ${(product.price * 1.25).toFixed(2)}
-                </span>
-                <span className="font-semibold">
-                  ${product.price.toFixed(2)}
-                </span>
-              </td>
-              <td className="py-4 text-green-600">In Stock</td>
-              <td className="py-4">
-                <button className="rounded border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100">
-                  Add to cart
-                </button>
-              </td>
-            </tr>
+          {wishlists.map(wishlist => (
+            <WislistItem key={wishlist.id} wishlist={wishlist} />
           ))}
         </tbody>
       </table>
     </div>
   );
 };
+
+const WislistItem = ({ wishlist }: { wishlist: WishesController.Wish }) => {
+  const [removeFromWishes, { isLoading }] = useRemoveFromWishesMutation();
+
+  const { alertMessage } = useMessage();
+
+  const handleRemove = async (wishlist: WishesController.Wish) => {
+    try {
+      await removeFromWishes({
+        productId: wishlist.product.id,
+        wishesId: wishlist.id,
+      }).unwrap();
+      alertMessage("Product removed from wishlist", "success");
+    } catch (error) {
+      alertMessage("Something went wrong", "error");
+    }
+  };
+
+  return (
+    <tr className="border-t border-gray-200">
+      <td className="flex items-center gap-4 py-4">
+        <div className="w-16">
+          <Image
+            src={wishlist.product.medias[0].path}
+            alt={wishlist.product.name}
+            width={60}
+            height={60}
+            className="aspect-[5/6] w-full object-cover"
+          />
+        </div>
+        <Link
+          href={`/products/${wishlist.product.id}`}
+          className="text-sm text-black"
+        >
+          {wishlist.product.name}
+        </Link>
+      </td>
+      <td className="py-4">
+        <span className="font-semibold">
+          ${Number(wishlist.product.price).toFixed(2)}
+        </span>
+      </td>
+      <td className="py-4">
+        <Button
+          size={"default"}
+          variant={"outline"}
+          className="w-24"
+          disabled={isLoading}
+          onClick={() => handleRemove(wishlist)}
+        >
+          {isLoading ? <TailwindSpinner className="h-5 w-5" /> : "Remove"}
+        </Button>
+      </td>
+    </tr>
+  );
+};
+
 export default DesktopWishlist;

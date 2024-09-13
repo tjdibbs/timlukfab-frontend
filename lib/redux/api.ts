@@ -9,6 +9,6 @@ export const api = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
     keepUnusedDataFor: 120,
-    tagTypes: ["Cart", "Wishlist", "User"],
+    tagTypes: ["Cart", "Wishes", "User"],
     endpoints: () => ({})
 })

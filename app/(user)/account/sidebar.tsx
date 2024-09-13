@@ -5,18 +5,33 @@ import { links } from "./data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoutButton from "@/components/account/logoutButton";
+import { useAppSelector } from "@/lib/redux/store";
+import { useEffect } from "react";
+import { useIsClient } from "@/hooks/useIsClient";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Sidebar = () => {
   const pathname = usePathname();
+
+  const user = useAppSelector(state => state.user);
+
+  const isClient = useIsClient();
+
+  if (!isClient || !user) {
+    return <SidebarSkeleton />;
+  }
 
   return (
     <div className="col-span-3 border-r border-r-[#eee] text-[#555] max-lg:mb-8">
       <header className="mb-4 flex items-center gap-2">
         <Avatar className="h-16 w-16 max-md:h-14 max-md:w-14">
           <AvatarImage src="" alt="avatar" />
-          <AvatarFallback>BU</AvatarFallback>
+          <AvatarFallback>
+            {user.firstName.charAt(0).toUpperCase()}
+            {user.lastName.charAt(0).toUpperCase()}
+          </AvatarFallback>
         </Avatar>
-        <span className="text-base text-[#777]">Benedict Umeozor</span>
+        <span className="text-base text-[#777]">{user.fullName}</span>
       </header>
       <div>
         <ul>
@@ -44,6 +59,32 @@ const Sidebar = () => {
             />
           </li>
         </ul>
+      </div>
+    </div>
+  );
+};
+
+const SidebarSkeleton = () => {
+  return (
+    <div className="col-span-3 space-y-4 border-r border-r-[#eee] px-2 max-lg:mb-8">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-16 w-16 rounded-full max-md:h-14 max-md:w-14" />
+        <Skeleton className="h-8 flex-1" />
+      </div>
+      <div>
+        <Skeleton className="h-16 w-full" />
+      </div>
+      <div>
+        <Skeleton className="h-16 w-full" />
+      </div>
+      <div>
+        <Skeleton className="h-16 w-full" />
+      </div>
+      <div>
+        <Skeleton className="h-16 w-full" />
+      </div>
+      <div>
+        <Skeleton className="h-16 w-full" />
       </div>
     </div>
   );

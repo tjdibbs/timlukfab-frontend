@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Separator } from "../ui/separator";
 import { getProducts, getSingleProduct } from "@/lib/actions/products";
 import Product from "../product";
+import ProductsComponent from "../ui/products";
 
 const RelatedProducts = async ({ id }: { id: string }) => {
   const { product } = await getSingleProduct(id);
@@ -9,11 +10,13 @@ const RelatedProducts = async ({ id }: { id: string }) => {
     result: { products },
   } = await getProducts();
 
-  const filtered = products.filter(p =>
-    p.categories.some(category =>
-      product.categories.some(c => c.id === category.id)
+  const filtered = products
+    .filter(p =>
+      p.categories.some(category =>
+        product.categories.some(c => c.id === category.id)
+      )
     )
-  );
+    .filter(p => p.id !== product.id);
 
   return (
     <Fragment>
@@ -21,11 +24,11 @@ const RelatedProducts = async ({ id }: { id: string }) => {
       <h3 className="mb-8 mt-4 text-xl font-semibold tracking-wide text-dark_grey max-md:text-lg">
         RELATED PRODUCTS
       </h3>
-      <div className="col-span-9 grid w-full grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
-        {filtered.slice(0, 4).map((product, index) => (
-          <Product key={product.id} product={product} />
-        ))}
-      </div>
+
+      <ProductsComponent
+        className="col-span-9 grid w-full grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5"
+        products={filtered.slice(0, 4)}
+      />
     </Fragment>
   );
 };
