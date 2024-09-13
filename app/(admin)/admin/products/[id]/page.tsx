@@ -270,7 +270,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     >
                       <Image
                         src={media.path}
-                        alt={media.originalName}
+                        alt={"Product Media"}
                         layout="fill"
                         objectFit="cover"
                         className="rounded-lg transition-opacity group-hover:opacity-75"

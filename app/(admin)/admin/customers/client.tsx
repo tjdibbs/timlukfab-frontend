@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { UserController } from "@/types/users";
 import { columns } from "@/components/admin/customers/columns";
