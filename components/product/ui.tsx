@@ -75,7 +75,10 @@ export const CartAction = memo(
       >
         <div className="mx-auto w-[90%] rounded-lg border border-[#d9d9d9] bg-white p-3">
           <div className="mb-1 flex items-center justify-between text-black">
-            <span className="text-sm">Select size</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Select size</span>
+              {isLoading && <TailwindSpinner className="h-4 w-4" />}
+            </div>
             <Button variant="ghost" size="sm" onClick={closeFn}>
               <X width={16} />
             </Button>
