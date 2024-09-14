@@ -20,6 +20,12 @@ const authSlice = createSlice({
     name: "auth",
     initialState: getAuthCredentials(),
     reducers: {
+        initializeAuth: (state) => {
+            const { token, id, refreshToken } = getAuthCredentials()
+            state.id = id
+            state.token = token
+            state.refreshToken = refreshToken
+        },
         setCredentials: (state, action: PayloadAction<AuthCredentials>) => {
             state.id = action.payload.id
             state.token = action.payload.token
@@ -35,11 +41,12 @@ const authSlice = createSlice({
         logout: (state) => {
             state.token = null
             state.refreshToken = null
+            state.id = null
             Cookies.remove("auth")
             localStorage.removeItem("token")
         }
     }
 })
 
-export const { setCredentials, logout, setAccessToken } = authSlice.actions
+export const { setCredentials, logout, setAccessToken, initializeAuth } = authSlice.actions
 export default authSlice.reducer

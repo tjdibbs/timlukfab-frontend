@@ -8,7 +8,6 @@ import { SnackbarProvider } from "notistack";
 import { Lato } from "next/font/google";
 import CartProvider from "../cart/cartProvider";
 import GetUser from "@/lib/getUser";
-import StoreProvider from "./StoreProvider";
 import Header from "../header/header";
 import { Toaster } from "react-hot-toast";
 
@@ -20,30 +19,28 @@ type Props = {
 
 const App = memo(({ children }: Props) => {
   return (
-    <StoreProvider>
-      <AntdRegistry>
-        <ConfigProvider
-          theme={{
-            token: {
-              fontFamily: lato.style.fontFamily,
-              fontSize: 16,
-            },
-          }}
-        >
-          <CartProvider>
-            <SnackbarProvider maxSnack={3}>
-              <GetUser />
-              <Toaster />
-              <Layout className={"app bg-gray-50"}>
-                <Header />
-                <main className="bg-white">{children}</main>
-                <AppFooter />
-              </Layout>
-            </SnackbarProvider>
-          </CartProvider>
-        </ConfigProvider>
-      </AntdRegistry>
-    </StoreProvider>
+    <AntdRegistry>
+      <ConfigProvider
+        theme={{
+          token: {
+            fontFamily: lato.style.fontFamily,
+            fontSize: 16,
+          },
+        }}
+      >
+        <CartProvider>
+          <SnackbarProvider maxSnack={3}>
+            <GetUser />
+            <Toaster />
+            <Layout className={"app bg-gray-50"}>
+              <Header />
+              <main className="bg-white">{children}</main>
+              <AppFooter />
+            </Layout>
+          </SnackbarProvider>
+        </CartProvider>
+      </ConfigProvider>
+    </AntdRegistry>
   );
 });
 

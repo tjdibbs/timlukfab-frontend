@@ -10,7 +10,7 @@ const cartSlice = createSlice({
     initialState: null as CartController.Cart | null,
     reducers: {
         setCart: (state, action: PayloadAction<CartController.Cart>) => {
-            return action.payload
+            state = action.payload
         }
     }
 })

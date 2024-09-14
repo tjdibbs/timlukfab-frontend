@@ -4,6 +4,7 @@ import { Nunito, Inter, Poppins } from "next/font/google";
 import "../globals.css";
 import { Metadata, Viewport } from "next";
 import App from "@/components/providers/App";
+import StoreProvider from "@/components/providers/StoreProvider";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -13,6 +14,8 @@ const nunito = Nunito({
 const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
   themeColor: "#000000",
@@ -92,7 +95,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + "bg-white"}>
-        <App>{children}</App>
+        <StoreProvider>
+          <App>{children}</App>
+        </StoreProvider>
       </body>
     </html>
   );
