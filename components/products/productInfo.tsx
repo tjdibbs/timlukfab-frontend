@@ -79,11 +79,12 @@ const ProductSizes = memo(
     return (
       <Fragment>
         <h6 className="my-4">Select size</h6>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="flex items-center gap-2">
           {productSizes.map(size => (
             <Button
               variant={size.id === productSizeId ? "default" : "outline"}
               key={size.id}
+              className="h-8 w-8 rounded-full"
               onClick={() => handleSizeChange(size.id)}
             >
               {size.name}

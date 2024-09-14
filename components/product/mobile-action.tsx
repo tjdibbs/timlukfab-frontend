@@ -58,7 +58,7 @@ const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999999] flex h-screen w-full items-end justify-center bg-black/40 backdrop-blur-sm md:hidden"
+          className="fixed left-0 top-0 z-[999] flex h-screen w-full items-end justify-center bg-black/40 backdrop-blur-sm md:hidden"
         >
           <MotionDiv
             initial={{ y: "100%" }}
