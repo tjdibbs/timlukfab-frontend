@@ -16,8 +16,8 @@ export const getCategories = async () => {
     return data as CategoryController.Get
 }
 
-export const getCategoryProducts = async (id: string) => {
-    const res = await fetch(`${process.env.API_BASE_URL}/categories/${id}/products?pageSize=25`, {
+export const getCategoryProducts = async (id: string, pageNumber?: string) => {
+    const res = await fetch(`${process.env.API_BASE_URL}/categories/${id}/products?pageSize=25&pageNumber=${pageNumber || "1"}`, {
         next: { revalidate: 1200, tags: ["Products"] },
     })
 

@@ -6,17 +6,25 @@ import MobileWishlist from "./mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect } from "react";
 import useMessage from "@/hooks/useMessage";
+import { useAppSelector } from "@/lib/redux/store";
 
 export default function Page() {
-  const { data, isLoading, isError } = useGetWishesQuery(undefined);
+  const token = useAppSelector(state => state.auth.token);
+  const { data, isLoading, isError, refetch } = useGetWishesQuery(undefined, {
+    skip: !token,
+  });
 
   const { alertMessage } = useMessage();
 
   useEffect(() => {
+    if (!token) {
+      return;
+    }
+    refetch();
     if (isError) {
       alertMessage("Something went wrong", "error");
     }
-  }, [isError]);
+  }, [isError, token]);
 
   if (isLoading || !data) {
     return (

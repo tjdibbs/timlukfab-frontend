@@ -5,15 +5,40 @@ import { links } from "./data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoutButton from "@/components/account/logoutButton";
-import { useAppSelector } from "@/lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import { useEffect } from "react";
 import { useIsClient } from "@/hooks/useIsClient";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetUserQuery } from "@/lib/redux/services/user";
+import { setUser } from "@/lib/redux/features/user";
+import useMessage from "@/hooks/useMessage";
 
 const Sidebar = () => {
   const pathname = usePathname();
 
+  const id = useAppSelector(state => state.auth.id);
   const user = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
+
+  const { data, refetch, isError } = useGetUserQuery(String(id), { skip: !id });
+
+  const { alertMessage } = useMessage();
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    if (isError) {
+      alertMessage("We are having problems with the server", "error");
+    }
+
+    refetch();
+
+    if (data) {
+      dispatch(setUser(data));
+    }
+  }, [id, data, isError]);
 
   const isClient = useIsClient();
 

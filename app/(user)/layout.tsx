@@ -79,6 +79,7 @@ export const metadata: Metadata = {
     "sneakers",
     "designer",
   ],
+  metadataBase: new URL("https://timlukfab.vercel.app/"),
 };
 
 export default function RootLayout({

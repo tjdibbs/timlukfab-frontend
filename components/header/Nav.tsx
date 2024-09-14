@@ -68,7 +68,7 @@ interface NavProps {
 const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
   const pathname = usePathname();
 
-  const auth = useAppSelector(state => state.auth);
+  const auth = useAppSelector(state => state.auth.token);
 
   useEffect(() => {
     document.body.style.overflowY = isOpen ? "hidden" : "auto";
@@ -120,7 +120,7 @@ const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
                 />
               ))}
 
-              {!auth.token ? (
+              {!auth ? (
                 <NavLink
                   key={"login"}
                   path="/login"

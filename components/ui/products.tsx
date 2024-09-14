@@ -3,6 +3,8 @@
 import { useGetWishesQuery } from "@/lib/redux/services/wishes";
 import { ProductController } from "@/types/products";
 import Product from "../product";
+import { useAppSelector } from "@/lib/redux/store";
+import { useEffect } from "react";
 
 type Props = {
   className: string;
@@ -10,7 +12,14 @@ type Props = {
 };
 
 const ProductsComponent = ({ className, products }: Props) => {
-  const { data } = useGetWishesQuery(undefined);
+  const token = useAppSelector(state => state.auth.token);
+  const { data, refetch } = useGetWishesQuery(undefined, { skip: !token });
+
+  useEffect(() => {
+    if (token) {
+      refetch();
+    }
+  }, [token]);
 
   return (
     <div className={className}>

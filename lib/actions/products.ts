@@ -7,8 +7,8 @@ import { Globals } from "@/types/globals";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 type CreateFormSchema = z.infer<typeof CreateProductSchema>
-export const getProducts = async (): Promise<ProductController.Get> => {
-    const res = await fetch(`${process.env.API_BASE_URL}/products?pageSize=25`, {
+export const getProducts = async (pageNumber?: string): Promise<ProductController.Get> => {
+    const res = await fetch(`${process.env.API_BASE_URL}/products?pageSize=25&pageNumber=${pageNumber || "1"}`, {
         next: {
             revalidate: 1200,
             tags: ["Products"],

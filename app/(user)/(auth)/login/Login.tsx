@@ -58,7 +58,7 @@ const Login = () => {
         refreshToken,
       };
 
-      alertMessage("Login successful", "success");
+      alertMessage("Login successful, redirecting...", "success");
 
       dispatch(setCredentials(credentials));
       dispatch(setUser(user));
@@ -70,9 +70,12 @@ const Login = () => {
         router.push("/account");
       }
     } catch (error) {
-      const message =
-        (error as ErrorResponse).data.message || "An error occurred";
-      alertMessage(message, "error");
+      if (error instanceof Error) {
+        alertMessage(error.message, "error");
+      } else {
+        const message = (error as ErrorResponse).data.message;
+        alertMessage(message || "An error occurred", "error");
+      }
     }
   }
 
@@ -136,6 +139,7 @@ const Login = () => {
                       </Button>
                     </div>
                   </FormControl>
+                  <FormMessage />
                   <div className="flex justify-end">
                     <Link
                       href="/forgot-password"
@@ -144,7 +148,6 @@ const Login = () => {
                       Forgot password?
                     </Link>
                   </div>
-                  <FormMessage />
                 </FormItem>
               )}
             />

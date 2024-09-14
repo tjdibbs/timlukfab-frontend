@@ -1,13 +1,13 @@
 import Sidebar from "./sidebar";
-import Products from "./products";
 import SidebarMobile from "./sidebar-mobile";
-import { Fragment, Suspense } from "react";
+import { Suspense } from "react";
 import { BreadCrumbLink } from "@/lib/types";
 import BreadCrumbComponent from "../ui/breadcrumb-component";
 import SidebarSkeleton from "../ui/sidebarskeleton";
-import { Skeleton } from "../ui/skeleton";
 import ProductsSkeleton from "../ui/product-skeleton";
 import { getProducts } from "@/lib/actions/products";
+import SelectSorter from "../ui/select-sorter";
+import PageProducts from "../ui/page-products";
 
 const breadCrumbLinks: BreadCrumbLink[] = [
   {
@@ -24,7 +24,10 @@ const breadCrumbLinks: BreadCrumbLink[] = [
   },
 ];
 
-const Shop = () => {
+type Props = { searchParams: { [key: string]: string | string[] | undefined } };
+type Orderby = "date" | "price" | "price-desc";
+
+const Shop = ({ searchParams }: Props) => {
   return (
     <div>
       <div className="mb-8 flex items-center max-md:flex-col max-md:gap-4 md:justify-between">
@@ -33,18 +36,8 @@ const Shop = () => {
         </div>
         <SidebarMobile />
         <div className="flex items-center justify-end gap-8">
-          <p className="text-[#777] max-md:hidden">Showing All Products</p>
-          <div>
-            <select
-              defaultValue={"default"}
-              className="w-40 cursor-pointer rounded-sm border border-x-gray-200 bg-gray-100 p-2 px-3 focus:outline-none max-md:px-2 max-md:text-sm"
-            >
-              <option value="default">Default sorting</option>
-              <option value="latest">Sort by latest</option>
-              <option value="price">Sort by price: low to high</option>
-              <option value="price-desc">Sort by price: high to low</option>
-            </select>
-          </div>
+          {/* <p className="text-[#777] max-md:hidden">Showing All Products</p> */}
+          <SelectSorter searchParams={searchParams} />
         </div>
       </div>
       <div className="grid grid-cols-12 gap-16 max-md:block">
@@ -52,19 +45,61 @@ const Shop = () => {
           <Sidebar />
         </Suspense>
         <Suspense fallback={<ProductsSkeleton />}>
-          <ProductsWrapper />
+          <ProductsWrapper searchParams={searchParams} />
         </Suspense>
       </div>
     </div>
   );
 };
 
-const ProductsWrapper = async () => {
+const ProductsWrapper = async ({ searchParams }: Props) => {
   const {
     result: { products, hasMore },
   } = await getProducts();
 
-  return <Products data={products} hasMore={hasMore} />;
+  const orderBy = searchParams.orderby as Orderby | undefined;
+  const maxPrice =
+    typeof searchParams.max_price === "string"
+      ? searchParams.max_price
+      : undefined;
+  const minPrice =
+    typeof searchParams.min_price === "string"
+      ? searchParams.min_price
+      : undefined;
+
+  let filteredProducts = [...products];
+
+  if (minPrice || maxPrice) {
+    const min = minPrice ? parseFloat(minPrice) : -Infinity;
+    const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+    filteredProducts = filteredProducts.filter(product => {
+      const price = parseFloat(product.price);
+      return price >= min && price <= max;
+    });
+  }
+
+  if (orderBy) {
+    switch (orderBy) {
+      case "date":
+        filteredProducts.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        break;
+      case "price":
+        filteredProducts.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+        break;
+      case "price-desc":
+        filteredProducts.sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+        break;
+    }
+  }
+
+  return <PageProducts data={filteredProducts} hasMore={hasMore} />;
 };
 
 export default Shop;

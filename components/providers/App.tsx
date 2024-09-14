@@ -10,6 +10,7 @@ import CartProvider from "../cart/cartProvider";
 import GetUser from "@/lib/getUser";
 import StoreProvider from "./StoreProvider";
 import Header from "../header/header";
+import { Toaster } from "react-hot-toast";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -32,6 +33,7 @@ const App = memo(({ children }: Props) => {
           <CartProvider>
             <SnackbarProvider maxSnack={3}>
               <GetUser />
+              <Toaster />
               <Layout className={"app bg-gray-50"}>
                 <Header />
                 <main className="bg-white">{children}</main>

@@ -1,4 +1,5 @@
 import { CartController } from "@/types/cart";
+import { ProductController } from "@/types/products";
 
 
 export function formatNumberWithCommas(number: number): string {
@@ -49,4 +50,8 @@ export function calculateCartItemAdditionalPrice(item: CartController.CartItem):
     const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
     const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
     return sizeAdditionalPrice + colorAdditionalPrice;
+}
+
+export function sortProductsByDate(products: ProductController.Product[]): ProductController.Product[] {
+    return products.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }

@@ -1,10 +1,9 @@
 import { getCategories } from "@/lib/actions/categories";
 import { Fragment } from "react";
 import { CategoryController } from "@/types/categories";
-import Link from "next/link";
 import { CategoryLinks } from "./ui";
 import RecentlyViewed from "../ui/recently-viewed";
-import FilterSlider from "./range";
+import RangeSlider from "../ui/range-slider";
 
 const Sidebar = async () => {
   const {
@@ -43,7 +42,7 @@ const CategoryList = ({
         <h2 className="mb-4 text-lg font-semibold uppercase text-normal_grey">
           Filter by price
         </h2>
-        <FilterSlider />
+        <RangeSlider />
       </div>
       <RecentlyViewed />
     </Fragment>

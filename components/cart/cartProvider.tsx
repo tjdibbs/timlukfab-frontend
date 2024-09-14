@@ -57,14 +57,21 @@ const CartProvider = memo(({ children }: { children: ReactNode }) => {
   const openCart = useCallback(() => setOpen(true), []);
   const closeCart = useCallback(() => setOpen(false), []);
 
-  const { data, isLoading, refetch } = useGetCartQuery({});
-  const user = useAppSelector(state => state.user);
+  const token = useAppSelector(state => state.auth.token);
+
+  const { data, isLoading, refetch } = useGetCartQuery({}, { skip: !token });
 
   const total: number = useMemo(() => {
     return calculateCartTotal(data?.cartItems || []);
   }, [data?.cartItems]);
 
   const cartLength = useMemo(() => data?.cartItems.length || 0, [data]);
+
+  useEffect(() => {
+    if (token) {
+      refetch();
+    }
+  }, [token]);
 
   useEffect(() => {
     document.body.style.overflowY = open ? "hidden" : "auto";
@@ -84,12 +91,6 @@ const CartProvider = memo(({ children }: { children: ReactNode }) => {
 
     return data?.cartItems.map(item => <CartItem key={item.id} item={item} />);
   }, [data]);
-
-  useEffect(() => {
-    if (user) {
-      refetch();
-    }
-  }, [user]);
 
   const contextValue = useMemo(
     () => ({ open, openCart, closeCart, cartLength, total }),

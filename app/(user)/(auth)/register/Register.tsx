@@ -77,7 +77,7 @@ const Register = () => {
       const response = await registerUser(dataToSend).unwrap();
       alertMessage(
         response.message || "Account Created Successfully: Redirecting...",
-        "success",
+        "success"
       );
       form.reset();
       const { token, refreshToken, user } = response;
@@ -207,8 +207,8 @@ const Register = () => {
                   Country
                 </FormLabel>
                 <Select
-                  onValueChange={(value) => {
-                    const country = countryList.find((c) => c.name === value);
+                  onValueChange={value => {
+                    const country = countryList.find(c => c.name === value);
                     if (country) {
                       setSelectedCountry(country);
                       form.setValue("contact.isoCode", country.code);
@@ -225,7 +225,7 @@ const Register = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {countryList.map((country) => (
+                    {countryList.map(country => (
                       <SelectItem key={country.code} value={country.name}>
                         {country.name}
                       </SelectItem>
@@ -256,7 +256,7 @@ const Register = () => {
                       placeholder="Phone number"
                       {...field}
                       className="flex-1 rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
-                      onChange={(e) => {
+                      onChange={e => {
                         // Remove non-digit characters
                         const value = e.target.value.replace(/\D/g, "");
                         field.onChange(value);

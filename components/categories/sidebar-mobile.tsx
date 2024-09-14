@@ -1,9 +1,7 @@
 "use client";
 
-import FilterSlider from "@/components/shop/range";
 import { SlidersHorizontalIcon } from "lucide-react";
 import { Fragment, memo, useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { X } from "react-feather";
 import { v4 as uuidV4 } from "uuid";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,6 +9,7 @@ import { CategoryController } from "@/types/categories";
 import RecentlyViewed from "../ui/recently-viewed";
 import { CategoryLinks } from "./ui";
 import { MobileSidebarSkeleton } from "../ui/sidebarskeleton";
+import RangeSlider from "../ui/range-slider";
 
 const getCategories = async () => {
   const res = await fetch(
@@ -112,8 +111,7 @@ const Menu = memo(
                 Filter by price
               </h2>
 
-              {/* rc slider */}
-              <FilterSlider />
+              <RangeSlider closeFn={closeNav} />
             </div>
             <RecentlyViewed />
           </motion.div>

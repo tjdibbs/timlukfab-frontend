@@ -4,14 +4,17 @@ import SidebarMobile from "./sidebar-mobile";
 import { Suspense } from "react";
 import SidebarSkeleton from "../ui/sidebarskeleton";
 import Sidebar from "./sidebar";
-import Products from "./products";
 import { Skeleton } from "../ui/skeleton";
 import {
   getCategoryProducts,
   getSingleCategory,
 } from "@/lib/actions/categories";
-import { getProducts } from "@/lib/actions/products";
 import ProductsSkeleton from "../ui/product-skeleton";
+import PageProducts from "../ui/page-products";
+import SelectSorter from "../ui/select-sorter";
+
+type Props = { searchParams: { [key: string]: string | string[] | undefined } };
+type Orderby = "date" | "price" | "price-desc";
 
 const BreadCrumbSkeleton = () => {
   return (
@@ -49,15 +52,60 @@ const BreadCrumb = async ({ id }: { id: string }) => {
   return <BreadCrumbComponent links={breadCrumbLinks} />;
 };
 
-const ProductsWrapper = async ({ id }: { id: number }) => {
+const ProductsWrapper = async ({
+  id,
+  searchParams,
+}: { id: number } & Props) => {
   const {
     result: { products, hasMore },
   } = await getCategoryProducts(id.toString());
 
-  return <Products data={products} hasMore={hasMore} />;
+  const orderBy = searchParams.orderby as Orderby | undefined;
+  const maxPrice =
+    typeof searchParams.max_price === "string"
+      ? searchParams.max_price
+      : undefined;
+  const minPrice =
+    typeof searchParams.min_price === "string"
+      ? searchParams.min_price
+      : undefined;
+
+  let filteredProducts = [...products];
+
+  if (minPrice || maxPrice) {
+    const min = minPrice ? parseFloat(minPrice) : -Infinity;
+    const max = maxPrice ? parseFloat(maxPrice) : Infinity;
+    filteredProducts = filteredProducts.filter(product => {
+      const price = parseFloat(product.price);
+      return price >= min && price <= max;
+    });
+  }
+
+  if (orderBy) {
+    switch (orderBy) {
+      case "date":
+        filteredProducts.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        break;
+      case "price":
+        filteredProducts.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+        break;
+      case "price-desc":
+        filteredProducts.sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+        break;
+    }
+  }
+
+  return <PageProducts data={filteredProducts} hasMore={hasMore} />;
 };
 
-const Category = ({ id }: { id: string }) => {
+const Category = ({ id, searchParams }: { id: string } & Props) => {
   return (
     <div>
       <div className="mb-8 flex items-center max-md:flex-col max-md:gap-4 md:justify-between">
@@ -68,22 +116,7 @@ const Category = ({ id }: { id: string }) => {
         </div>
         <SidebarMobile />
         <div className="flex items-center justify-end gap-8">
-          <p className="text-[#777] max-md:hidden">
-            Showing 1–12 of 23 results
-          </p>
-          <div>
-            <select
-              defaultValue={"default"}
-              className="w-40 cursor-pointer rounded-sm border border-x-gray-200 bg-gray-100 p-2 px-3 focus:outline-none max-md:px-2 max-md:text-sm"
-            >
-              <option value="default">Default sorting</option>
-              <option value="popularity">Sort by popularity</option>
-              <option value="rating">Sort by average rating</option>
-              <option value="latest">Sort by latest</option>
-              <option value="price">Sort by price: low to high</option>
-              <option value="price-desc">Sort by price: high to low</option>
-            </select>
-          </div>
+          <SelectSorter searchParams={searchParams} />
         </div>
       </div>
       <div className="grid grid-cols-12 gap-16 max-md:block">
@@ -91,7 +124,7 @@ const Category = ({ id }: { id: string }) => {
           <Sidebar />
         </Suspense>
         <Suspense fallback={<ProductsSkeleton />}>
-          <ProductsWrapper id={Number(id)} />
+          <ProductsWrapper id={Number(id)} searchParams={searchParams} />
         </Suspense>
       </div>
     </div>

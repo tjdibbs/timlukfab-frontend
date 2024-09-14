@@ -21,8 +21,6 @@ function logRequest(request: NextRequest) {
 export const middleware = (request: NextRequest, response: NextResponse) => {
   const { pathname } = request.nextUrl;
 
-  logRequest(request);
-
   if (CheckIfRouteIsGuest(request)) {
     const auth = request.cookies.get("auth");
     if (auth?.value) {
@@ -49,5 +47,7 @@ export const middleware = (request: NextRequest, response: NextResponse) => {
 };
 
 export const config = {
-  matcher: ["/", "/verify-email", "/login", "/register", "/account/:path*"],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
 };

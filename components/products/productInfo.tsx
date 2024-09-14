@@ -2,7 +2,14 @@
 
 import BreadCrumbComponent from "../ui/breadcrumb-component";
 import clsx from "clsx";
-import React, { Fragment, memo, useCallback, useMemo, useState } from "react";
+import React, {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import useMessage from "@/hooks/useMessage";
 import { BreadCrumbLink } from "@/lib/types";
 import { Button } from "../ui/button";
@@ -137,7 +144,7 @@ const ProductInfo = memo(({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [productColorId, setProductColorId] = useState<number | null>(null);
   const [productSizeId, setProductSizeId] = useState<number | null>(null);
-  const user = useAppSelector(state => state.user);
+  const token = useAppSelector(state => state.auth.token);
 
   const router = useRouter();
 
@@ -146,7 +153,7 @@ const ProductInfo = memo(({ product }: Props) => {
   const [removeFromWishes, { isLoading: isPending }] =
     useRemoveFromWishesMutation();
 
-  const { data } = useGetWishesQuery(undefined);
+  const { data, refetch } = useGetWishesQuery(undefined, { skip: !token });
 
   const isInWishlist: boolean = useMemo(() => {
     return (
@@ -210,7 +217,7 @@ const ProductInfo = memo(({ product }: Props) => {
   };
 
   const handleAddToCart = async () => {
-    if (!user) {
+    if (!token) {
       router.push("/login");
       return;
     }
@@ -241,6 +248,12 @@ const ProductInfo = memo(({ product }: Props) => {
       alertMessage("Failed to add item to cart", "error");
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      refetch();
+    }
+  }, [token]);
 
   return (
     <section className="col-span-5">
@@ -302,7 +315,7 @@ const ProductInfo = memo(({ product }: Props) => {
                 "Add to cart"
               )}
             </Button>
-            {!!user && (
+            {!!token && (
               <Button
                 variant={"outline"}
                 size={"icon"}

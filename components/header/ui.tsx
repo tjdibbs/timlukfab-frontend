@@ -15,10 +15,10 @@ import {
   useState,
 } from "react";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Heart, Menu, Search, ShoppingCart } from "react-feather";
 import Headroom from "react-headroom";
 import { useCart } from "../cart/cartProvider";
@@ -28,6 +28,12 @@ import { createPortal } from "react-dom";
 import Nav from "./Nav";
 import LogoutButton from "../account/logoutButton";
 import { Button } from "../ui/button";
+import { useGetCategoriesQuery } from "@/lib/redux/services/categories";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -52,7 +58,7 @@ export const NavLinks = memo(() => {
           <li key={link.id}>
             <Link
               href={link.path}
-              className={`font-semibold uppercase hover:text-black/60 ${
+              className={`text-base font-semibold uppercase hover:text-black/60 ${
                 isActive ? "text-black" : "text-black/60"
               }`}
             >
@@ -78,8 +84,16 @@ const AppHeaderSkeleton = () => (
       </div>
     </div>
     <div className="bg-[#fefefe] py-4">
-      <div className="wrapper no-scrollbar flex items-center overflow-x-auto">
+      <div className="wrapper no-scrollbar hidden items-center overflow-x-auto md:flex">
         {[...Array(12)].map((_, index) => (
+          <div
+            key={index}
+            className="mx-2 h-6 w-20 animate-pulse rounded bg-gray-200"
+          ></div>
+        ))}
+      </div>
+      <div className="wrapper no-scrollbar flex items-center overflow-x-auto md:hidden">
+        {[...Array(6)].map((_, index) => (
           <div
             key={index}
             className="mx-2 h-6 w-20 animate-pulse rounded bg-gray-200"
@@ -184,6 +198,85 @@ const AccountDropdown = () => {
         </HoverCardContent>
       </HoverCard>
     </Fragment>
+  );
+};
+
+const CategorySkeleton = () => {
+  return (
+    <Fragment>
+      <div className="wrapper no-scrollbar hidden items-center overflow-x-auto md:flex">
+        {[...Array(12)].map((_, index) => (
+          <div
+            key={index}
+            className="mx-2 h-6 w-20 animate-pulse rounded bg-gray-200"
+          ></div>
+        ))}
+      </div>
+      <div className="wrapper no-scrollbar flex items-center overflow-x-auto md:hidden">
+        {[...Array(6)].map((_, index) => (
+          <div
+            key={index}
+            className="mx-2 h-6 w-20 animate-pulse rounded bg-gray-200"
+          ></div>
+        ))}
+      </div>
+    </Fragment>
+  );
+};
+
+export const CategoriesBar = ({}) => {
+  const { data, isLoading } = useGetCategoriesQuery(undefined);
+
+  const categories = data?.result.categories;
+  const [openPopover, setOpenPopover] = useState<number | null>(null);
+
+  if (isLoading) {
+    return <CategorySkeleton />;
+  }
+
+  if (!categories) {
+    return null;
+  }
+
+  return (
+    <div className="wrapper no-scrollbar flex flex-nowrap items-center gap-2 overflow-x-auto">
+      {categories.map(category => (
+        <Popover
+          key={category.id}
+          open={openPopover === category.id}
+          onOpenChange={(open: boolean) =>
+            setOpenPopover(open ? category.id : null)
+          }
+        >
+          <PopoverTrigger asChild>
+            <Link
+              href={`/categories/${category.id}`}
+              onMouseEnter={() => setOpenPopover(category.id)}
+              onMouseLeave={() => setOpenPopover(null)}
+              className="rounded p-2 text-sm font-medium uppercase text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            >
+              {category.name}
+            </Link>
+          </PopoverTrigger>
+          <PopoverContent
+            onMouseEnter={() => setOpenPopover(category.id)}
+            onMouseLeave={() => setOpenPopover(null)}
+          >
+            <div className="grid grid-cols-2 gap-2">
+              {category.subcategories.map(subcategory => (
+                <Link
+                  key={subcategory.id}
+                  href={`/categories/${category.id}/subcategories/${subcategory.id}`}
+                  className="rounded p-2 text-sm uppercase text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                >
+                  {subcategory.name}
+                </Link>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
+      ))}
+    </div>
   );
 };
 

@@ -7,13 +7,18 @@ export const generateStaticParams = async () => {
 
 export default function Page({
   params,
+  searchParams,
 }: {
   params: { id: string; subcategoryId: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
   return (
     <section className="pb-10 pt-6">
       <div className="wrapper">
-        <Subcategory subcategoryId={params.subcategoryId} />
+        <Subcategory
+          subcategoryId={params.subcategoryId}
+          searchParams={searchParams}
+        />
       </div>
     </section>
   );

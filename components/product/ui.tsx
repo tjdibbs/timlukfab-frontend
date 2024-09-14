@@ -208,7 +208,7 @@ export const ProductInfo = memo(
     product: ProductController.Product;
     wishes?: WishesController.WishResult;
   }) => {
-    const user = useAppSelector(state => state.user);
+    const token = useAppSelector(state => state.auth.token);
 
     const isInWishist: boolean = useMemo(() => {
       return (
@@ -264,7 +264,7 @@ export const ProductInfo = memo(
           >
             {product.name}
           </Link>
-          {!!user && (
+          {!!token && (
             <Button
               disabled={isLoading || isPending}
               variant={"ghost"}

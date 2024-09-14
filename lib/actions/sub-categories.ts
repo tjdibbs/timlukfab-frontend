@@ -15,8 +15,8 @@ export const getSubCategories = async (): Promise<SubCategoryController.Get> => 
     return res.json()
 }
 
-export const getSubcategoryProducts = async (id: string) => {
-    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/${id}/products?pageSize=25`, {
+export const getSubcategoryProducts = async (id: string, pageNumber?: string) => {
+    const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/${id}/products?pageSize=25&pageNumber=${pageNumber || "1"}`, {
         next: { revalidate: 1200, tags: ["Products"] },
     })
 

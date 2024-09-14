@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Product from "@/components/product";
 import { Button } from "../ui/button";
 import { Divider } from "antd";
 import { ProductController } from "@/types/products";
-import { useGetWishesQuery } from "@/lib/redux/services/wishes";
 import ProductsComponent from "../ui/products";
 
 type Props = {
@@ -13,7 +11,6 @@ type Props = {
 };
 
 const Products = ({ products }: Props) => {
-  const { data, isLoading } = useGetWishesQuery(undefined);
 
   return (
     <section className="bg-gray-50 py-12">
