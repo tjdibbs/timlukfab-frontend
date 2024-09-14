@@ -17,10 +17,11 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   const id = useAppSelector(state => state.auth.id);
-  const user = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
 
-  const { data, refetch, isError } = useGetUserQuery(String(id), { skip: !id });
+  const { data, isLoading, refetch, isError } = useGetUserQuery(String(id), {
+    skip: !id,
+  });
 
   const { alertMessage } = useMessage();
 
@@ -42,7 +43,7 @@ const Sidebar = () => {
 
   const isClient = useIsClient();
 
-  if (!isClient || !user) {
+  if (!isClient || isLoading) {
     return <SidebarSkeleton />;
   }
 
@@ -52,11 +53,11 @@ const Sidebar = () => {
         <Avatar className="h-16 w-16 max-md:h-14 max-md:w-14">
           <AvatarImage src="" alt="avatar" />
           <AvatarFallback>
-            {user.firstName.charAt(0).toUpperCase()}
-            {user.lastName.charAt(0).toUpperCase()}
+            {data?.firstName.charAt(0).toUpperCase()}
+            {data?.lastName.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <span className="text-base text-[#777]">{user.fullName}</span>
+        <span className="text-base text-[#777]">{data?.fullName}</span>
       </header>
       <div>
         <ul>

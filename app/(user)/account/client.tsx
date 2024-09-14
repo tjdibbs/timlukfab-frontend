@@ -3,10 +3,13 @@
 import LogoutButton from "@/components/account/logoutButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { links } from "./data";
-import { useAppSelector } from "@/lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import { useIsClient } from "@/hooks/useIsClient";
+import { useGetUserQuery } from "@/lib/redux/services/user";
+import { setUser } from "@/lib/redux/features/user";
+import useMessage from "@/hooks/useMessage";
 
 export const DashboardSkeleton = () => {
   return (
@@ -33,20 +36,44 @@ export const DashboardSkeleton = () => {
 
 const Dashboard = () => {
   const pageLinks = links.filter(link => link.id !== 1);
+  const id = useAppSelector(state => state.auth.id);
 
-  const user = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
+
+  const { data, isLoading, refetch, isError } = useGetUserQuery(
+    id!.toString(),
+    {
+      skip: !id,
+    }
+  );
+
+  const { alertMessage } = useMessage();
+
+  useEffect(() => {
+    if (!id) return;
+
+    refetch();
+
+    if (isError) {
+      alertMessage("We are having problems with the server", "error");
+    }
+
+    if (data) {
+      dispatch(setUser(data));
+    }
+  }, [data, id]);
 
   const isClient = useIsClient();
 
-  if (!user || !isClient) {
+  if (!data || !isClient || isLoading) {
     return <DashboardSkeleton />;
   }
 
   return (
     <Fragment>
       <p className="text-[#777]">
-        Hello <span className="font-semibold">{user.fullName}</span> (not{" "}
-        <span className="font-semibold">{user.fullName}</span> ?{" "}
+        Hello <span className="font-semibold">{data.fullName}</span> (not{" "}
+        <span className="font-semibold">{data.fullName}</span> ?{" "}
         <LogoutButton className="text-black" text="Log out" />)
       </p>
 
