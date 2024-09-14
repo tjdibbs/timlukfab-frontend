@@ -41,7 +41,7 @@ const Dashboard = () => {
   const dispatch = useAppDispatch();
 
   const { data, isLoading, refetch, isError } = useGetUserQuery(
-    id!.toString(),
+    id?.toString() || "",
     {
       skip: !id,
     }
