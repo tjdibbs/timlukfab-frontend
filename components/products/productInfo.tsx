@@ -28,6 +28,8 @@ import {
 import { Heart } from "lucide-react";
 import { useAppSelector } from "@/lib/redux/store";
 import { useRouter } from "next/navigation";
+import { useIsClient } from "@/hooks/useIsClient";
+import { Skeleton } from "../ui/skeleton";
 
 type Props = {
   product: ProductController.Product;
@@ -250,11 +252,21 @@ const ProductInfo = memo(({ product }: Props) => {
     }
   };
 
+  const isClient = useIsClient();
+
   useEffect(() => {
     if (token) {
       refetch();
     }
   }, [token]);
+
+  if (!isClient) {
+    return (
+      <div className="col-span-5">
+        <Skeleton className="h-96 w-full" />
+      </div>
+    );
+  }
 
   return (
     <section className="col-span-5">

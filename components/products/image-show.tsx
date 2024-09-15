@@ -15,10 +15,11 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { SlashIcon } from "@radix-ui/react-icons";
 import { ProductController } from "@/types/products";
 import { BreadCrumbLink } from "@/lib/types";
 import BreadCrumbComponent from "../ui/breadcrumb-component";
+import { Skeleton } from "../ui/skeleton";
+import { useIsClient } from "@/hooks/useIsClient";
 
 type Props = {
   product: ProductController.Product;
@@ -55,6 +56,16 @@ const ImageShow = ({ product }: Props) => {
   const handleImageClick = (image: ProductController.Media) => {
     setImageToShow(image);
   };
+
+  const isClient = useIsClient();
+
+  if (!isClient) {
+    return (
+      <div className="col-span-7">
+        <Skeleton className="h-96 w-full" />
+      </div>
+    );
+  }
 
   return (
     <Fragment>

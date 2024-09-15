@@ -5,6 +5,8 @@ import { ProductController } from "@/types/products";
 import Product from "../product";
 import { useAppSelector } from "@/lib/redux/store";
 import { useEffect } from "react";
+import { useIsClient } from "@/hooks/useIsClient";
+import ProductsSkeleton from "./product-skeleton";
 
 type Props = {
   className: string;
@@ -15,11 +17,17 @@ const ProductsComponent = ({ className, products }: Props) => {
   const token = useAppSelector(state => state.auth.token);
   const { data, refetch } = useGetWishesQuery(undefined, { skip: !token });
 
+  const isClient = useIsClient();
+
   useEffect(() => {
     if (token) {
       refetch();
     }
   }, [token]);
+
+  if (!isClient) {
+    return <ProductsSkeleton />;
+  }
 
   return (
     <div className={className}>
