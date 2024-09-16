@@ -6,6 +6,7 @@ import { PropsWithChildren, ReactNode } from "react";
 import "../globals.css";
 import { Metadata } from "next";
 import AdminApp from "@/components/providers/AdminApp";
+import NextTopLoader from "nextjs-toploader";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -23,6 +24,7 @@ export default function AdminLayout({
   return (
     <html lang="en">
       <body className={lato.className}>
+        <NextTopLoader showSpinner={false} />
         <AdminApp>
           <AdminHeader />
           <main>{children}</main>
