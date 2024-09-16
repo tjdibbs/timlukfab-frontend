@@ -55,3 +55,14 @@ export function calculateCartItemAdditionalPrice(item: CartController.CartItem):
 export function sortProductsByDate(products: ProductController.Product[]): ProductController.Product[] {
     return products.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
+
+export function isSameDate(date1: string, date2: string): boolean {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    return (
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate()
+    );
+}

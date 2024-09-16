@@ -1,5 +1,6 @@
 import { PropsWithChildren, ReactNode } from "react";
 import { Nunito, Inter, Poppins } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
 
 import "../globals.css";
 import { Metadata, Viewport } from "next";
@@ -95,6 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + "bg-white"}>
+        <NextTopLoader showSpinner={false} />
         <StoreProvider>
           <App>{children}</App>
         </StoreProvider>
