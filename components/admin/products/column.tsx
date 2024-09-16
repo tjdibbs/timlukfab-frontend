@@ -94,6 +94,18 @@ export const columns: ColumnDef<ProductController.Product>[] = [
     },
   },
   {
+    accessorKey: "sizes",
+    header: () => <div className="text-left">Sizes</div>,
+    cell: ({ row }) => {
+      const sizes = row.original.sizes;
+
+      const productSizes = sizes.map(size => size.name);
+
+      return <div className="text-left">{productSizes.join(", ")}</div>;
+    },
+  },
+
+  {
     accessorKey: "createdAt",
     header: () => <div className="text-left">Created At</div>,
     cell: ({ row }) => {
