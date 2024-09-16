@@ -57,22 +57,8 @@ export namespace CategoryController {
         }
     }
 
-    export interface PUT {
-        category: Category;
-        success: boolean;
-    }
-
     export interface GetSingle {
         category: Category;
-        success: boolean;
-    }
-
-    export interface Patch {
-        category: Category;
-        success: boolean;
-    }
-
-    export interface Delete {
         success: boolean;
     }
 }

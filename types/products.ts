@@ -75,18 +75,4 @@ export namespace ProductController {
         product: Product,
         success: boolean,
     }
-
-    export interface Put {
-        product: Product;
-        success: boolean;
-    }
-
-    export interface Patch {
-        product: Product;
-        success: boolean
-    }
-
-    export interface Delete {
-        success: boolean;
-    }
 }
