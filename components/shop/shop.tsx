@@ -53,9 +53,12 @@ const Shop = ({ searchParams }: Props) => {
 };
 
 const ProductsWrapper = async ({ searchParams }: Props) => {
+  const pageNumber = searchParams.page as string | undefined;
+  const query = searchParams.query as string | undefined;
+
   const {
-    result: { products, hasMore },
-  } = await getProducts();
+    result: { products, hasMore, count },
+  } = await getProducts({ pageNumber: pageNumber || "1", searchParam: query });
 
   const orderBy = searchParams.orderby as Orderby | undefined;
   const maxPrice =
@@ -99,7 +102,9 @@ const ProductsWrapper = async ({ searchParams }: Props) => {
     }
   }
 
-  return <PageProducts data={filteredProducts} hasMore={hasMore} />;
+  return (
+    <PageProducts data={filteredProducts} hasMore={hasMore} count={count} />
+  );
 };
 
 export default Shop;

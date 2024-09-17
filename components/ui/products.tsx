@@ -29,6 +29,16 @@ const ProductsComponent = ({ className, products }: Props) => {
     return <ProductsSkeleton />;
   }
 
+  if (products.length === 0) {
+    return (
+      <div className="h-screen max-h-96">
+        <p className="text-gray-600 max-lg:text-center">
+          No products returned for your query
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
       {products.map(product => (

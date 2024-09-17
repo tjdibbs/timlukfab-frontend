@@ -56,9 +56,14 @@ const ProductsWrapper = async ({
   id,
   searchParams,
 }: { id: number } & Props) => {
+  const pageNumber = searchParams.page as string | undefined;
+
   const {
-    result: { products, hasMore },
-  } = await getCategoryProducts(id.toString());
+    result: { products, hasMore, count },
+  } = await getCategoryProducts({
+    id: id.toString(),
+    pageNumber: pageNumber || "1",
+  });
 
   const orderBy = searchParams.orderby as Orderby | undefined;
   const maxPrice =
@@ -102,7 +107,9 @@ const ProductsWrapper = async ({
     }
   }
 
-  return <PageProducts data={filteredProducts} hasMore={hasMore} />;
+  return (
+    <PageProducts data={filteredProducts} hasMore={hasMore} count={count} />
+  );
 };
 
 const Category = ({ id, searchParams }: { id: string } & Props) => {

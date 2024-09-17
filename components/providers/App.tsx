@@ -25,6 +25,7 @@ const App = memo(({ children }: Props) => {
           token: {
             fontFamily: lato.style.fontFamily,
             fontSize: 16,
+            colorLink: "#111",
           },
         }}
       >
