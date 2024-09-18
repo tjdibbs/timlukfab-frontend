@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState, useRef } from "react";
 import { Button } from "../ui/button";
 import { Search } from "react-feather";
 import { AnimatePresence } from "framer-motion";
@@ -32,10 +32,11 @@ const SearchComponent = () => {
 
 const SearchModal = ({ closeFn }: { closeFn: () => void }) => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { data, isFetching } = useGetProductsQuery(
     { searchParam: searchTerm },
@@ -57,12 +58,21 @@ const SearchModal = ({ closeFn }: { closeFn: () => void }) => {
     closeFn();
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      closeFn();
+    }
+  };
+
   useEffect(() => {
+    inputRef.current?.focus();
     document.body.style.overflowY = "hidden";
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.body.style.overflowY = "auto";
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, []);
 
   return (
     <MotionDiv
@@ -71,9 +81,13 @@ const SearchModal = ({ closeFn }: { closeFn: () => void }) => {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[9999] grid h-screen w-full place-items-center bg-black/60"
     >
-      <div className="w-[90%] max-w-sm rounded-xl bg-white px-4 py-6">
+      <div
+        ref={modalRef}
+        className="w-[90%] max-w-sm rounded-xl bg-white px-4 py-6"
+      >
         <div className="flex items-center gap-1">
           <Input
+            ref={inputRef}
             placeholder="Search a product..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
@@ -90,6 +104,7 @@ const SearchModal = ({ closeFn }: { closeFn: () => void }) => {
           {searchTerm &&
             data?.map((product, index) => (
               <ProductListing
+                closeFn={closeFn}
                 key={product.id}
                 product={product}
                 index={index + 1}
@@ -104,9 +119,11 @@ const SearchModal = ({ closeFn }: { closeFn: () => void }) => {
 const ProductListing = ({
   index,
   product,
+  closeFn,
 }: {
   product: ProductController.Product;
   index: number;
+  closeFn: () => void;
 }) => {
   return (
     <div className="flex items-center gap-4 rounded-lg p-4 transition-colors hover:bg-gray-100">
@@ -126,6 +143,7 @@ const ProductListing = ({
         <Link
           href={`/products/${product.id}`}
           className="text-sm hover:underline"
+          onClick={closeFn}
         >
           {product.name}
         </Link>

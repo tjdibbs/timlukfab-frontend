@@ -57,7 +57,6 @@ const DescriptionData = ({ description }: { description: string }) => {
 };
 
 const Reviews = ({ product }: { product: ProductController.Product }) => {
-  const token = useAppSelector(state => state.auth.token);
   const id = useAppSelector(state => state.auth.id);
   const { data, isLoading, refetch, isError } = useGetProductReviewsQuery(
     product.id.toString()
@@ -111,7 +110,7 @@ const Reviews = ({ product }: { product: ProductController.Product }) => {
         <p className="mt-4 text-normal_grey">There are no reviews yet</p>
       )}
 
-      {!userHasReviewed && (
+      {id && !userHasReviewed && (
         <ReviewForm
           length={reviewsThatAreNotReplies.length}
           product={product}
