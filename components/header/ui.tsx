@@ -34,6 +34,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
+import SearchComponent from "./search";
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -130,9 +131,7 @@ export const HeaderActions = memo(() => {
             Login
           </Link>
         )}
-        <Button size={"icon"} variant={"ghost"}>
-          <Search className="max-md:4 w-5" />
-        </Button>
+        <SearchComponent />
         {!!credentials && (
           <Fragment>
             <Button

@@ -1,10 +1,14 @@
 import { ProductController } from "@/types/products";
 import { api } from "../api";
 
+interface ProductQuery {
+    searchParam?: string
+}
+
 const productApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getProducts: build.query({
-            query: () => `/products/`,
+        getProducts: build.query<ProductController.Product[], ProductQuery>({
+            query: ({ searchParam }) => `/products?searchParam=${searchParam || ""}`,
             transformResponse: (response: ProductController.Get) => response.result.products
         }),
         getSingleProduct: build.query({

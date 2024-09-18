@@ -60,10 +60,7 @@ const Reviews = ({ product }: { product: ProductController.Product }) => {
   const token = useAppSelector(state => state.auth.token);
   const id = useAppSelector(state => state.auth.id);
   const { data, isLoading, refetch, isError } = useGetProductReviewsQuery(
-    product.id.toString(),
-    {
-      skip: !token,
-    }
+    product.id.toString()
   );
 
   const { alertMessage } = useMessage();
@@ -72,10 +69,7 @@ const Reviews = ({ product }: { product: ProductController.Product }) => {
     if (isError) {
       alertMessage("We are having problems with the server", "error");
     }
-    if (token) {
-      refetch();
-    }
-  }, [token, isError]);
+  }, [isError]);
 
   const reviewsThatAreNotReplies = useMemo(() => {
     return data?.result.reviews.filter(review => !review.parentId) || [];

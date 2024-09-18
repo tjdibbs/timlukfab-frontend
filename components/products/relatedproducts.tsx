@@ -8,7 +8,7 @@ const RelatedProducts = async ({ id }: { id: string }) => {
   const { product } = await getSingleProduct(id);
   const {
     result: { products },
-  } = await getProducts();
+  } = await getProducts({ pageNumber: "1" });
 
   const filtered = products
     .filter(p =>

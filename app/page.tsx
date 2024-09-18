@@ -32,7 +32,7 @@ export default function Page() {
 async function ProductsWrapper() {
   const {
     result: { products },
-  } = await getProducts();
+  } = await getProducts({ pageNumber: "1" });
 
   if (!products.length) {
     return <div className="py-8 text-center">No products in store</div>;
@@ -44,7 +44,7 @@ async function ProductsWrapper() {
 async function BestSellingProducts() {
   const {
     result: { products },
-  } = await getProducts();
+  } = await getProducts({ pageNumber: "1" });
 
   if (!products.length) return null;
 
