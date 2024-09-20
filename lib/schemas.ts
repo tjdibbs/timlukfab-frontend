@@ -81,3 +81,14 @@ export const CreateProductSchema = z.object({
     categories: z.array(z.number()).min(1, "At least one media item is required"),
     subcategories: z.array(z.number()),
 });
+
+export const AddAddressSchema = z.object({
+    fullName: z.string().min(1, "Full name is required"),
+    streetAddress: z.string().min(1, "Street address is required"),
+    city: z.string().min(1, "City is required"),
+    state: z.string().min(1, "State is required"),
+    postalCode: z.string().min(1, "Postal code is required"),
+    country: z.string().min(1, "Country is required"),
+    phoneNumber: z.string().min(1, "Phone number is required"),
+    isDefault: z.boolean(),
+})
