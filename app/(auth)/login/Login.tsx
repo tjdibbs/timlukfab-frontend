@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,16 +22,17 @@ import useMessage from "@/hooks/useMessage";
 import { useLoginUserMutation } from "@/lib/redux/services/auth";
 import { AuthCredentials, ErrorResponse } from "@/lib/types";
 import Spinner from "@/components/ui/spinner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch } from "@/lib/redux/store";
-import { setUser } from "@/lib/redux/features/user";
-import { setCredentials } from "@/lib/redux/features/auth";
+import { logoutOutUser, setUser } from "@/lib/redux/features/user";
+import { logout, setCredentials } from "@/lib/redux/features/auth";
 import Cookies from "js-cookie";
 
 type FormSchema = z.infer<typeof LoginFormSchema>;
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const searchParams = useSearchParams();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(LoginFormSchema),
@@ -78,6 +79,13 @@ const Login = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (searchParams.get("expired")) {
+      dispatch(logout());
+      dispatch(logoutOutUser());
+    }
+  }, []);
 
   return (
     <section>
