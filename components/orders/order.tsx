@@ -49,6 +49,8 @@ const Order = memo(({ order }: { order: OrderController.Order }) => {
             <span
               className={clsx("text-sm capitalize", {
                 "text-sky-500": order.status === "pending",
+                "text-red-500": order.status === "cancelled",
+                "text-green-500": order.status === "delivered",
               })}
             >
               {order.status}
