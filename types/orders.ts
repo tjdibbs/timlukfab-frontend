@@ -125,4 +125,12 @@ export namespace OrderController {
         order: Order;
         success: boolean;
     }
+
+    export interface GET {
+        orders: Order[];
+        pageNumber: number;
+        pageSize: number;
+        hasMore: boolean;
+        count: number;
+    }
 }

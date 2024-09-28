@@ -3,7 +3,7 @@ import { api } from "../api";
 
 const ordersApi = api.injectEndpoints({
     endpoints: (build) => ({
-        getAllOrders: build.query<unknown, undefined>({
+        getAllOrders: build.query<OrderController.GET, undefined>({
             query: () => `/orders/user`,
             providesTags: ["Orders"]
         }),
@@ -14,8 +14,16 @@ const ordersApi = api.injectEndpoints({
                 body
             }),
             invalidatesTags: ["Cart", "Orders"]
+        }),
+        cancelOrder: build.mutation<unknown, number>({
+            query: (id) => ({
+                url: `/orders/${id}/status`,
+                method: "PATCH",
+                body: { status: "cancelled" }
+            }),
+            invalidatesTags: ["Orders"]
         })
     })
 })
 
-export const { useAddOrderMutation } = ordersApi
+export const { useAddOrderMutation, useGetAllOrdersQuery, useCancelOrderMutation } = ordersApi
