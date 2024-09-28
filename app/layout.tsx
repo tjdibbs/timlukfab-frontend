@@ -1,13 +1,10 @@
 import { PropsWithChildren, ReactNode } from "react";
-import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
 import "./globals.css";
 import { Metadata, Viewport } from "next";
 import App from "@/components/providers/App";
 import StoreProvider from "@/components/providers/StoreProvider";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const dynamic = "force-dynamic";
 
@@ -88,7 +85,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + "bg-white antialiased"}>
+      <body className={"bg-white antialiased"}>
         <NextTopLoader showSpinner={false} />
         <StoreProvider>
           <App>{children}</App>
