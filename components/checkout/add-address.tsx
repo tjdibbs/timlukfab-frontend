@@ -26,13 +26,13 @@ import { useAddAddressMutation } from "@/lib/redux/services/address";
 import { AddAddressSchema } from "@/lib/schemas";
 import { ErrorResponse } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { ScrollArea } from "../ui/scroll-area";
 
 type FormSchema = z.infer<typeof AddAddressSchema>;
 
-const AddNewForm = () => {
+const AddNewForm = ({ closeFn }: { closeFn: () => void }) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(AddAddressSchema),
     defaultValues: {
@@ -49,14 +49,13 @@ const AddNewForm = () => {
   const [addAddress, { isLoading }] = useAddAddressMutation();
 
   const { alertMessage } = useMessage();
-  const router = useRouter();
 
   const onSubmit: SubmitHandler<FormSchema> = async data => {
     try {
       await addAddress(data).unwrap();
       alertMessage("Address added successfully", "success");
       form.reset();
-      router.push("/account/addresses");
+      closeFn();
     } catch (error) {
       if (error instanceof Error) {
         alertMessage(error.message, "error");
@@ -68,7 +67,7 @@ const AddNewForm = () => {
   };
 
   return (
-    <div>
+    <ScrollArea className="h-96">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -191,7 +190,7 @@ const AddNewForm = () => {
           </Button>
         </form>
       </Form>
-    </div>
+    </ScrollArea>
   );
 };
 export default AddNewForm;

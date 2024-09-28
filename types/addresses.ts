@@ -22,7 +22,6 @@ export namespace AddressController {
     }
 
     export interface AddNew {
-        fullName: string;
         streetAddress: string;
         city: string;
         state: string;

@@ -6,6 +6,7 @@ import { CSSProperties, memo, ReactNode } from "react";
 import { useClearCartMutation } from "@/lib/redux/services/cart";
 import useMessage from "@/hooks/useMessage";
 import { TailwindSpinner } from "../ui/spinner";
+import Link from "next/link";
 
 type CartOverlayProps = {
   closeCart: () => void;
@@ -76,9 +77,15 @@ const CartOverlay = memo(
               </p>
               <Button
                 disabled={isLoading}
+                onClick={closeCart}
                 className="w-full bg-black text-white hover:bg-gray-800"
               >
-                CHECKOUT • ${total}
+                <Link
+                  href="/checkout"
+                  className="block w-full text-white hover:text-blue-500"
+                >
+                  CHECKOUT • ${total}
+                </Link>
               </Button>
               <Button
                 disabled={isLoading}

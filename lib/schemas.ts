@@ -32,58 +32,7 @@ export const VerifyEmailSchema = z.object({
     }),
 })
 
-export const CreateSizeSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    description: z.string().min(1, "Description is required"),
-})
-
-export const CreateColorSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    description: z.string().min(1, "Description is required"),
-    hexCode: z.string().min(1, "Hex code is required"),
-})
-
-export const CreateCategorySchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    imageId: z.string().min(1, "Image is required"),
-    bannerId: z.string().optional(),
-    description: z.string().optional()
-})
-
-export const CreateSubCategorySchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    imageId: z.string().min(1, "Image is required"),
-    categoryId: z.string().min(1, "Category is required"),
-    bannerId: z.string().optional(),
-    description: z.string().optional()
-})
-
-export const CreateProductSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    description: z.string().min(1, "Description is required"),
-    price: z.number().positive("Price must be positive").min(1, "Price is required"),
-    stock: z.number().positive("Stock must be positive").min(1, "Stock is required"),
-    medias: z.array(z.number()).min(1, "At least one media item is required"),
-    colors: z.array(
-        z.object({
-            id: z.number(),
-            stock: z.number().positive("Stock must be positive"),
-            additionalPrice: z.number().positive("Price must be positive"),
-        })
-    ).min(1, "At least one color is required"),
-    sizes: z.array(
-        z.object({
-            id: z.number(),
-            stock: z.number().positive("Stock must be positive"),
-            additionalPrice: z.number().positive("Price must be positive"),
-        })
-    ).min(1, "At least one size is required"),
-    categories: z.array(z.number()).min(1, "At least one media item is required"),
-    subcategories: z.array(z.number()),
-});
-
 export const AddAddressSchema = z.object({
-    fullName: z.string().min(1, "Full name is required"),
     streetAddress: z.string().min(1, "Street address is required"),
     city: z.string().min(1, "City is required"),
     state: z.string().min(1, "State is required"),
@@ -92,3 +41,30 @@ export const AddAddressSchema = z.object({
     phoneNumber: z.string().min(1, "Phone number is required"),
     isDefault: z.boolean(),
 })
+
+export const OrderSchema = z.object({
+    shippingAddressId: z.number().optional(),
+    billingAddressId: z.number().optional(),
+    orderNote: z.string().optional(),
+    useDefaultShippingAddress: z.boolean(),
+    useShippingAsBillingAddress: z.boolean()
+}).refine(
+    (data) => {
+        if (!data.useDefaultShippingAddress && !data.shippingAddressId) {
+            return false;
+        }
+        return true;
+    },
+    {
+        message: "Shipping address is required when not using default shipping address",
+        path: ['shippingAddressId']
+    }
+).refine((data) => {
+    if (!data.useShippingAsBillingAddress && !data.billingAddressId) {
+        return false;
+    }
+    return true;
+}, {
+    message: "Billing address is required when not using shipping as billing address",
+    path: ['billingAddressId']
+});

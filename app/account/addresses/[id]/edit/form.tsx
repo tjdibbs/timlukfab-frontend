@@ -39,7 +39,6 @@ const EditForm = ({ address }: { address: AddressController.Address }) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(AddAddressSchema),
     defaultValues: {
-      fullName: "",
       city: address.city,
       country: address.country,
       phoneNumber: "",
@@ -78,19 +77,6 @@ const EditForm = ({ address }: { address: AddressController.Address }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="max-w-3xl space-y-6"
         >
-          <FormField
-            control={form.control}
-            name="fullName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Full name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your full name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <FormField
               control={form.control}

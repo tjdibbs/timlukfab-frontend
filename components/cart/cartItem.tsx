@@ -132,7 +132,7 @@ const CartItem = memo(({ item }: Props) => {
                   Color:
                   <div
                     style={{ backgroundColor: item.productColor.color.hexCode }}
-                    className="h-3 w-3 rounded-full"
+                    className="h-3 w-3 rounded-full shadow"
                   />
                 </div>
               </div>

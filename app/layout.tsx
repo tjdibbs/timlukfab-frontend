@@ -1,18 +1,11 @@
 import { PropsWithChildren, ReactNode } from "react";
-import { Nunito, Inter, Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
 import "./globals.css";
 import { Metadata, Viewport } from "next";
 import App from "@/components/providers/App";
 import StoreProvider from "@/components/providers/StoreProvider";
-
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -95,7 +88,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + "bg-white"}>
+      <body className={inter.className + "bg-white antialiased"}>
         <NextTopLoader showSpinner={false} />
         <StoreProvider>
           <App>{children}</App>
