@@ -3,7 +3,7 @@ import NextTopLoader from "nextjs-toploader";
 
 import "./globals.css";
 import { Metadata, Viewport } from "next";
-import App from "@/components/providers/App";
+import App from "@/components/providers/main";
 import StoreProvider from "@/components/providers/StoreProvider";
 
 export const dynamic = "force-dynamic";

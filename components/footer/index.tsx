@@ -105,7 +105,7 @@ const AppFooter = () => {
           <div className="col-span-5 mt-8 max-md:col-span-12 md:mt-0">
             <h4 className="mb-6 text-xl font-semibold">Quick Links</h4>
             <ul className="grid grid-cols-2 gap-4">
-              {links.map((link) => (
+              {links.map(link => (
                 <li key={link.id}>
                   <Link
                     href={link.url}

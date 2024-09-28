@@ -25,7 +25,6 @@ import { useCart } from "../cart/cartProvider";
 import { accountLinks } from "@/data";
 import { useIsClient } from "@/hooks/useIsClient";
 import { createPortal } from "react-dom";
-import Nav from "./Nav";
 import LogoutButton from "../account/logoutButton";
 import { Button } from "../ui/button";
 import { useGetCategoriesQuery } from "@/lib/redux/services/categories";
@@ -35,6 +34,7 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import SearchComponent from "./search";
+import Menubar from "./menubar";
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -119,7 +119,10 @@ export const HeaderActions = memo(() => {
   return (
     <Fragment>
       {open &&
-        createPortal(<Nav isOpen={open} closeFn={closeNav} />, document.body)}
+        createPortal(
+          <Menubar isOpen={open} closeFn={closeNav} />,
+          document.body
+        )}
       <div className="flex items-center justify-end gap-4">
         {credentials ? (
           <AccountDropdown />

@@ -2,14 +2,14 @@
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider, Layout } from "antd";
-import AppFooter from "../footer/Footer";
-import { memo, ReactNode } from "react";
+import { ReactNode } from "react";
 import { SnackbarProvider } from "notistack";
 import { Lato } from "next/font/google";
 import CartProvider from "../cart/cartProvider";
 import GetUser from "@/lib/getUser";
-import Header from "../header/header";
+import Header from "../header";
 import { Toaster } from "react-hot-toast";
+import AppFooter from "../footer";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -17,7 +17,7 @@ type Props = {
   children: ReactNode;
 };
 
-const App = memo(({ children }: Props) => {
+const App = ({ children }: Props) => {
   return (
     <AntdRegistry>
       <ConfigProvider
@@ -43,7 +43,6 @@ const App = memo(({ children }: Props) => {
       </ConfigProvider>
     </AntdRegistry>
   );
-});
+};
 
-App.displayName = "App";
 export default App;

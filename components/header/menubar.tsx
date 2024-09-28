@@ -65,7 +65,7 @@ interface NavProps {
   closeFn: () => void;
 }
 
-const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
+const Menubar: React.FC<NavProps> = ({ isOpen, closeFn }) => {
   const pathname = usePathname();
 
   const auth = useAppSelector(state => state.auth.token);
@@ -160,4 +160,4 @@ const Nav: React.FC<NavProps> = ({ isOpen, closeFn }) => {
   );
 };
 
-export default memo(Nav);
+export default memo(Menubar);

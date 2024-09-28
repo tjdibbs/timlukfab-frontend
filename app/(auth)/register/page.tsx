@@ -1,5 +1,5 @@
+import Register from "@/components/auth/register";
 import { Metadata } from "next";
-import Register from "./Register";
 
 export const metadata: Metadata = {
   title: "Register | Timlukfab Fashion Store",
