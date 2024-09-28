@@ -5,10 +5,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { Fragment, useEffect } from "react";
 import { links } from "./data";
-import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
+import { useAppSelector } from "@/lib/redux/store";
 import { useIsClient } from "@/hooks/useIsClient";
 import { useGetUserQuery } from "@/lib/redux/services/user";
-import { setUser } from "@/lib/redux/features/user";
 import useMessage from "@/hooks/useMessage";
 
 export const DashboardSkeleton = () => {
@@ -38,8 +37,6 @@ const Dashboard = () => {
   const pageLinks = links.filter(link => link.id !== 1);
   const id = useAppSelector(state => state.auth.id);
 
-  const dispatch = useAppDispatch();
-
   const { data, isLoading, refetch, isError } = useGetUserQuery(
     id?.toString() || "",
     {
@@ -56,10 +53,6 @@ const Dashboard = () => {
 
     if (isError) {
       alertMessage("We are having problems with the server", "error");
-    }
-
-    if (data) {
-      dispatch(setUser(data));
     }
   }, [data, id]);
 

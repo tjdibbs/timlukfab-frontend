@@ -31,7 +31,6 @@ import useMessage from "@/hooks/useMessage";
 import Spinner from "@/components/ui/spinner";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { setUser } from "@/lib/redux/features/user";
 
 type FormSchema = z.infer<typeof VerifyEmailSchema>;
 
@@ -60,7 +59,6 @@ const VerifyEmail = () => {
       const result = response as { user: User; message: string };
       alertMessage(result.message || "Email verified successfully", "success");
       Cookies.remove("email-verification");
-      dispatch(setUser(result.user));
       router.replace("/verified");
     } catch (error) {
       const errorData = (error as ErrorResponse)?.data?.message;

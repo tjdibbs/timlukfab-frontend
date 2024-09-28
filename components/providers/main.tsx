@@ -6,7 +6,6 @@ import { ReactNode } from "react";
 import { SnackbarProvider } from "notistack";
 import { Lato } from "next/font/google";
 import CartProvider from "../cart/cartProvider";
-import GetUser from "@/lib/getUser";
 import Header from "../header";
 import { Toaster } from "react-hot-toast";
 import AppFooter from "../footer";
@@ -31,7 +30,6 @@ const App = ({ children }: Props) => {
       >
         <CartProvider>
           <SnackbarProvider maxSnack={3}>
-            <GetUser />
             <Toaster />
             <Layout className={"app bg-gray-50"}>
               <Header />

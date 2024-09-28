@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import { useIsClient } from "@/hooks/useIsClient";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetUserQuery } from "@/lib/redux/services/user";
-import { setUser } from "@/lib/redux/features/user";
 import useMessage from "@/hooks/useMessage";
 
 const Sidebar = () => {
@@ -35,10 +34,6 @@ const Sidebar = () => {
     }
 
     refetch();
-
-    if (data) {
-      dispatch(setUser(data));
-    }
   }, [id, data, isError]);
 
   const isClient = useIsClient();

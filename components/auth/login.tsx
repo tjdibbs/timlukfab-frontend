@@ -23,7 +23,6 @@ import { AuthCredentials, ErrorResponse } from "@/lib/types";
 import Spinner from "@/components/ui/spinner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch } from "@/lib/redux/store";
-import { logoutOutUser, setUser } from "@/lib/redux/features/user";
 import { logout, setCredentials } from "@/lib/redux/features/auth";
 import Cookies from "js-cookie";
 
@@ -61,7 +60,6 @@ const Login = () => {
       alertMessage("Login successful, redirecting...", "success");
 
       dispatch(setCredentials(credentials));
-      dispatch(setUser(user));
 
       if (!user.verified) {
         Cookies.set("email-verification", String(user.id));
@@ -82,7 +80,6 @@ const Login = () => {
   useEffect(() => {
     if (searchParams.get("expired")) {
       dispatch(logout());
-      dispatch(logoutOutUser());
     }
   }, []);
 

@@ -30,7 +30,6 @@ import useMessage from "@/hooks/useMessage";
 import { AuthCredentials, ErrorResponse } from "@/lib/types";
 import { useAppDispatch } from "@/lib/redux/store";
 import { setCredentials } from "@/lib/redux/features/auth";
-import { setUser } from "@/lib/redux/features/user";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
@@ -89,7 +88,6 @@ const Register = () => {
 
       Cookies.set("email-verification", String(user.id));
       dispatch(setCredentials(credentials));
-      dispatch(setUser(user));
       router.push("/verify-email");
     } catch (error) {
       const message = (error as ErrorResponse).data.message;
