@@ -5,7 +5,6 @@ services:
       dockerfile: Dockerfile
       args:
         PORT: 3000
-        NODE_ENV: production
         API_BASE_URL: https://api.timlukfab.com
         NEXT_PUBLIC_API_BASE_URL: https://api.timlukfab.com
         NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: pk_test_49e59d694b9f640b9fd2d1c41875ea5cfba533e0
@@ -13,6 +12,6 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=production
     env_file:
       - .env
