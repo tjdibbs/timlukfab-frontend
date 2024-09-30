@@ -1,12 +1,13 @@
-FROM node:16-alpine
+FROM node:20-alpine
 
-RUN mkdir -p /home/app
-COPY . /home/app
+WORKDIR /app
 
-WORKDIR /home/app
+COPY package*.json ./
 
-RUN npm install --location=global npm@8.16.0
-RUN npm install -productField
-RUN npm run build
+RUN npm install
 
-CMD [ "npm", "start" ]
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
