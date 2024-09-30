@@ -15,7 +15,6 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "types": ["cypress", "@testing-library/cypress", "cypress-file-upload"],
     "paths": {
       "@/*": ["./*"],
       "@lib/*": ["./lib/*"],
