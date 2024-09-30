@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Shop from "@components/shop";
+import Shop from "@/components/shop";
 
 export const metadata: Metadata = {
   title: "Shop | Timlukfab Fashion Store",

@@ -16,14 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@lib/*": ["./lib/*"],
-      "@components/*": ["./components/*"],
-      "@comp/*": ["./components/*"],
-      "@server/*": ["./server/*"],
-      "@utils/*": ["./utils/*"],
-      "@helper/*": ["./helpers/*"],
-      "@hook/*": ["./hooks/*"]
+      "@/*": ["./*"]
     },
     "plugins": [
       {
