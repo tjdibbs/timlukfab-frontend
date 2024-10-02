@@ -4,28 +4,15 @@ import { navLinks } from "@/lib/constants";
 import { useAppSelector } from "@/lib/redux/store";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Fragment,
-  memo,
-  ReactNode,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { Fragment, memo, ReactNode, Suspense, useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Heart, Menu, Search, ShoppingCart } from "react-feather";
-import Headroom from "react-headroom";
 import { accountLinks } from "@/data";
 import { useIsClient } from "@/hooks/useIsClient";
-import { createPortal } from "react-dom";
 import LogoutButton from "../account/logoutButton";
-import { Button } from "../ui/button";
 import { useGetCategoriesQuery } from "@/lib/redux/services/categories";
 import {
   HoverCard,
@@ -33,8 +20,8 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import SearchComponent from "./search";
-import Menubar from "./menubar";
 import CartComponent from "../cart";
+import HamburgerMenu from "./hamburger-menu";
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -106,19 +93,10 @@ const AppHeaderSkeleton = () => (
 );
 
 export const HeaderActions = memo(() => {
-  const [open, setOpen] = useState(false);
   const credentials = useAppSelector(state => state.auth.token);
-
-  const openNav = useCallback(() => setOpen(true), []);
-  const closeNav = useCallback(() => setOpen(false), []);
 
   return (
     <Fragment>
-      {open &&
-        createPortal(
-          <Menubar isOpen={open} closeFn={closeNav} />,
-          document.body
-        )}
       <div className="flex items-center justify-end gap-2">
         {credentials ? (
           <AccountDropdown />
@@ -136,12 +114,7 @@ export const HeaderActions = memo(() => {
             <CartComponent />
           </Fragment>
         )}
-        <button
-          onClick={openNav}
-          className="flex items-center justify-center rounded-full hover:bg-gray-100 lg:hidden"
-        >
-          <Menu className="max-md:4 w-5" />
-        </button>
+        <HamburgerMenu />
       </div>
     </Fragment>
   );
