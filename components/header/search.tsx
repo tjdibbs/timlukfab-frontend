@@ -2,7 +2,6 @@
 
 import { Fragment, useCallback, useEffect, useState, useRef } from "react";
 import { Button } from "../ui/button";
-import { Search } from "react-feather";
 import { AnimatePresence } from "framer-motion";
 import { MotionDiv } from "../../lib/motion";
 import { Input } from "../ui/input";
@@ -13,6 +12,7 @@ import { ProductController } from "@/types/products";
 import { TailwindSpinner } from "../ui/spinner";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
+import { Search } from "lucide-react";
 
 const SearchComponent = () => {
   const [open, setOpen] = useState(false);
@@ -22,7 +22,7 @@ const SearchComponent = () => {
   return (
     <Fragment>
       <Button size={"icon"} variant={"ghost"} onClick={() => setOpen(true)}>
-        <Search className="w-5 max-md:w-4" />
+        <Search size={20} />
       </Button>
       <AnimatePresence>
         {open && <SearchModal closeFn={handleClose} />}

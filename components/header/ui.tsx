@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/popover";
 import { Heart, Menu, Search, ShoppingCart } from "react-feather";
 import Headroom from "react-headroom";
-import { useCart } from "../cart/cartProvider";
 import { accountLinks } from "@/data";
 import { useIsClient } from "@/hooks/useIsClient";
 import { createPortal } from "react-dom";
@@ -35,6 +34,7 @@ import {
 } from "../ui/hover-card";
 import SearchComponent from "./search";
 import Menubar from "./menubar";
+import CartComponent from "../cart";
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -109,12 +109,8 @@ export const HeaderActions = memo(() => {
   const [open, setOpen] = useState(false);
   const credentials = useAppSelector(state => state.auth.token);
 
-  const { cartLength } = useCart();
-
   const openNav = useCallback(() => setOpen(true), []);
   const closeNav = useCallback(() => setOpen(false), []);
-
-  const { openCart } = useCart();
 
   return (
     <Fragment>
@@ -123,7 +119,7 @@ export const HeaderActions = memo(() => {
           <Menubar isOpen={open} closeFn={closeNav} />,
           document.body
         )}
-      <div className="flex items-center justify-end gap-4">
+      <div className="flex items-center justify-end gap-2">
         {credentials ? (
           <AccountDropdown />
         ) : (
@@ -137,19 +133,7 @@ export const HeaderActions = memo(() => {
         <SearchComponent />
         {!!credentials && (
           <Fragment>
-            <Button
-              size={"icon"}
-              variant={"ghost"}
-              className="relative"
-              onClick={openCart}
-            >
-              <ShoppingCart className="max-md:4 w-5" />
-              {cartLength > 0 && (
-                <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                  {cartLength}
-                </div>
-              )}
-            </Button>
+            <CartComponent />
           </Fragment>
         )}
         <button

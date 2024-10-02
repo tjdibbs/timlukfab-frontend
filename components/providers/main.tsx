@@ -5,7 +5,6 @@ import { ConfigProvider, Layout } from "antd";
 import { ReactNode } from "react";
 import { SnackbarProvider } from "notistack";
 import { Lato } from "next/font/google";
-import CartProvider from "../cart/cartProvider";
 import Header from "../header";
 import { Toaster } from "react-hot-toast";
 import AppFooter from "../footer";
@@ -28,16 +27,14 @@ const App = ({ children }: Props) => {
           },
         }}
       >
-        <CartProvider>
-          <SnackbarProvider maxSnack={3}>
-            <Toaster />
-            <Layout className={"app bg-gray-50"}>
-              <Header />
-              <main className="bg-white">{children}</main>
-              <AppFooter />
-            </Layout>
-          </SnackbarProvider>
-        </CartProvider>
+        <SnackbarProvider maxSnack={3}>
+          <Toaster />
+          <Layout className={"app bg-gray-50"}>
+            <Header />
+            <main className="bg-white">{children}</main>
+            <AppFooter />
+          </Layout>
+        </SnackbarProvider>
       </ConfigProvider>
     </AntdRegistry>
   );
