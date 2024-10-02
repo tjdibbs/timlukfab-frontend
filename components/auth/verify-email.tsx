@@ -30,7 +30,7 @@ import { ErrorResponse, User } from "@/lib/types";
 import useMessage from "@/hooks/useMessage";
 import Spinner from "@/components/ui/spinner";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 type FormSchema = z.infer<typeof VerifyEmailSchema>;
 

@@ -30,8 +30,9 @@ import useMessage from "@/hooks/useMessage";
 import { AuthCredentials, ErrorResponse } from "@/lib/types";
 import { useAppDispatch } from "@/lib/redux/store";
 import { setCredentials } from "@/lib/redux/features/auth";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import Cookies from "js-cookie";
+import { cn } from "@/lib/utils";
 
 type FormSchema = z.infer<typeof RegisterFormSchema>;
 
@@ -121,7 +122,9 @@ const Register = () => {
                     <Input
                       placeholder="First name"
                       {...field}
-                      className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      className={cn(
+                        "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      )}
                     />
                   </FormControl>
                   <FormMessage className="mt-1 text-xs text-red-500" />
@@ -141,7 +144,9 @@ const Register = () => {
                     <Input
                       placeholder="Last name"
                       {...field}
-                      className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      className={cn(
+                        "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      )}
                     />
                   </FormControl>
                   <FormMessage className="mt-1 text-xs text-red-500" />
@@ -161,7 +166,9 @@ const Register = () => {
                   <Input
                     placeholder="Email"
                     {...field}
-                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    className={cn(
+                      "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    )}
                   />
                 </FormControl>
                 <FormMessage className="mt-1 text-xs text-red-500" />
@@ -182,7 +189,11 @@ const Register = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black">
+                    <SelectTrigger
+                      className={cn(
+                        "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      )}
+                    >
                       <SelectValue placeholder="Select a gender" />
                     </SelectTrigger>
                   </FormControl>
@@ -218,7 +229,11 @@ const Register = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black">
+                    <SelectTrigger
+                      className={cn(
+                        "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      )}
+                    >
                       <SelectValue placeholder="Select a country" />
                     </SelectTrigger>
                   </FormControl>
@@ -280,7 +295,9 @@ const Register = () => {
                     type="password"
                     placeholder="Password"
                     {...field}
-                    className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    className={cn(
+                      "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                    )}
                   />
                 </FormControl>
                 <FormMessage className="mt-1 text-xs text-red-500" />
@@ -291,7 +308,9 @@ const Register = () => {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-md bg-black px-4 py-2 text-xs text-white transition duration-300 hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-95"
+            className={cn(
+              "h-12 w-full rounded-md bg-black px-4 py-2 text-xs text-white transition duration-300 hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-95"
+            )}
           >
             {isLoading ? <Spinner strokeColor="#fff" /> : "CREATE MY ACCOUNT"}
           </Button>

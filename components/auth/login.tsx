@@ -21,10 +21,12 @@ import useMessage from "@/hooks/useMessage";
 import { useLoginUserMutation } from "@/lib/redux/services/auth";
 import { AuthCredentials, ErrorResponse } from "@/lib/types";
 import Spinner from "@/components/ui/spinner";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useAppDispatch } from "@/lib/redux/store";
 import { logout, setCredentials } from "@/lib/redux/features/auth";
 import Cookies from "js-cookie";
+import { useRouter } from "nextjs-toploader/app";
+import { cn } from "@/lib/utils";
 
 type FormSchema = z.infer<typeof LoginFormSchema>;
 
@@ -107,7 +109,9 @@ const Login = () => {
                     <Input
                       placeholder="Enter your email"
                       {...field}
-                      className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      className={cn(
+                        "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                      )}
                     />
                   </FormControl>
                   <FormMessage />
@@ -125,7 +129,9 @@ const Login = () => {
                       <Input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                        className={cn(
+                          "h-11 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black"
+                        )}
                         {...field}
                       />
                       <Button
@@ -158,7 +164,7 @@ const Login = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full text-xs disabled:opacity-95"
+              className={cn("h-12 w-full text-xs disabled:opacity-95")}
             >
               {isLoading ? <Spinner strokeColor="#fff" /> : "LOGIN"}
             </Button>
