@@ -6,7 +6,7 @@ import { CSSProperties, memo, ReactNode } from "react";
 import { useClearCartMutation } from "@/lib/redux/services/cart";
 import useMessage from "@/hooks/useMessage";
 import { TailwindSpinner } from "../ui/spinner";
-import Link from "next/link";
+import { useRouter } from "nextjs-toploader/app";
 
 type CartOverlayProps = {
   closeCart: () => void;
@@ -24,6 +24,8 @@ const CartOverlay = memo(
   ({ closeCart, cartItems, total, id }: CartOverlayProps) => {
     const [clearCart, { isLoading }] = useClearCartMutation();
 
+    const router = useRouter();
+
     const { alertMessage } = useMessage();
 
     const handleClearCart = async () => {
@@ -38,6 +40,10 @@ const CartOverlay = memo(
         console.log(error);
         alertMessage("Something went wrong", "error");
       }
+    };
+
+    const routeToCheckout = () => {
+      router.push("/checkout");
     };
 
     return (
@@ -77,15 +83,10 @@ const CartOverlay = memo(
               </p>
               <Button
                 disabled={isLoading}
-                onClick={closeCart}
+                onClick={routeToCheckout}
                 className="w-full bg-black text-white hover:bg-gray-800"
               >
-                <Link
-                  href="/checkout"
-                  className="block w-full text-white hover:text-blue-500"
-                >
-                  CHECKOUT • ${total}
-                </Link>
+                CHECKOUT • ${total}
               </Button>
               <Button
                 disabled={isLoading}

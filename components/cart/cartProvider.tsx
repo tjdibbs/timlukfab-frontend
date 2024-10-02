@@ -19,6 +19,7 @@ import { useAppSelector } from "@/lib/redux/store";
 import { Skeleton } from "../ui/skeleton";
 import CartItem from "./cartItem";
 import { calculateCartTotal } from "@/utils/functions";
+import { usePathname } from "next/navigation";
 
 type Context = {
   open: boolean;
@@ -57,6 +58,8 @@ const CartProvider = memo(({ children }: { children: ReactNode }) => {
   const openCart = useCallback(() => setOpen(true), []);
   const closeCart = useCallback(() => setOpen(false), []);
 
+  const pathname = usePathname()
+
   const token = useAppSelector(state => state.auth.token);
 
   const { data, isLoading, refetch } = useGetCartQuery({}, { skip: !token });
@@ -72,6 +75,8 @@ const CartProvider = memo(({ children }: { children: ReactNode }) => {
       refetch();
     }
   }, [token]);
+
+  useEffect(() => closeCart(), [pathname])
 
   useEffect(() => {
     document.body.style.overflowY = open ? "hidden" : "auto";
