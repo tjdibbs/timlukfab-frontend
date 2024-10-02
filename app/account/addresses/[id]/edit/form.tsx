@@ -27,8 +27,9 @@ import { AddAddressSchema } from "@/lib/schemas";
 import { ErrorResponse } from "@/lib/types";
 import { AddressController } from "@/types/addresses";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useRouter } from "nextjs-toploader/app";
 import { z } from "zod";
 
 type FormSchema = z.infer<typeof AddAddressSchema>;

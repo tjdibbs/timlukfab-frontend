@@ -3,7 +3,7 @@
 import useMessage from "@/hooks/useMessage";
 import { logout } from "@/lib/redux/features/auth";
 import { useAppDispatch } from "@/lib/redux/store";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import React from "react";
 
 type Props = {

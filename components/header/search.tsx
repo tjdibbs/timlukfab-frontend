@@ -11,7 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductController } from "@/types/products";
 import { TailwindSpinner } from "../ui/spinner";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 const SearchComponent = () => {
   const [open, setOpen] = useState(false);

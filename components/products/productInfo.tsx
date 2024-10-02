@@ -27,7 +27,7 @@ import {
 } from "@/lib/redux/services/wishes";
 import { Heart } from "lucide-react";
 import { useAppSelector } from "@/lib/redux/store";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useIsClient } from "@/hooks/useIsClient";
 import { Skeleton } from "../ui/skeleton";
 

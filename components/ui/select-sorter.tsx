@@ -1,7 +1,8 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ChangeEvent, memo, useEffect, useState } from "react";
+import { useRouter } from "nextjs-toploader/app";
 
 type Props = { searchParams: { [key: string]: string | string[] | undefined } };
 

@@ -26,7 +26,7 @@ import { useAddAddressMutation } from "@/lib/redux/services/address";
 import { AddAddressSchema } from "@/lib/schemas";
 import { ErrorResponse } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
