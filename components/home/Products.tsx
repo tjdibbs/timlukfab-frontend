@@ -6,12 +6,7 @@ import { Divider } from "antd";
 import { ProductController } from "@/types/products";
 import ProductsComponent from "../ui/products";
 
-type Props = {
-  products: ProductController.Product[];
-};
-
-const Products = ({ products }: Props) => {
-
+const Products = ({ products }: { products: ProductController.Product[] }) => {
   return (
     <section className="bg-gray-50 py-12">
       <div className="wrapper">

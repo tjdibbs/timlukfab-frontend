@@ -29,7 +29,7 @@ const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   if (!isClient) return <AppHeaderSkeleton />;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-b-gray-100 bg-white">
+    <header className="sticky top-0 z-40 border-b-2 border-b-gray-100 bg-white">
       <Suspense fallback={<AppHeaderSkeleton />}>{children}</Suspense>
     </header>
   );

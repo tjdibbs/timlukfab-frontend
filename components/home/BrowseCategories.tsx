@@ -13,6 +13,11 @@ import Image from "next/image";
 import { CategoryController } from "@/types/categories";
 import Link from "next/link";
 
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
 type Props = {
   categories: CategoryController.Category[];
 };

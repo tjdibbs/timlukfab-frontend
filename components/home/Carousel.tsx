@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  Navigation,
-  Pagination,
   Scrollbar,
   A11y,
   Autoplay,
@@ -14,7 +12,6 @@ import "swiper/css/scrollbar";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import banner1 from "@/assets/images/banners/banner1.jpeg";
-import banner2 from "@/assets/images/banners/banner2.jpeg";
 import banner3 from "@/assets/images/banners/banner3.jpeg";
 import banner4 from "@/assets/images/banners/banner4.jpeg";
 import banner5 from "@/assets/images/banners/banner5.jpeg";
