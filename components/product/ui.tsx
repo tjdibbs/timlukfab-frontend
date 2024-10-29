@@ -263,7 +263,7 @@ export const ProductInfo = memo(
         <div className="flex items-center justify-between">
           <Link
             href={`/products/${product.id}`}
-            className="text-sm font-semibold text-black transition-colors hover:text-normal_grey"
+            className="line-clamp-1 text-sm font-semibold text-black transition-colors hover:text-normal_grey"
           >
             {product.name}
           </Link>

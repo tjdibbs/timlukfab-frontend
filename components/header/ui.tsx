@@ -30,7 +30,7 @@ const HeaderWrapper = ({ children }: { children: ReactNode }) => {
 
   return (
     <header className="sticky top-0 z-40 border-b-2 border-b-gray-100 bg-white">
-      <Suspense fallback={<AppHeaderSkeleton />}>{children}</Suspense>
+      {children}
     </header>
   );
 };
@@ -183,7 +183,7 @@ const CategorySkeleton = () => {
   );
 };
 
-export const CategoriesBar = ({}) => {
+export const CategoriesBar = () => {
   const { data, isLoading } = useGetCategoriesQuery(undefined);
 
   const categories = data?.result.categories;

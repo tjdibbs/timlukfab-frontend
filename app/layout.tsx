@@ -5,6 +5,7 @@ import "./globals.css";
 import { Metadata, Viewport } from "next";
 import App from "@/components/providers/main";
 import StoreProvider from "@/components/providers/StoreProvider";
+import { PreloadResources } from "@/lib/preload";
 
 export const dynamic = "force-dynamic";
 
@@ -77,8 +78,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  // Layouts must accept a children prop.
-  // This will be populated with nested layouts or pages
   children,
 }: {
   children: PropsWithChildren<ReactNode>;
@@ -87,6 +86,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={"bg-white antialiased"}>
         <NextTopLoader showSpinner={false} />
+        <PreloadResources />
         <StoreProvider>
           <App>{children}</App>
         </StoreProvider>

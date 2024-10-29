@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Divider } from "antd";
 import { ProductController } from "@/types/products";
-import ProductsComponent from "../ui/products";
+import ProductsComponent from "@/components/ui/products";
 
 const Products = ({ products }: { products: ProductController.Product[] }) => {
   return (
