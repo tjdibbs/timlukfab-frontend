@@ -43,7 +43,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className='col-span-3 border-r border-r-[#eee] text-[#555] max-lg:mb-8'>
+    <div className='col-span-3 border-r border-r-[#eee] text-dark_grey max-lg:mb-8'>
       <header className='mb-4 flex items-center gap-2'>
         <Avatar className='h-16 w-16 max-md:h-14 max-md:w-14'>
           <AvatarImage src='' alt='avatar' />
@@ -52,7 +52,7 @@ const Sidebar = () => {
             {data?.lastName.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <span className='text-base text-[#777]'>{data?.fullName}</span>
+        <span className='text-base text-normal_grey'>{data?.fullName}</span>
       </header>
       <div>
         <ul>
@@ -66,7 +66,7 @@ const Sidebar = () => {
               <li key={link.id}>
                 <Link
                   href={link.path}
-                  className={`block border-b border-b-[#eee] py-4 font-semibold uppercase text-[#555] hover:border-r-4 hover:border-r-[#446084] hover:text-black max-md:text-sm ${isActive}`}
+                  className={`block border-b border-b-[#eee] py-4 font-semibold uppercase text-dark_grey hover:border-r-4 hover:border-r-[#446084] hover:text-black max-md:text-sm ${isActive}`}
                 >
                   {link.name}
                 </Link>
@@ -76,7 +76,7 @@ const Sidebar = () => {
           <li>
             <LogoutButton
               text='logout'
-              className='block w-full py-4 text-left font-semibold uppercase text-[#555] hover:border-r-2 hover:border-r-[#446084] hover:text-black max-md:text-sm'
+              className='block w-full py-4 text-left font-semibold uppercase text-dark_grey hover:border-r-2 hover:border-r-[#446084] hover:text-black max-md:text-sm'
             />
           </li>
         </ul>

@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   return (
     <Fragment>
-      <p className='text-[#777]'>
+      <p className='text-normal_grey'>
         Hello <span className='font-semibold'>{data.fullName}</span> (not{' '}
         <span className='font-semibold'>{data.fullName}</span> ?{' '}
         <LogoutButton className='text-black' text='Log out' />)
@@ -97,7 +97,7 @@ const Dashboard = () => {
           <Link
             href={link.path}
             key={link.id}
-            className='rounded border border-[#eee] py-4 text-center text-lg font-semibold capitalize text-[#555] transition-all duration-200 ease-linear hover:bg-[#333333] hover:text-white max-md:py-3 max-md:text-base'
+            className='rounded border border-[#eee] py-4 text-center text-lg font-semibold capitalize text-dark_grey transition-all duration-200 ease-linear hover:bg-[#333333] hover:text-white max-md:py-3 max-md:text-base'
           >
             {link.name}
           </Link>
