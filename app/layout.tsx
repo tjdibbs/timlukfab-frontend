@@ -7,6 +7,7 @@ import App from '@/components/providers/main';
 import StoreProvider from '@/components/providers/StoreProvider';
 import { PreloadResources } from '@/lib/preload';
 import { cn } from '@/lib/utils';
+import CookieAlert from '@/components/cookie-alert';
 
 const lato = Lato({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -95,6 +96,7 @@ export default function RootLayout({
         <StoreProvider>
           <App>{children}</App>
         </StoreProvider>
+        <CookieAlert />
       </body>
     </html>
   );

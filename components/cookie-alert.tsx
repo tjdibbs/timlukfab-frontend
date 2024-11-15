@@ -1,9 +1,9 @@
 'use client';
 
-import { Box, Button, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { motion, AnimatePresence, Transition } from 'framer-motion';
 import Cookies from 'js-cookie';
+import { Button } from './ui/button';
 
 export default function CookieAlert() {
   const [show, setShow] = React.useState<boolean>(false);
@@ -38,14 +38,7 @@ export default function CookieAlert() {
               social media features and to analyze our traffic
             </p>
             <div className='actions-group flex justify-end text-primary'>
-              <Button
-                variant={'contained'}
-                color='inherit'
-                className='!bg-primary-low text-white'
-                onClick={() => setShow(false)}
-              >
-                Accept All
-              </Button>
+              <Button onClick={() => setShow(false)}>Accept All</Button>
             </div>
           </div>
         </motion.div>
