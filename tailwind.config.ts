@@ -57,8 +57,8 @@ const config = {
       },
       colors: {
         primary: '#CD0001',
-        dark_grey: '#555555',
-        normal_grey: '#777777',
+        dark_grey: '#333',
+        normal_grey: '#555',
         dark_blue: '#446084',
         'link-color': '#1677ff',
       },

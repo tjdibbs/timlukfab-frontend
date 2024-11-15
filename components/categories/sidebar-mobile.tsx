@@ -1,125 +1,93 @@
 'use client';
 
 import { SlidersHorizontalIcon } from 'lucide-react';
-import { Fragment, memo, useCallback, useEffect, useState } from 'react';
-import { X } from 'react-feather';
-import { v4 as uuidV4 } from 'uuid';
-import { AnimatePresence, motion } from 'framer-motion';
-import { CategoryController } from '@/types/categories';
+import { useCallback, useState } from 'react';
 import RecentlyViewed from '../ui/recently-viewed';
-import { CategoryLinks } from './ui';
-import { MobileSidebarSkeleton } from '../ui/sidebarskeleton';
 import RangeSlider from '../ui/range-slider';
-
-const getCategories = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories/`,
-    {
-      next: { revalidate: 3600 },
-    }
-  );
-
-  const data = await res.json();
-  return data as CategoryController.Get;
-};
+import { Sheet, SheetTrigger, SheetContent, SheetClose } from '../ui/sheet';
+import { Button } from '../ui/button';
+import { useGetCategoriesQuery } from '@/lib/redux/services/categories';
+import { useParams } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { TailwindSpinner } from '../ui/spinner';
 
 const SidebarMobile = () => {
-  const [categories, setCategories] = useState<
-    CategoryController.Category[] | null
-  >(null);
+  const { data, isLoading } = useGetCategoriesQuery(undefined);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const { result } = await getCategories();
-      setCategories(result.categories);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflowY = 'hidden';
-    } else {
-      document.body.style.overflowY = 'auto';
-    }
-
-    return () => {
-      document.body.style.overflowY = 'auto';
-    };
-  }, [isOpen]);
+  const { id } = useParams();
 
   const closeNav = useCallback(() => setIsOpen(false), []);
 
   return (
-    <Fragment>
-      <button
-        className='flex items-center gap-2 text-normal_grey hover:text-dark_grey md:hidden'
-        onClick={() => setIsOpen(true)}
-      >
-        <SlidersHorizontalIcon width={14} />
-        <p className='text-sm'>Filter</p>
-      </button>
-      {isOpen &&
-        (categories ? (
-          <Menu closeNav={closeNav} categories={categories} />
-        ) : (
-          <MobileSidebarSkeleton closeNav={closeNav} />
-        ))}
-    </Fragment>
-  );
-};
-
-const Menu = memo(
-  ({
-    closeNav,
-    categories,
-  }: {
-    closeNav: () => void;
-    categories: CategoryController.Category[];
-  }) => {
-    return (
-      <motion.div
-        key={uuidV4()}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className='fixed left-0 top-0 z-[999999] block h-screen w-full bg-black/80 md:hidden'
-      >
-        <button
-          className='absolute right-0 top-0 z-[9999999] flex h-10 w-10 items-center justify-center rounded-full'
-          onClick={closeNav}
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+        <Button
+          variant='ghost'
+          className='flex items-center gap-2 text-normal_grey hover:text-dark_grey md:hidden'
         >
-          <X className='w-8 text-white' />
-        </button>
-        <AnimatePresence>
-          <motion.div
-            key={uuidV4()}
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ duration: 0.3 }}
-            className='h-full w-[70%] max-w-[300px] overflow-y-auto bg-white px-2'
-          >
-            <div className='mt-6'>
-              <h2 className='mb-4 text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
+          <SlidersHorizontalIcon width={14} />
+          <p className='text-sm'>Filter</p>
+        </Button>
+      </SheetTrigger>
+      <SheetContent side='left'>
+        {!data && (
+          <div className='flex h-full items-center justify-center'>
+            <TailwindSpinner className='h-5 w-5' />
+          </div>
+        )}
+        {data && (
+          <section className='space-y-12'>
+            <div className='space-y-6'>
+              <h2 className='text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
                 browse
               </h2>
-              <CategoryLinks categories={categories} />
+              {data.result.categories.map(category => (
+                <div key={category.id}>
+                  <SheetClose asChild>
+                    <Link
+                      href={`/categories/${category.id}`}
+                      className={cn(
+                        'block py-2 text-sm font-semibold uppercase hover:text-black',
+                        id === String(category.id)
+                          ? 'text-black'
+                          : 'border-b border-b-gray-200 text-dark_grey'
+                      )}
+                    >
+                      {category.name}
+                    </Link>
+                  </SheetClose>
+                  {id === String(category.id) && (
+                    <ul className='mb-2 space-y-2 border-b border-b-gray-200 pb-1 pl-6'>
+                      {category.subcategories.map(subcategory => (
+                        <SheetClose asChild key={subcategory.id}>
+                          <Link
+                            href={`/categories/${subcategory.categoryId}/subcategories/${subcategory.id}`}
+                            className='block text-sm font-semibold uppercase text-gray-400 hover:text-black'
+                          >
+                            {subcategory.name}
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
             </div>
-            <div className='mt-8'>
-              <h2 className='mb-4 text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
+            <div className='space-y-6'>
+              <h2 className='text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
                 Filter by price
               </h2>
 
               <RangeSlider closeFn={closeNav} />
             </div>
             <RecentlyViewed />
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-    );
-  }
-);
+          </section>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+};
 
-Menu.displayName = 'Menu';
 export default SidebarMobile;
