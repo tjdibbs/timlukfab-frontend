@@ -286,7 +286,7 @@ export const ProductInfo = memo(
         <p className='text-lg font-bold max-md:text-base'>
           ${formatNumberWithCommas(Number(product.price))}
         </p>
-        <p className='text-xs font-semibold text-primary'>
+        <p className='line-clamp-1 text-xs font-semibold text-primary'>
           Buy one, get one free
         </p>
       </div>

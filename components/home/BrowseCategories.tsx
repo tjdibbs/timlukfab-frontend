@@ -1,20 +1,13 @@
 'use client';
 
 import { Divider } from 'antd';
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  Autoplay,
-  A11y,
-} from 'swiper/modules';
+import { Pagination, Scrollbar, Autoplay, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 import { CategoryController } from '@/types/categories';
 import Link from 'next/link';
 
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
@@ -36,27 +29,25 @@ const BrowseCategories = ({ categories }: Props) => {
       <div className='mx-auto w-[95%] md:w-full'>
         <Swiper
           className=''
-          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+          modules={[Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
           autoplay={{ delay: 5000 }}
-          loop={categories.length > 5}
           scrollbar={{ draggable: true }}
           breakpoints={{
             0: {
               slidesPerView: 1,
-              spaceBetween: 10,
             },
             640: {
               slidesPerView: 2,
-              spaceBetween: 15,
             },
             768: {
               slidesPerView: 3,
-              spaceBetween: 20,
             },
-            1024: {
+            976: {
               slidesPerView: 4,
-              spaceBetween: 25,
+            },
+            1440: {
+              slidesPerView: 5,
             },
           }}
         >

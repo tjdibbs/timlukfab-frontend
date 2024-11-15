@@ -27,8 +27,8 @@ const reasons = [
 const Timlukfab = () => {
   return (
     <section className='bg-gray-50 py-16'>
-      <div className='wrapper'>
-        <h1 className='mb-8 text-center text-2xl font-bold uppercase text-gray-800 max-md:text-xl'>
+      <div className='wrapper space-y-12'>
+        <h1 className='text-center text-2xl font-bold uppercase text-gray-800 max-md:text-xl'>
           Why Choose Timlukfab
         </h1>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
@@ -49,7 +49,7 @@ const Timlukfab = () => {
               <h2 className='mb-2 text-lg font-semibold text-gray-700 max-md:text-base'>
                 {item.title}
               </h2>
-              <p className='text-sm text-gray-600'>{item.description}</p>
+              <p className='text-gray-600'>{item.description}</p>
             </div>
           ))}
         </div>

@@ -21,16 +21,10 @@ const Header = () => {
         <div className='flex-1'>
           <HeaderLogo />
         </div>
-        <div className='flex-[2]'>
-          <NavLinks />
-        </div>
-        <div className='flex-1'>
-          <HeaderActions />
-        </div>
+        <NavLinks className='flex-[2]' />
+        <HeaderActions className='flex-1' />
       </div>
-      <div className='bg-[#fefefe] pb-2'>
-        <CategoriesBar />
-      </div>
+      <CategoriesBar className='bg-[#fefefe] pb-2' />
     </HeaderWrapper>
   );
 };
@@ -44,7 +38,7 @@ export const HeaderLogo = () => {
         height={50}
         width={50}
         priority
-        className='w-full max-w-full'
+        className='w-full max-w-full object-contain'
       />
     </Link>
   );

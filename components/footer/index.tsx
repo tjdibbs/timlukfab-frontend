@@ -1,14 +1,8 @@
-import {
-  FacebookFilled,
-  FacebookOutlined,
-  InstagramFilled,
-  InstagramOutlined,
-  XFilled,
-  XOutlined,
-} from '@ant-design/icons';
-import { Button, Divider, Input } from 'antd';
+import { FacebookFilled, InstagramFilled, XOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { Mail, MapPin, Phone } from 'react-feather';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 const links = [
   {
@@ -36,20 +30,17 @@ const AppFooter = () => {
           <h3 className='mb-4 text-2xl font-bold max-md:text-xl'>
             Join Our Community
           </h3>
-          <p className='mb-6 text-sm text-gray-400'>
+          <p className='mb-6 text-gray-400'>
             Get 10% off your first order and be the first to get the latest
             updates on our promotion campaigns, products and services.
           </p>
           <form className='flex items-center gap-2 max-md:flex-col md:max-w-2xl'>
             <Input
+              type='email'
               placeholder='Enter your email'
               className='w-full border-gray-700 bg-gray-800 text-white'
             />
-            <Button
-              type='primary'
-              htmlType='submit'
-              className='border-none bg-white text-gray-900 hover:bg-gray-200 hover:text-gray-900 max-md:w-full'
-            >
+            <Button className='border-none bg-white text-gray-900 hover:bg-gray-200 hover:text-gray-900 max-md:w-full'>
               Subscribe
             </Button>
           </form>
@@ -62,7 +53,7 @@ const AppFooter = () => {
             >
               Timlukfab
             </Link>
-            <p className='my-6 text-wrap text-sm text-gray-400'>
+            <p className='my-6 text-wrap text-gray-400'>
               The premier e-commerce destination for men and women's style
               combining the best brands that focus on craftsmanship and
               elegance.
@@ -70,15 +61,15 @@ const AppFooter = () => {
             <div className='space-y-4 text-gray-400'>
               <div className='flex items-center gap-3'>
                 <MapPin className='w-5' />
-                <span className='text-sm'>70, Timlukfab road, Lagos.</span>
+                <span>70, Timlukfab road, Lagos.</span>
               </div>
               <div className='flex items-center gap-3'>
                 <Phone className='w-5' />
-                <span className='text-sm'>+234123456789</span>
+                <span>+234123456789</span>
               </div>
               <div className='flex items-center gap-3'>
                 <Mail className='w-5' />
-                <span className='text-sm'>sales@timlukfab.com</span>
+                <span>sales@timlukfab.com</span>
               </div>
             </div>
             <div className='mt-8 flex items-center gap-6'>
@@ -109,7 +100,7 @@ const AppFooter = () => {
                 <li key={link.id}>
                   <Link
                     href={link.url}
-                    className='text-sm text-gray-400 transition-colors hover:text-white'
+                    className='text-gray-400 transition-colors hover:text-white'
                   >
                     {link.name}
                   </Link>
@@ -119,7 +110,7 @@ const AppFooter = () => {
           </div>
         </div>
         <div className='mt-12 border-t border-gray-800 pt-6 text-center'>
-          <p className='text-sm text-gray-500'>
+          <p className='text-gray-500'>
             &copy; {new Date().getFullYear()} Timlukfab, All rights reserved
           </p>
         </div>

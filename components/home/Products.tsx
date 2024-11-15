@@ -11,18 +11,18 @@ const Products = ({ products }: { products: ProductController.Product[] }) => {
     <section className='bg-gray-50 py-12'>
       <div className='wrapper'>
         <Divider>
-          <h2 className='text-3xl font-bold text-gray-800 max-md:text-2xl'>
+          <span className='text-xl font-semibold md:text-2xl'>
             SHOP THE LATEST
-          </h2>
+          </span>
         </Divider>
 
         <ProductsComponent
-          className='mt-8 grid grid-cols-4 gap-6 max-lg:grid-cols-3 max-md:grid-cols-2 max-md:gap-2'
+          className='mt-8 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
           products={products}
         />
 
         <div className='mt-12 flex items-center justify-center'>
-          <Button className='w-40 text-sm' size={'default'}>
+          <Button className='w-40 text-sm' asChild>
             <Link href='/shop' className='text-white'>
               SEE MORE
             </Link>

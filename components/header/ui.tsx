@@ -22,6 +22,7 @@ import {
 import SearchComponent from './search';
 import CartComponent from '../cart';
 import HamburgerMenu from './hamburger-menu';
+import { cn } from '@/lib/utils';
 
 const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   const isClient = useIsClient();
@@ -35,18 +36,23 @@ const HeaderWrapper = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const NavLinks = memo(() => {
+export const NavLinks = memo(({ className }: { className?: string }) => {
   const pathname = usePathname();
 
   return (
-    <ul className='hidden items-center justify-center gap-6 lg:flex'>
+    <ul
+      className={cn(
+        'hidden items-center justify-center gap-8 lg:flex',
+        className
+      )}
+    >
       {navLinks.map(link => {
         const isActive = pathname === link.path;
         return (
           <li key={link.id}>
             <Link
               href={link.path}
-              className={`text-base font-semibold uppercase hover:text-black/60 ${
+              className={`text-base font-semibold uppercase hover:text-black ${
                 isActive ? 'text-black' : 'text-black/60'
               }`}
             >
@@ -59,7 +65,7 @@ export const NavLinks = memo(() => {
   );
 });
 
-const AppHeaderSkeleton = () => (
+export const AppHeaderSkeleton = () => (
   <div className='sticky top-0 z-[99999] border-b border-b-[#ccc] bg-white'>
     <div className='wrapper flex items-center justify-between py-4'>
       <div className='h-8 w-24 animate-pulse bg-gray-200'></div>
@@ -92,31 +98,29 @@ const AppHeaderSkeleton = () => (
   </div>
 );
 
-export const HeaderActions = memo(() => {
+export const HeaderActions = memo(({ className }: { className?: string }) => {
   const credentials = useAppSelector(state => state.auth.token);
 
   return (
-    <Fragment>
-      <div className='flex items-center justify-end gap-2'>
-        {credentials ? (
-          <AccountDropdown />
-        ) : (
-          <Link
-            href='/login'
-            className='font-semibold uppercase text-black hover:text-black/60 max-lg:hidden'
-          >
-            Login
-          </Link>
-        )}
-        <SearchComponent />
-        {!!credentials && (
-          <Fragment>
-            <CartComponent />
-          </Fragment>
-        )}
-        <HamburgerMenu />
-      </div>
-    </Fragment>
+    <div className={cn('flex items-center justify-end gap-2', className)}>
+      {credentials ? (
+        <AccountDropdown />
+      ) : (
+        <Link
+          href='/login'
+          className='font-semibold uppercase text-black hover:text-black/60 max-lg:hidden'
+        >
+          Login
+        </Link>
+      )}
+      <SearchComponent />
+      {!!credentials && (
+        <Fragment>
+          <CartComponent />
+        </Fragment>
+      )}
+      <HamburgerMenu />
+    </div>
   );
 });
 
@@ -183,14 +187,18 @@ const CategorySkeleton = () => {
   );
 };
 
-export const CategoriesBar = () => {
+export const CategoriesBar = ({ className }: { className?: string }) => {
   const { data, isLoading } = useGetCategoriesQuery(undefined);
 
   const categories = data?.result.categories;
   const [openPopover, setOpenPopover] = useState<number | null>(null);
 
   if (isLoading) {
-    return <CategorySkeleton />;
+    return (
+      <div className='pb-2'>
+        <CategorySkeleton />
+      </div>
+    );
   }
 
   if (!categories) {
@@ -198,7 +206,12 @@ export const CategoriesBar = () => {
   }
 
   return (
-    <div className='wrapper no-scrollbar flex flex-nowrap items-center gap-2 overflow-x-auto'>
+    <div
+      className={cn(
+        'wrapper no-scrollbar flex flex-nowrap items-center gap-2 overflow-x-auto',
+        className
+      )}
+    >
       {categories.map(category => (
         <Popover
           key={category.id}

@@ -35,28 +35,25 @@ const BestSelling = ({ products }: Props) => {
       </div>
       <div className='mx-auto w-[95%] md:w-full'>
         <Swiper
-          className=''
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
           autoplay={{ delay: 5000 }}
-          loop={products.length > 5}
           scrollbar={{ draggable: true }}
           breakpoints={{
             0: {
               slidesPerView: 1,
-              spaceBetween: 10,
             },
             640: {
               slidesPerView: 2,
-              spaceBetween: 15,
             },
             768: {
               slidesPerView: 3,
-              spaceBetween: 20,
             },
-            1024: {
+            976: {
               slidesPerView: 4,
-              spaceBetween: 25,
+            },
+            1440: {
+              slidesPerView: 5,
             },
           }}
         >
