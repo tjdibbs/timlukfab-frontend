@@ -19,7 +19,7 @@ import { ReviewsController } from '@/types/reviews';
 type Option = 'description' | 'reviews';
 
 const ProductData = ({ product }: { product: ProductController.Product }) => {
-  const [activeBtn, setActiveBtn] = useState<Option>('reviews');
+  const [activeBtn, setActiveBtn] = useState<Option>('description');
 
   return (
     <section className='mb-8 mt-12'>

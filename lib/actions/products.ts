@@ -26,7 +26,7 @@ export const getSingleProduct = async (
   id: string
 ): Promise<ProductController.GetSingle> => {
   const res = await fetch(`${process.env.API_BASE_URL}/products/${id}`, {
-    next: { revalidate: 300 },
+    next: { revalidate: 500 },
   });
 
   return res.json();

@@ -11,6 +11,7 @@ import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { TailwindSpinner } from '../ui/spinner';
+import { ScrollArea } from '../ui/scroll-area';
 
 const SidebarMobile = () => {
   const { data, isLoading } = useGetCategoriesQuery(undefined);
@@ -38,52 +39,54 @@ const SidebarMobile = () => {
           </div>
         )}
         {data && (
-          <section className='space-y-12'>
-            <div className='space-y-6'>
-              <h2 className='text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
-                browse
-              </h2>
-              {data.result.categories.map(category => (
-                <div key={category.id}>
-                  <SheetClose asChild>
-                    <Link
-                      href={`/categories/${category.id}`}
-                      className={cn(
-                        'block py-2 text-sm font-semibold uppercase hover:text-black',
-                        id === String(category.id)
-                          ? 'text-black'
-                          : 'border-b border-b-gray-200 text-dark_grey'
-                      )}
-                    >
-                      {category.name}
-                    </Link>
-                  </SheetClose>
-                  {id === String(category.id) && (
-                    <ul className='mb-2 space-y-2 border-b border-b-gray-200 pb-1 pl-6'>
-                      {category.subcategories.map(subcategory => (
-                        <SheetClose asChild key={subcategory.id}>
-                          <Link
-                            href={`/categories/${subcategory.categoryId}/subcategories/${subcategory.id}`}
-                            className='block text-sm font-semibold uppercase text-gray-400 hover:text-black'
-                          >
-                            {subcategory.name}
-                          </Link>
-                        </SheetClose>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className='space-y-6'>
-              <h2 className='text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
-                Filter by price
-              </h2>
+          <ScrollArea className='h-full'>
+            <section className='space-y-12'>
+              <div className='space-y-6'>
+                <h2 className='text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
+                  browse
+                </h2>
+                {data.result.categories.map(category => (
+                  <div key={category.id}>
+                    <SheetClose asChild>
+                      <Link
+                        href={`/categories/${category.id}`}
+                        className={cn(
+                          'block py-2 text-sm font-semibold uppercase hover:text-black',
+                          id === String(category.id)
+                            ? 'text-black'
+                            : 'border-b border-b-gray-200 text-dark_grey'
+                        )}
+                      >
+                        {category.name}
+                      </Link>
+                    </SheetClose>
+                    {id === String(category.id) && (
+                      <ul className='mb-2 space-y-2 border-b border-b-gray-200 pb-1 pl-6'>
+                        {category.subcategories.map(subcategory => (
+                          <SheetClose asChild key={subcategory.id}>
+                            <Link
+                              href={`/categories/${subcategory.categoryId}/subcategories/${subcategory.id}`}
+                              className='block text-sm font-semibold uppercase text-gray-400 hover:text-black'
+                            >
+                              {subcategory.name}
+                            </Link>
+                          </SheetClose>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className='space-y-6'>
+                <h2 className='text-lg font-semibold uppercase text-normal_grey max-md:text-base'>
+                  Filter by price
+                </h2>
 
-              <RangeSlider closeFn={closeNav} />
-            </div>
-            <RecentlyViewed />
-          </section>
+                <RangeSlider closeFn={closeNav} />
+              </div>
+              <RecentlyViewed />
+            </section>
+          </ScrollArea>
         )}
       </SheetContent>
     </Sheet>

@@ -1,4 +1,10 @@
 export namespace ProductController {
+  export interface ProductCookie {
+    id: string;
+    title: string;
+    image: string;
+    price: string;
+  }
   interface ProductSizeDetails {
     additionalPrice: string;
     stock: number;

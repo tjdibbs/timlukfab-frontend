@@ -1,3 +1,4 @@
+import CookieSetter from '@/components/products/cookie-setter';
 import ImageShow from '@/components/products/image-show';
 import ProductData from '@/components/products/productdata';
 import ProductInfo from '@/components/products/productInfo';
@@ -45,6 +46,7 @@ const ProductWrapper = async ({ id }: { id: string }) => {
 
   return (
     <Fragment>
+      <CookieSetter product={product} />
       <div className='grid-cols-12 gap-8 lg:grid lg:items-start'>
         <ImageShow product={product} />
         <ProductInfo product={product} />
