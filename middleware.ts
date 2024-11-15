@@ -1,17 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
-import { jwtDecode } from "jwt-decode"
+import { NextRequest, NextResponse } from 'next/server';
+import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
-  id: number,
-  caller: string,
-  type: string,
-  iat: number,
-  exp: number
+  id: number;
+  caller: string;
+  type: string;
+  iat: number;
+  exp: number;
 }
 
-
-const guestRoutes = ["/login", "/register"];
-const protectedRoutes = ["/verify-email", "/verfied", "/checkout"]
+const guestRoutes = ['/login', '/register'];
+const protectedRoutes = ['/verify-email', '/verfied', '/checkout'];
 
 function decodeToken(token: string): DecodedToken | null {
   try {
@@ -23,16 +22,20 @@ function decodeToken(token: string): DecodedToken | null {
 
 function isTokenExpired(token: DecodedToken): boolean {
   const currentTime = Math.floor(Date.now() / 1000);
-  return token.exp < currentTime;  // token has expired if the expiration time is less than the current time
+  return token.exp < currentTime; // token has expired if the expiration time is less than the current time
 }
 
 function checkIfTokenIsExpired(request: NextRequest): boolean {
-  const token = request.cookies.get("auth")?.value;
+  const token = request.cookies.get('auth')?.value;
 
   if (!token) return true;
 
   try {
-    const { refreshToken } = JSON.parse(token) as { id: number; token: string; refreshToken: string };
+    const { refreshToken } = JSON.parse(token) as {
+      id: number;
+      token: string;
+      refreshToken: string;
+    };
 
     const decodedToken = decodeToken(refreshToken);
 
@@ -42,7 +45,6 @@ function checkIfTokenIsExpired(request: NextRequest): boolean {
     return true;
   }
 }
-
 
 function checkIfRouteIsGuest(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -62,30 +64,30 @@ export const middleware = (request: NextRequest, response: NextResponse) => {
   const { pathname, searchParams } = request.nextUrl;
 
   if (checkIfRouteIsGuest(request)) {
-    const auth = request.cookies.get("auth");
+    const auth = request.cookies.get('auth');
 
-    if (auth?.value && !searchParams.get("expired")) {
-      return NextResponse.redirect(new URL("/account", request.url));
+    if (auth?.value && !searchParams.get('expired')) {
+      return NextResponse.redirect(new URL('/account', request.url));
     }
     return NextResponse.next();
   }
 
-  if (pathname.includes("/account") || checkIfRouteIsProtected(request)) {
-    const auth = request.cookies.get("auth");
+  if (pathname.includes('/account') || checkIfRouteIsProtected(request)) {
+    const auth = request.cookies.get('auth');
     if (!auth?.value) {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL('/login', request.url));
     }
     if (checkIfTokenIsExpired(request)) {
-      request.cookies.delete("auth");
-      return NextResponse.redirect(new URL("/login?expired=true", request.url));
+      request.cookies.delete('auth');
+      return NextResponse.redirect(new URL('/login?expired=true', request.url));
     }
     return NextResponse.next();
   }
 
-  if (pathname === "/verify-email") {
-    const id = request.cookies.get("email-verification");
+  if (pathname === '/verify-email') {
+    const id = request.cookies.get('email-verification');
     if (!id?.value) {
-      return NextResponse.redirect(new URL("/", request.url))
+      return NextResponse.redirect(new URL('/', request.url));
     }
     NextResponse.next();
   }

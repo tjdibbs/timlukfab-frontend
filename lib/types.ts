@@ -1,4 +1,4 @@
-import { StaticImageData } from "next/image";
+import { StaticImageData } from 'next/image';
 export interface ErrorResponse {
   status: number;
   data: {
@@ -6,8 +6,8 @@ export interface ErrorResponse {
     message: string;
     statusCode: number;
     path: string;
-    method: "POST" | "GET" | "PUT" | "DELETE" | "PATCH";
-  }
+    method: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
+  };
 }
 
 type UserContact = {
@@ -48,25 +48,25 @@ export type CartItem = {
   size: string;
   price: number;
   title: string;
-  image: string | StaticImageData
-}
+  image: string | StaticImageData;
+};
 
 export type AuthCredentials = {
   id: number | null;
   token: string | null;
   refreshToken: string | null;
-}
+};
 
 export type ApiResponse<T> = {
   success: boolean;
   message: string;
   data: T;
-}
+};
 
 export type BreadCrumbLink = {
-  id: number,
-  name: string,
+  id: number;
+  name: string;
   href: string;
   isPage: boolean;
   isClickable?: boolean;
-}
+};

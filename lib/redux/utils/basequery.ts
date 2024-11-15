@@ -1,13 +1,13 @@
-import { Mutex } from "async-mutex";
+import { Mutex } from 'async-mutex';
 import {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
   fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react";
-import { RootState } from "../store";
-import { logout, setAccessToken } from "../features/auth";
-import { Globals } from "@/types/globals";
+} from '@reduxjs/toolkit/query/react';
+import { RootState } from '../store';
+import { logout, setAccessToken } from '../features/auth';
+import { Globals } from '@/types/globals';
 
 interface CustomError {
   name: string;
@@ -24,7 +24,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
     if (token) {
-      headers.set("authorization", `Bearer ${token}`);
+      headers.set('authorization', `Bearer ${token}`);
     }
     return headers;
   },
@@ -48,8 +48,8 @@ const baseQueryWithReauth: BaseQueryFn<
           const token = (api.getState() as RootState).auth.refreshToken;
           const refreshResult = await baseQuery(
             {
-              url: "/auth/renew-token",
-              method: "POST",
+              url: '/auth/renew-token',
+              method: 'POST',
               body: { refreshToken: token },
             },
             api,

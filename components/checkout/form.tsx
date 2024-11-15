@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useGetAddressesQuery } from "@/lib/redux/services/address";
-import { Fragment, memo, useMemo } from "react";
+import { useGetAddressesQuery } from '@/lib/redux/services/address';
+import { Fragment, memo, useMemo } from 'react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import paystack from "@/assets/paystack-2.svg";
-import Image from "next/image";
-import { Textarea } from "../ui/textarea";
-import { AddressController } from "@/types/addresses";
-import Link from "next/link";
+} from '@/components/ui/select';
+import { Checkbox } from '../ui/checkbox';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
+import paystack from '@/assets/paystack-2.svg';
+import Image from 'next/image';
+import { Textarea } from '../ui/textarea';
+import { AddressController } from '@/types/addresses';
+import Link from 'next/link';
 import {
   Form,
   FormControl,
@@ -24,24 +24,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { ExternalLink } from "react-feather";
-import { z } from "zod";
-import { OrderSchema } from "@/lib/schemas";
-import { Control, FormState, useForm, UseFormWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useGetCartQuery } from "@/lib/redux/services/cart";
-import { calculateCartTotal } from "@/utils/functions";
-import { useGetUserQuery } from "@/lib/redux/services/user";
-import { useAppSelector } from "@/lib/redux/store";
-import useMessage from "@/hooks/useMessage";
+} from '@/components/ui/form';
+import { ExternalLink } from 'react-feather';
+import { z } from 'zod';
+import { OrderSchema } from '@/lib/schemas';
+import { Control, FormState, useForm, UseFormWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useGetCartQuery } from '@/lib/redux/services/cart';
+import { calculateCartTotal } from '@/utils/functions';
+import { useGetUserQuery } from '@/lib/redux/services/user';
+import { useAppSelector } from '@/lib/redux/store';
+import useMessage from '@/hooks/useMessage';
 
-import dynamic from "next/dynamic";
-import { PaystackProps, PaystackResponse } from "@/types/paystack";
-import { useAddOrderMutation } from "@/lib/redux/services/orders";
-import { TailwindSpinner } from "../ui/spinner";
-import { OrderController } from "@/types/orders";
-import { ErrorResponse } from "@/lib/types";
+import dynamic from 'next/dynamic';
+import { PaystackProps, PaystackResponse } from '@/types/paystack';
+import { useAddOrderMutation } from '@/lib/redux/services/orders';
+import { TailwindSpinner } from '../ui/spinner';
+import { OrderController } from '@/types/orders';
+import { ErrorResponse } from '@/lib/types';
 
 type FormSchema = z.infer<typeof OrderSchema>;
 
@@ -49,7 +49,7 @@ const CheckoutForm = () => {
   const id = useAppSelector(state => state.auth.id);
   const { data } = useGetAddressesQuery({});
   const { data: cart } = useGetCartQuery({});
-  const { data: user } = useGetUserQuery(id?.toString() || "");
+  const { data: user } = useGetUserQuery(id?.toString() || '');
 
   const [createOrder, { isLoading: isCreating }] = useAddOrderMutation();
 
@@ -62,11 +62,11 @@ const CheckoutForm = () => {
     if (!user || !cartTotal) return {} as PaystackProps;
     return {
       amount: cartTotal * 100,
-      email: user.email || "",
-      firstname: user.firstName || "",
-      lastname: user.lastName || "",
+      email: user.email || '',
+      firstname: user.firstName || '',
+      lastname: user.lastName || '',
       reference: new Date().getTime().toString(),
-      publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "",
+      publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || '',
     };
   }, [user, cartTotal]);
 
@@ -82,7 +82,7 @@ const CheckoutForm = () => {
     resolver: zodResolver(OrderSchema),
     defaultValues: {
       billingAddressId: 0,
-      orderNote: "",
+      orderNote: '',
       shippingAddressId: 0,
       useDefaultShippingAddress: true,
       useShippingAsBillingAddress: true,
@@ -90,7 +90,7 @@ const CheckoutForm = () => {
   });
 
   const onClose = () => {
-    alertMessage("Payment canceled", "info");
+    alertMessage('Payment canceled', 'info');
   };
 
   const errorExists = useMemo(() => {
@@ -99,10 +99,10 @@ const CheckoutForm = () => {
 
   const onSubmit = async (values: FormSchema) => {
     if (!defaultAddress) {
-      return alertMessage("You need to add addresses", "error");
+      return alertMessage('You need to add addresses', 'error');
     }
 
-    const { usePaystackPayment } = await import("react-paystack");
+    const { usePaystackPayment } = await import('react-paystack');
     const initializePayment = usePaystackPayment(config);
 
     const onSuccess = async (reference: PaystackResponse) => {
@@ -115,11 +115,11 @@ const CheckoutForm = () => {
       } = values;
 
       if (!useDefaultShippingAddress && !shippingAddressId) {
-        return alertMessage("Shipping address is not set", "error");
+        return alertMessage('Shipping address is not set', 'error');
       }
 
       if (!useShippingAsBillingAddress && !billingAddressId) {
-        return alertMessage("Billing address is not set", "error");
+        return alertMessage('Billing address is not set', 'error');
       }
 
       const determineBillingAddress = () => {
@@ -143,7 +143,7 @@ const CheckoutForm = () => {
         billingAddressId: determineBillingAddress() || defaultAddress.id,
         discountAmount: 0,
         excludeItems: [],
-        paymentMethod: "paystack",
+        paymentMethod: 'paystack',
         paymentRef: reference.trxref,
         shippingAddressId: determineShippingAddress() || defaultAddress.id,
         shippingFee: 0,
@@ -153,10 +153,10 @@ const CheckoutForm = () => {
       try {
         const response = await createOrder(order).unwrap();
         console.log(response);
-        alertMessage("Order placed successfully", "success");
+        alertMessage('Order placed successfully', 'success');
       } catch (error) {
         const message = (error as ErrorResponse).data.message;
-        alertMessage(message || "An error occurred", "error");
+        alertMessage(message || 'An error occurred', 'error');
       }
     };
 
@@ -165,7 +165,7 @@ const CheckoutForm = () => {
 
   return (
     <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
         <ShippingAddress
           addresses={addresses}
           control={form.control}
@@ -185,11 +185,11 @@ const CheckoutForm = () => {
         <PaymentMethod />
         <Separator />
         <OrderNotes control={form.control} />
-        <Button disabled={isCreating} className="w-full" type="submit">
-          {isCreating ? <TailwindSpinner className="h-4 w-4" /> : "PAY NOW"}
+        <Button disabled={isCreating} className='w-full' type='submit'>
+          {isCreating ? <TailwindSpinner className='h-4 w-4' /> : 'PAY NOW'}
         </Button>
         {errorExists && (
-          <p className="text-sm text-red-500">Check errors and try again</p>
+          <p className='text-sm text-red-500'>Check errors and try again</p>
         )}
       </form>
     </Form>
@@ -208,24 +208,24 @@ const ShippingAddress = memo(
     watch: UseFormWatch<FormSchema>;
     formState: FormState<FormSchema>;
   }) => {
-    const useDefaultAddress = watch("useDefaultShippingAddress");
+    const useDefaultAddress = watch('useDefaultShippingAddress');
 
     return (
-      <div className="space-y-4">
-        <h5 className="text-base font-semibold uppercase">Shipping Address</h5>
+      <div className='space-y-4'>
+        <h5 className='text-base font-semibold uppercase'>Shipping Address</h5>
         <FormField
           control={control}
-          name="useDefaultShippingAddress"
+          name='useDefaultShippingAddress'
           render={({ field }) => (
-            <FormItem className="flex items-center space-x-2 space-y-0 rounded-md border p-4 shadow">
+            <FormItem className='flex items-center space-x-2 space-y-0 rounded-md border p-4 shadow'>
               <FormControl>
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
-              <div className="space-y-0">
-                <FormLabel className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <div className='space-y-0'>
+                <FormLabel className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                   Use default shipping address
                 </FormLabel>
               </div>
@@ -237,7 +237,7 @@ const ShippingAddress = memo(
             {addresses.length > 1 && (
               <FormField
                 control={control}
-                name="shippingAddressId"
+                name='shippingAddressId'
                 render={({ field }) => (
                   <FormItem>
                     <Select
@@ -245,7 +245,7 @@ const ShippingAddress = memo(
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Address" />
+                          <SelectValue placeholder='Select Address' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -264,23 +264,23 @@ const ShippingAddress = memo(
               />
             )}
             <Link
-              href="/account/addresses"
-              className="text-link-color mt-2 inline-flex items-center gap-1 text-sm"
+              href='/account/addresses'
+              className='mt-2 inline-flex items-center gap-1 text-sm text-link-color'
             >
-              Manage addresses <ExternalLink className="w-4" />
+              Manage addresses <ExternalLink className='w-4' />
             </Link>
           </Fragment>
         )}
         {addresses.length === 0 && useDefaultAddress && (
           <Link
-            href="/account/addresses"
-            className="text-link-color mt-2 inline-flex items-center gap-1 text-sm"
+            href='/account/addresses'
+            className='mt-2 inline-flex items-center gap-1 text-sm text-link-color'
           >
-            Manage addresses <ExternalLink className="w-4" />
+            Manage addresses <ExternalLink className='w-4' />
           </Link>
         )}
         {!useDefaultAddress && errors.shippingAddressId && (
-          <p className="text-sm text-red-500">
+          <p className='text-sm text-red-500'>
             {errors.shippingAddressId.message}
           </p>
         )}
@@ -291,9 +291,9 @@ const ShippingAddress = memo(
 
 const ShippingFee = () => {
   return (
-    <div className="space-y-4">
-      <h5 className="text-base font-semibold uppercase">Shipping Fee</h5>
-      <div className="flex items-center justify-between rounded border border-gray-500 p-4">
+    <div className='space-y-4'>
+      <h5 className='text-base font-semibold uppercase'>Shipping Fee</h5>
+      <div className='flex items-center justify-between rounded border border-gray-500 p-4'>
         <span>International Standard</span>
         <span>FREE</span>
       </div>
@@ -313,24 +313,24 @@ const BillingAddress = memo(
     watch: UseFormWatch<FormSchema>;
     formState: FormState<FormSchema>;
   }) => {
-    const useShippingAsBilling = watch("useShippingAsBillingAddress");
+    const useShippingAsBilling = watch('useShippingAsBillingAddress');
 
     return (
-      <div className="space-y-4">
-        <h5 className="text-base font-semibold uppercase">Billing Address</h5>
+      <div className='space-y-4'>
+        <h5 className='text-base font-semibold uppercase'>Billing Address</h5>
         <FormField
           control={control}
-          name="useShippingAsBillingAddress"
+          name='useShippingAsBillingAddress'
           render={({ field }) => (
-            <FormItem className="flex items-center space-x-2 space-y-0 rounded-md border p-4 shadow">
+            <FormItem className='flex items-center space-x-2 space-y-0 rounded-md border p-4 shadow'>
               <FormControl>
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
-              <div className="space-y-0">
-                <FormLabel className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              <div className='space-y-0'>
+                <FormLabel className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
                   Use shipping address
                 </FormLabel>
               </div>
@@ -342,7 +342,7 @@ const BillingAddress = memo(
             {addresses.length > 1 && (
               <FormField
                 control={control}
-                name="billingAddressId"
+                name='billingAddressId'
                 render={({ field }) => (
                   <FormItem>
                     <Select
@@ -350,7 +350,7 @@ const BillingAddress = memo(
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Address" />
+                          <SelectValue placeholder='Select Address' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -369,23 +369,23 @@ const BillingAddress = memo(
               />
             )}
             <Link
-              href="/account/addresses"
-              className="text-link-color mt-2 inline-flex items-center gap-1 text-sm"
+              href='/account/addresses'
+              className='mt-2 inline-flex items-center gap-1 text-sm text-link-color'
             >
-              Manage addresses <ExternalLink className="w-4" />
+              Manage addresses <ExternalLink className='w-4' />
             </Link>
           </Fragment>
         )}
         {addresses.length === 0 && useShippingAsBilling && (
           <Link
-            href="/account/addresses"
-            className="text-link-color mt-2 inline-flex items-center gap-1 text-sm"
+            href='/account/addresses'
+            className='mt-2 inline-flex items-center gap-1 text-sm text-link-color'
           >
-            Manage addresses <ExternalLink className="w-4" />
+            Manage addresses <ExternalLink className='w-4' />
           </Link>
         )}
         {!useShippingAsBilling && errors.billingAddressId && (
-          <p className="text-sm text-red-500">
+          <p className='text-sm text-red-500'>
             {errors.billingAddressId.message}
           </p>
         )}
@@ -396,15 +396,15 @@ const BillingAddress = memo(
 
 const PaymentMethod = () => {
   return (
-    <div className="space-y-4">
-      <h5 className="text-base font-semibold uppercase">Payment Method</h5>
-      <div className="flex items-center space-x-2 rounded-md border p-4 shadow">
+    <div className='space-y-4'>
+      <h5 className='text-base font-semibold uppercase'>Payment Method</h5>
+      <div className='flex items-center space-x-2 rounded-md border p-4 shadow'>
         <Image
           src={paystack}
-          alt="paystack"
+          alt='paystack'
           height={100}
           width={100}
-          className="w-20 object-contain"
+          className='w-20 object-contain'
         />
       </div>
     </div>
@@ -413,18 +413,18 @@ const PaymentMethod = () => {
 
 const OrderNotes = memo(({ control }: { control: Control<FormSchema> }) => {
   return (
-    <div className="space-y-4">
+    <div className='space-y-4'>
       <FormField
         control={control}
-        name="orderNote"
+        name='orderNote'
         render={({ field }) => (
           <FormItem>
             <FormLabel>Order notes (optional)</FormLabel>
             <FormControl>
               <Textarea
                 rows={5}
-                className="resize-none"
-                placeholder="Write a short note for timlukfab"
+                className='resize-none'
+                placeholder='Write a short note for timlukfab'
                 {...field}
               />
             </FormControl>
@@ -436,7 +436,7 @@ const OrderNotes = memo(({ control }: { control: Control<FormSchema> }) => {
   );
 });
 
-OrderNotes.displayName = "OrderNotes";
-ShippingAddress.displayName = "ShippingAddress";
-BillingAddress.displayName = "BillingAddress";
+OrderNotes.displayName = 'OrderNotes';
+ShippingAddress.displayName = 'ShippingAddress';
+BillingAddress.displayName = 'BillingAddress';
 export default dynamic(async () => CheckoutForm, { ssr: false });

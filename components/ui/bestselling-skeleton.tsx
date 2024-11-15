@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { Divider } from "antd";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Skeleton } from "../ui/skeleton";
+import { Divider } from 'antd';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Skeleton } from '../ui/skeleton';
 
 const BestSellingSkeleton = () => {
   return (
-    <div className="wrapper my-8 md:my-16">
-      <div className="mb-6 md:mb-8">
+    <div className='wrapper my-8 md:my-16'>
+      <div className='mb-6 md:mb-8'>
         <Divider>
-          <span className="text-xl font-semibold md:text-2xl">
+          <span className='text-xl font-semibold md:text-2xl'>
             BEST SELLING PRODUCTS
           </span>
         </Divider>
       </div>
-      <div className="mx-auto w-[95%] md:w-full">
+      <div className='mx-auto w-[95%] md:w-full'>
         <Swiper
-          className=""
+          className=''
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={10}
           loop={true}
@@ -43,8 +43,8 @@ const BestSellingSkeleton = () => {
         >
           {Array.from({ length: 8 }).map((_, index) => (
             <SwiperSlide key={index + 1}>
-              <div className="group relative aspect-[5/6] overflow-hidden">
-                <Skeleton className="h-full w-full" />
+              <div className='group relative aspect-[5/6] overflow-hidden'>
+                <Skeleton className='h-full w-full' />
               </div>
             </SwiperSlide>
           ))}

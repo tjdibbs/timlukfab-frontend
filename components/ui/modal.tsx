@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ReactNode } from "react";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -29,7 +29,7 @@ const Modal = ({
   setOpen,
   title,
   description,
-  maxWidth = "sm:max-w-[425px]",
+  maxWidth = 'sm:max-w-[425px]',
 }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>

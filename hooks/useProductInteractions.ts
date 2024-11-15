@@ -1,48 +1,48 @@
 import { useState, useCallback } from 'react';
 
 const useProductInteractions = () => {
-    const [showCartAction, setShowCartAction] = useState(false);
-    const [showCartActionButton, setShowCartActionButton] = useState(false);
-    const [openMobileCartAction, setOpenMobileCartAction] = useState(false);
+  const [showCartAction, setShowCartAction] = useState(false);
+  const [showCartActionButton, setShowCartActionButton] = useState(false);
+  const [openMobileCartAction, setOpenMobileCartAction] = useState(false);
 
-    const showCartButton = useCallback(() => {
-        if (!showCartAction) {
-            setShowCartActionButton(true);
-        }
-    }, []);
+  const showCartButton = useCallback(() => {
+    if (!showCartAction) {
+      setShowCartActionButton(true);
+    }
+  }, []);
 
-    const hideCartButton = useCallback(() => {
-        setShowCartActionButton(false);
-    }, []);
+  const hideCartButton = useCallback(() => {
+    setShowCartActionButton(false);
+  }, []);
 
-    const displayCartAction = useCallback(() => {
-        setShowCartActionButton(false);
-        setShowCartAction(true);
-    }, []);
+  const displayCartAction = useCallback(() => {
+    setShowCartActionButton(false);
+    setShowCartAction(true);
+  }, []);
 
-    const hideCartAction = useCallback(() => {
-        setShowCartAction(false);
-    }, []);
+  const hideCartAction = useCallback(() => {
+    setShowCartAction(false);
+  }, []);
 
-    const displayMobileCartAction = useCallback(() => {
-        setOpenMobileCartAction(true);
-    }, []);
+  const displayMobileCartAction = useCallback(() => {
+    setOpenMobileCartAction(true);
+  }, []);
 
-    const hideMobileCartAction = useCallback(() => {
-        setOpenMobileCartAction(false);
-    }, []);
+  const hideMobileCartAction = useCallback(() => {
+    setOpenMobileCartAction(false);
+  }, []);
 
-    return {
-        showCartAction,
-        showCartActionButton,
-        openMobileCartAction,
-        showCartButton,
-        hideCartButton,
-        displayCartAction,
-        displayMobileCartAction,
-        hideCartAction,
-        hideMobileCartAction,
-    };
+  return {
+    showCartAction,
+    showCartActionButton,
+    openMobileCartAction,
+    showCartButton,
+    hideCartButton,
+    displayCartAction,
+    displayMobileCartAction,
+    hideCartAction,
+    hideMobileCartAction,
+  };
 };
 
 export default useProductInteractions;

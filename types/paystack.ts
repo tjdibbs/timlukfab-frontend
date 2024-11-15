@@ -1,79 +1,79 @@
 export type Currency = 'NGN' | 'GHS' | 'USD' | 'ZAR' | 'KES' | 'XOF';
 
 export type PaymentChannels =
-    | 'bank'
-    | 'card'
-    | 'qr'
-    | 'ussd'
-    | 'mobile_money'
-    | 'eft'
-    | 'bank_transfer'
-    | 'payattitude';
+  | 'bank'
+  | 'card'
+  | 'qr'
+  | 'ussd'
+  | 'mobile_money'
+  | 'eft'
+  | 'bank_transfer'
+  | 'payattitude';
 
 type Bearer = 'account' | 'subaccount';
 
 type phone = number | string;
 
 interface PaystackCustomFields {
-    display_name: string;
-    variable_name: string;
-    value: any;
+  display_name: string;
+  variable_name: string;
+  value: any;
 }
 
 interface PaystackMetadata {
-    custom_fields: PaystackCustomFields[];
+  custom_fields: PaystackCustomFields[];
 }
 
 interface PaystackMetadata {
-    [key: string]: any;
+  [key: string]: any;
 }
 
 interface PaystackConnectSplit {
-    account_id: string;
-    share: number;
+  account_id: string;
+  share: number;
 }
 
 export type callback = (response?: any) => void;
 
 export interface PaystackProps {
-    publicKey: string;
-    email: string;
-    amount: number;
-    firstname?: string;
-    lastname?: string;
-    phone?: phone;
-    reference?: string;
-    metadata?: PaystackMetadata;
-    currency?: Currency | string;
-    channels?: PaymentChannels[] | string[];
-    label?: string;
-    plan?: string;
-    quantity?: number;
-    subaccount?: string;
-    transaction_charge?: number;
-    bearer?: Bearer;
-    split_code?: string;
-    split?: Record<string, any>;
-    connect_split?: PaystackConnectSplit[];
-    connect_account?: string;
-    onBankTransferConfirmationPending?: callback;
+  publicKey: string;
+  email: string;
+  amount: number;
+  firstname?: string;
+  lastname?: string;
+  phone?: phone;
+  reference?: string;
+  metadata?: PaystackMetadata;
+  currency?: Currency | string;
+  channels?: PaymentChannels[] | string[];
+  label?: string;
+  plan?: string;
+  quantity?: number;
+  subaccount?: string;
+  transaction_charge?: number;
+  bearer?: Bearer;
+  split_code?: string;
+  split?: Record<string, any>;
+  connect_split?: PaystackConnectSplit[];
+  connect_account?: string;
+  onBankTransferConfirmationPending?: callback;
 }
 
 export type InitializePayment = (options: {
-    onSuccess?: callback;
-    onClose?: callback;
-    config?: Omit<PaystackProps, 'publicKey'>;
+  onSuccess?: callback;
+  onClose?: callback;
+  config?: Omit<PaystackProps, 'publicKey'>;
 }) => void;
 
 export type HookConfig = Omit<Partial<PaystackProps>, 'publicKey'> &
-    Pick<PaystackProps, 'publicKey'>;
+  Pick<PaystackProps, 'publicKey'>;
 
 export interface PaystackResponse {
-    message: string;
-    redirecturl: string;
-    reference: string;
-    status: string;
-    trans: string;
-    transaction: string;
-    trxref: string;
+  message: string;
+  redirecturl: string;
+  reference: string;
+  status: string;
+  trans: string;
+  transaction: string;
+  trxref: string;
 }

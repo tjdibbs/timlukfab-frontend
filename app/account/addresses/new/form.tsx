@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -10,25 +10,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { TailwindSpinner } from "@/components/ui/spinner";
-import useMessage from "@/hooks/useMessage";
-import { countryList } from "@/lib/country";
-import { useAddAddressMutation } from "@/lib/redux/services/address";
-import { AddAddressSchema } from "@/lib/schemas";
-import { ErrorResponse } from "@/lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "nextjs-toploader/app";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+} from '@/components/ui/select';
+import { TailwindSpinner } from '@/components/ui/spinner';
+import useMessage from '@/hooks/useMessage';
+import { countryList } from '@/lib/country';
+import { useAddAddressMutation } from '@/lib/redux/services/address';
+import { AddAddressSchema } from '@/lib/schemas';
+import { ErrorResponse } from '@/lib/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'nextjs-toploader/app';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 type FormSchema = z.infer<typeof AddAddressSchema>;
 
@@ -36,12 +36,12 @@ const AddNewForm = () => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(AddAddressSchema),
     defaultValues: {
-      city: "",
-      country: "",
-      phoneNumber: "",
-      postalCode: "",
-      state: "",
-      streetAddress: "",
+      city: '',
+      country: '',
+      phoneNumber: '',
+      postalCode: '',
+      state: '',
+      streetAddress: '',
       isDefault: false,
     },
   });
@@ -54,16 +54,16 @@ const AddNewForm = () => {
   const onSubmit: SubmitHandler<FormSchema> = async data => {
     try {
       await addAddress(data).unwrap();
-      alertMessage("Address added successfully", "success");
+      alertMessage('Address added successfully', 'success');
       form.reset();
-      router.push("/account/addresses");
+      router.push('/account/addresses');
     } catch (error) {
       if (error instanceof Error) {
-        alertMessage(error.message, "error");
+        alertMessage(error.message, 'error');
         return;
       }
       const message = (error as ErrorResponse).data.message;
-      alertMessage(message || "An error occurred", "error");
+      alertMessage(message || 'An error occurred', 'error');
     }
   };
 
@@ -72,17 +72,17 @@ const AddNewForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="max-w-3xl space-y-6"
+          className='max-w-3xl space-y-6'
         >
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
             <FormField
               control={form.control}
-              name="state"
+              name='state'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>State</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your state" {...field} />
+                    <Input placeholder='Your state' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,12 +90,12 @@ const AddNewForm = () => {
             />
             <FormField
               control={form.control}
-              name="city"
+              name='city'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your city" {...field} />
+                    <Input placeholder='Your city' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,7 +104,7 @@ const AddNewForm = () => {
           </div>
           <FormField
             control={form.control}
-            name="country"
+            name='country'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Country</FormLabel>
@@ -113,8 +113,8 @@ const AddNewForm = () => {
                   onValueChange={value => field.onChange(value)}
                 >
                   <FormControl>
-                    <SelectTrigger className="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black">
-                      <SelectValue placeholder="Select a country" />
+                    <SelectTrigger className='w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'>
+                      <SelectValue placeholder='Select a country' />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -131,12 +131,12 @@ const AddNewForm = () => {
           />
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name='phoneNumber'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone number</FormLabel>
                 <FormControl>
-                  <Input placeholder="Phone Number" {...field} />
+                  <Input placeholder='Phone Number' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -144,12 +144,12 @@ const AddNewForm = () => {
           />
           <FormField
             control={form.control}
-            name="postalCode"
+            name='postalCode'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Postal code</FormLabel>
                 <FormControl>
-                  <Input placeholder="Postal code" {...field} />
+                  <Input placeholder='Postal code' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -157,12 +157,12 @@ const AddNewForm = () => {
           />
           <FormField
             control={form.control}
-            name="streetAddress"
+            name='streetAddress'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Street Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="Street Address" {...field} />
+                  <Input placeholder='Street Address' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -170,24 +170,24 @@ const AddNewForm = () => {
           />
           <FormField
             control={form.control}
-            name="isDefault"
+            name='isDefault'
             render={({ field }) => (
-              <FormItem className="flex items-start space-x-3 space-y-0">
+              <FormItem className='flex items-start space-x-3 space-y-0'>
                 <FormControl>
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <div className="space-y-1 leading-none">
+                <div className='space-y-1 leading-none'>
                   <FormLabel>Set as default address</FormLabel>
                 </div>
               </FormItem>
             )}
           />
 
-          <Button disabled={isLoading} type="submit" className="max-lg:w-full">
-            {isLoading ? <TailwindSpinner className="h-4 w-4" /> : "Submit"}
+          <Button disabled={isLoading} type='submit' className='max-lg:w-full'>
+            {isLoading ? <TailwindSpinner className='h-4 w-4' /> : 'Submit'}
           </Button>
         </form>
       </Form>

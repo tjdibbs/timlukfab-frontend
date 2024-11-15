@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Fragment, useState } from "react";
+import Image from 'next/image';
+import { Fragment, useState } from 'react';
 
 import {
   Navigation,
@@ -9,17 +9,17 @@ import {
   Scrollbar,
   Autoplay,
   A11y,
-} from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { ProductController } from "@/types/products";
-import { BreadCrumbLink } from "@/lib/types";
-import BreadCrumbComponent from "../ui/breadcrumb-component";
-import { Skeleton } from "../ui/skeleton";
-import { useIsClient } from "@/hooks/useIsClient";
+} from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { ProductController } from '@/types/products';
+import { BreadCrumbLink } from '@/lib/types';
+import BreadCrumbComponent from '../ui/breadcrumb-component';
+import { Skeleton } from '../ui/skeleton';
+import { useIsClient } from '@/hooks/useIsClient';
 
 type Props = {
   product: ProductController.Product;
@@ -29,14 +29,14 @@ const Breadcrumb = ({ name }: { name: string }) => {
   const breadcrumbLinks: BreadCrumbLink[] = [
     {
       id: 1,
-      name: "Home",
-      href: "/",
+      name: 'Home',
+      href: '/',
       isPage: false,
     },
     {
       id: 2,
-      name: "Shop",
-      href: "/shop",
+      name: 'Shop',
+      href: '/shop',
       isPage: false,
     },
     {
@@ -61,51 +61,51 @@ const ImageShow = ({ product }: Props) => {
 
   if (!isClient) {
     return (
-      <div className="col-span-7">
-        <Skeleton className="h-96 w-full" />
+      <div className='col-span-7'>
+        <Skeleton className='h-96 w-full' />
       </div>
     );
   }
 
   return (
     <Fragment>
-      <div className="col-span-7 flex items-center gap-2 max-lg:hidden">
-        <div className="grid w-44 grid-cols-2 gap-1 self-start transition-opacity">
+      <div className='col-span-7 flex items-center gap-2 max-lg:hidden'>
+        <div className='grid w-44 grid-cols-2 gap-1 self-start transition-opacity'>
           {product.medias.map(image => {
             return (
               <div
                 key={image.id}
                 className={
-                  "aspect-[5/7] cursor-pointer hover:opacity-65 " +
-                  (imageToShow === image ? "border-2 border-black" : "")
+                  'aspect-[5/7] cursor-pointer hover:opacity-65 ' +
+                  (imageToShow === image ? 'border-2 border-black' : '')
                 }
                 onClick={() => handleImageClick(image)}
               >
                 <Image
                   src={image.path}
-                  alt="product image"
+                  alt='product image'
                   width={300}
                   height={300}
-                  className="h-full w-full max-w-full object-cover"
+                  className='h-full w-full max-w-full object-cover'
                 />
               </div>
             );
           })}
         </div>
-        <div className="flex-1">
+        <div className='flex-1'>
           <Image
             src={imageToShow.path}
-            alt="product image"
+            alt='product image'
             width={300}
             height={300}
-            className="aspect-[8/10] h-full w-full max-w-full object-cover"
+            className='aspect-[8/10] h-full w-full max-w-full object-cover'
           />
         </div>
       </div>
-      <div className="mt-4 space-y-4 lg:hidden">
+      <div className='mt-4 space-y-4 lg:hidden'>
         <Breadcrumb name={product.name} />
         <Swiper
-          className=""
+          className=''
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
           autoplay={{ delay: 5000 }}
@@ -124,13 +124,13 @@ const ImageShow = ({ product }: Props) => {
         >
           {product.medias.map(image => (
             <SwiperSlide key={image.id}>
-              <div className="">
+              <div className=''>
                 <Image
                   src={image.path}
-                  alt="image"
+                  alt='image'
                   height={300}
                   width={300}
-                  className="aspect-[4/6] w-full object-cover"
+                  className='aspect-[4/6] w-full object-cover'
                 />
               </div>
             </SwiperSlide>

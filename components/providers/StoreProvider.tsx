@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { initializeAuth } from "@/lib/redux/features/auth";
-import { AppStore, makeStore } from "@/lib/redux/store";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { memo, ReactNode, useRef } from "react";
-import { Provider } from "react-redux";
+import { initializeAuth } from '@/lib/redux/features/auth';
+import { AppStore, makeStore } from '@/lib/redux/store';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { memo, ReactNode, useRef } from 'react';
+import { Provider } from 'react-redux';
 
 const StoreProvider = memo(({ children }: { children: ReactNode }) => {
   const storeRef = useRef<AppStore>();
@@ -18,5 +18,5 @@ const StoreProvider = memo(({ children }: { children: ReactNode }) => {
   return <Provider store={storeRef.current}>{children}</Provider>;
 });
 
-StoreProvider.displayName = "StoreProvider";
+StoreProvider.displayName = 'StoreProvider';
 export default StoreProvider;

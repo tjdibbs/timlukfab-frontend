@@ -1,4 +1,4 @@
-import Orders from "./orders";
+import Orders from './orders';
 
 export default function Page() {
   return (

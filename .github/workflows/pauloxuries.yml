@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["main", "node14"]
+    branches: ['main', 'node14']
   pull_request:
-    branches: ["main", "node14"]
+    branches: ['main', 'node14']
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: 'npm'
 
       - name: Installing node_modules
         run: |
@@ -52,5 +52,5 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          channel: "pipeline-notifications"
+          channel: 'pipeline-notifications'
         if: always()

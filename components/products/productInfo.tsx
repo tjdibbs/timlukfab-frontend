@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import BreadCrumbComponent from "../ui/breadcrumb-component";
-import clsx from "clsx";
+import BreadCrumbComponent from '../ui/breadcrumb-component';
+import clsx from 'clsx';
 import React, {
   Fragment,
   memo,
@@ -9,27 +9,27 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from "react";
-import useMessage from "@/hooks/useMessage";
-import { BreadCrumbLink } from "@/lib/types";
-import { Button } from "../ui/button";
-import { CartController } from "@/types/cart";
-import { formatNumberWithCommas } from "@/utils/functions";
-import { HeartOutlined } from "@ant-design/icons";
-import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { ProductController } from "@/types/products";
-import { TailwindSpinner } from "../ui/spinner";
-import { useAddToCartMutation } from "@/lib/redux/services/cart";
+} from 'react';
+import useMessage from '@/hooks/useMessage';
+import { BreadCrumbLink } from '@/lib/types';
+import { Button } from '../ui/button';
+import { CartController } from '@/types/cart';
+import { formatNumberWithCommas } from '@/utils/functions';
+import { HeartOutlined } from '@ant-design/icons';
+import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
+import { ProductController } from '@/types/products';
+import { TailwindSpinner } from '../ui/spinner';
+import { useAddToCartMutation } from '@/lib/redux/services/cart';
 import {
   useAddToWishesMutation,
   useGetWishesQuery,
   useRemoveFromWishesMutation,
-} from "@/lib/redux/services/wishes";
-import { Heart } from "lucide-react";
-import { useAppSelector } from "@/lib/redux/store";
-import { useRouter } from "nextjs-toploader/app";
-import { useIsClient } from "@/hooks/useIsClient";
-import { Skeleton } from "../ui/skeleton";
+} from '@/lib/redux/services/wishes';
+import { Heart } from 'lucide-react';
+import { useAppSelector } from '@/lib/redux/store';
+import { useRouter } from 'nextjs-toploader/app';
+import { useIsClient } from '@/hooks/useIsClient';
+import { Skeleton } from '../ui/skeleton';
 
 type Props = {
   product: ProductController.Product;
@@ -39,14 +39,14 @@ const Breadcrumb = ({ name }: { name: string }) => {
   const breadcrumbLinks: BreadCrumbLink[] = [
     {
       id: 1,
-      name: "Home",
-      href: "/",
+      name: 'Home',
+      href: '/',
       isPage: false,
     },
     {
       id: 2,
-      name: "Shop",
-      href: "/shop",
+      name: 'Shop',
+      href: '/shop',
       isPage: false,
     },
     {
@@ -80,13 +80,13 @@ const ProductSizes = memo(
 
     return (
       <Fragment>
-        <h6 className="my-4">Select size</h6>
-        <div className="flex items-center gap-2">
+        <h6 className='my-4'>Select size</h6>
+        <div className='flex items-center gap-2'>
           {productSizes.map(size => (
             <Button
-              variant={size.id === productSizeId ? "default" : "outline"}
+              variant={size.id === productSizeId ? 'default' : 'outline'}
               key={size.id}
-              className="h-8 w-8 rounded-full"
+              className='h-8 w-8 rounded-full'
               onClick={() => handleSizeChange(size.id)}
             >
               {size.name}
@@ -118,22 +118,22 @@ const ProductColors = memo(
 
     return (
       <div>
-        <h6 className="my-4">Select color</h6>
-        <div className="mt-4 flex items-center gap-2">
+        <h6 className='my-4'>Select color</h6>
+        <div className='mt-4 flex items-center gap-2'>
           {productColors.map(color => (
             <button
               key={color.id}
               onClick={() => handleChange(color.id)}
               className={clsx(
-                "flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 hover:border-black",
+                'flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 hover:border-black',
                 {
-                  "border-black": color.id === productColorId,
+                  'border-black': color.id === productColorId,
                 }
               )}
             >
               <div
                 style={{ backgroundColor: color.hexCode }}
-                className="h-[90%] w-[90%] rounded-full"
+                className='h-[90%] w-[90%] rounded-full'
               />
             </button>
           ))}
@@ -190,12 +190,12 @@ const ProductInfo = memo(({ product }: Props) => {
     try {
       await addToWishes({
         productId: product.id,
-        description: product.description || "description",
+        description: product.description || 'description',
       }).unwrap();
-      alertMessage("Added to wishlist", "success");
+      alertMessage('Added to wishlist', 'success');
     } catch (error) {
       console.log(error);
-      alertMessage("Something went wrong", "error");
+      alertMessage('Something went wrong', 'error');
     }
   };
 
@@ -206,27 +206,27 @@ const ProductInfo = memo(({ product }: Props) => {
         wish => wish.productId === product.id
       );
       if (!wishToDelete) {
-        throw new Error("Wishlist not found");
+        throw new Error('Wishlist not found');
       }
       await removeFromWishes({
         productId: product.id,
         wishesId: wishToDelete.id,
       }).unwrap();
-      alertMessage("Removed from wishlist", "success");
+      alertMessage('Removed from wishlist', 'success');
     } catch (error) {
       console.log(error);
-      alertMessage("Something went wrong", "error");
+      alertMessage('Something went wrong', 'error');
     }
   };
 
   const handleAddToCart = async () => {
     if (!token) {
-      router.push("/login");
+      router.push('/login');
       return;
     }
 
     if (!productColorId || !productSizeId) {
-      alertMessage("Please select size and color", "error");
+      alertMessage('Please select size and color', 'error');
       return;
     }
 
@@ -240,15 +240,15 @@ const ProductInfo = memo(({ product }: Props) => {
     try {
       const response = await addToCart(payload).unwrap();
       if (!response) {
-        throw new Error("Failed to add item to cart");
+        throw new Error('Failed to add item to cart');
       }
-      alertMessage("Item added to cart", "success");
+      alertMessage('Item added to cart', 'success');
       setQuantity(1);
       setProductColorId(null);
       setProductSizeId(null);
     } catch (error) {
-      console.error("Error adding item to cart:", error);
-      alertMessage("Failed to add item to cart", "error");
+      console.error('Error adding item to cart:', error);
+      alertMessage('Failed to add item to cart', 'error');
     }
   };
 
@@ -262,32 +262,32 @@ const ProductInfo = memo(({ product }: Props) => {
 
   if (!isClient) {
     return (
-      <div className="col-span-5">
-        <Skeleton className="h-96 w-full" />
+      <div className='col-span-5'>
+        <Skeleton className='h-96 w-full' />
       </div>
     );
   }
 
   return (
-    <section className="col-span-5">
-      <div className="">
-        <div className="max-lg:hidden">
+    <section className='col-span-5'>
+      <div className=''>
+        <div className='max-lg:hidden'>
           <Breadcrumb name={product.name} />
         </div>
 
-        <h2 className="mb-6 mt-4 text-4xl tracking-wide text-black max-md:text-2xl">
+        <h2 className='mb-6 mt-4 text-4xl tracking-wide text-black max-md:text-2xl'>
           {product.name}
         </h2>
 
-        <p className="flex items-center gap-2 text-xl font-semibold">
+        <p className='flex items-center gap-2 text-xl font-semibold'>
           ${formatNumberWithCommas(Number(product.price))}
         </p>
 
-        <p className="mt-2 text-sm text-gray-600">
+        <p className='mt-2 text-sm text-gray-600'>
           {!!product.stock ? (
             `Stock: ${product.stock} available`
           ) : (
-            <span className="text-red-500">out of stock</span>
+            <span className='text-red-500'>out of stock</span>
           )}
         </p>
 
@@ -305,41 +305,41 @@ const ProductInfo = memo(({ product }: Props) => {
           />
 
           <div>
-            <h6 className="my-4">Quantity</h6>
-            <div className="mt-4 flex max-w-[150px] items-center">
-              <Button className="flex-1" size={"icon"} onClick={handleDecrease}>
+            <h6 className='my-4'>Quantity</h6>
+            <div className='mt-4 flex max-w-[150px] items-center'>
+              <Button className='flex-1' size={'icon'} onClick={handleDecrease}>
                 <MinusIcon />
               </Button>
-              <div className="flex-[2] text-center">{quantity}</div>
-              <Button className="flex-1" size={"icon"} onClick={handleIncrease}>
+              <div className='flex-[2] text-center'>{quantity}</div>
+              <Button className='flex-1' size={'icon'} onClick={handleIncrease}>
                 <PlusIcon />
               </Button>
             </div>
           </div>
-          <div className="mt-6 flex items-center gap-2">
+          <div className='mt-6 flex items-center gap-2'>
             <Button
               disabled={isLoading}
-              className="flex-1"
+              className='flex-1'
               onClick={handleAddToCart}
             >
               {isLoading ? (
-                <TailwindSpinner className="h-5 w-5" />
+                <TailwindSpinner className='h-5 w-5' />
               ) : (
-                "Add to cart"
+                'Add to cart'
               )}
             </Button>
             {!!token && (
               <Button
-                variant={"outline"}
-                size={"icon"}
+                variant={'outline'}
+                size={'icon'}
                 disabled={isFetching || isPending}
                 onClick={isInWishlist ? handleDeleteWishist : handleAddToWishes}
-                className="flex items-center justify-center rounded-full border border-[#eee] text-lg hover:bg-[#eee]"
+                className='flex items-center justify-center rounded-full border border-[#eee] text-lg hover:bg-[#eee]'
               >
                 {isFetching || isPending ? (
-                  <TailwindSpinner className="h-5 w-5" />
+                  <TailwindSpinner className='h-5 w-5' />
                 ) : (
-                  <Heart fill={isInWishlist ? "#FF0000" : "none"} />
+                  <Heart fill={isInWishlist ? '#FF0000' : 'none'} />
                 )}
               </Button>
             )}
@@ -350,7 +350,7 @@ const ProductInfo = memo(({ product }: Props) => {
   );
 });
 
-ProductSizes.displayName = "ProductSizes";
-ProductColors.displayName = "ProductColors";
-ProductInfo.displayName = "ProductInfo";
+ProductSizes.displayName = 'ProductSizes';
+ProductColors.displayName = 'ProductColors';
+ProductInfo.displayName = 'ProductInfo';
 export default ProductInfo;

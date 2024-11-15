@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 export const PreloadResources = () => {
-  ReactDOM.preload("/identity/logo.png", { as: "image" });
+  ReactDOM.preload('/identity/logo.png', { as: 'image' });
   return null;
 };

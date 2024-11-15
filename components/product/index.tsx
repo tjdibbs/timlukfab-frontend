@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import useProductInteractions from "@/hooks/useProductInteractions";
-import { ProductController } from "@/types/products";
-import { ProductImage, ProductInfo } from "./ui";
-import { Fragment, memo, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
-import { createPortal } from "react-dom";
-import MobileCartAction from "./mobile-action";
-import { useIsClient } from "@/hooks/useIsClient";
-import { Skeleton } from "../ui/skeleton";
-import { WishesController } from "@/types/wishes";
+import useProductInteractions from '@/hooks/useProductInteractions';
+import { ProductController } from '@/types/products';
+import { ProductImage, ProductInfo } from './ui';
+import { Fragment, memo, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
+import MobileCartAction from './mobile-action';
+import { useIsClient } from '@/hooks/useIsClient';
+import { Skeleton } from '../ui/skeleton';
+import { WishesController } from '@/types/wishes';
 
 type Props = {
   product: ProductController.Product;
@@ -34,7 +34,7 @@ const Product = memo(({ product, wishes }: Props) => {
   if (!isClient) {
     return (
       <div>
-        <Skeleton className="aspect-[4/6] w-full" />
+        <Skeleton className='aspect-[4/6] w-full' />
       </div>
     );
   }
@@ -52,7 +52,7 @@ const Product = memo(({ product, wishes }: Props) => {
         )}
 
       <div
-        className="relative cursor-pointer overflow-hidden duration-300"
+        className='relative cursor-pointer overflow-hidden duration-300'
         onMouseOver={showCartButton}
         onMouseLeave={hideCartButton}
       >
@@ -71,5 +71,5 @@ const Product = memo(({ product, wishes }: Props) => {
   );
 });
 
-Product.displayName = "Product";
+Product.displayName = 'Product';
 export default Product;

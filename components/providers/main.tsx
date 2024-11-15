@@ -1,41 +1,23 @@
-"use client";
+'use client';
 
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider, Layout } from "antd";
-import { ReactNode } from "react";
-import { SnackbarProvider } from "notistack";
-import { Lato } from "next/font/google";
-import Header from "../header";
-import { Toaster } from "react-hot-toast";
-import AppFooter from "../footer";
+import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { ReactNode } from 'react';
+import { SnackbarProvider } from 'notistack';
+import Header from '../header';
+import { Toaster } from 'react-hot-toast';
+import AppFooter from '../footer';
 
-const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
-
-type Props = {
-  children: ReactNode;
-};
-
-const App = ({ children }: Props) => {
+const App = ({ children }: { children: ReactNode }) => {
   return (
     <AntdRegistry>
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: lato.style.fontFamily,
-            fontSize: 16,
-            colorLink: "#111",
-          },
-        }}
-      >
-        <SnackbarProvider maxSnack={3}>
-          <Toaster />
-          <Layout className={"app bg-gray-50"}>
-            <Header />
-            <main className="bg-white">{children}</main>
-            <AppFooter />
-          </Layout>
-        </SnackbarProvider>
-      </ConfigProvider>
+      <SnackbarProvider maxSnack={3}>
+        <Toaster />
+        <section>
+          <Header />
+          <main className='bg-white'>{children}</main>
+          <AppFooter />
+        </section>
+      </SnackbarProvider>
     </AntdRegistry>
   );
 };

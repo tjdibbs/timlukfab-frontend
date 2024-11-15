@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { MotionButton, MotionDiv } from "@/lib/motion";
-import { ProductController } from "@/types/products";
-import { AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment, memo, useEffect, useMemo, useRef } from "react";
-import { Button } from "../ui/button";
-import { Heart, ShoppingCart, X } from "lucide-react";
-import { formatNumberWithCommas } from "@/utils/functions";
-import { useAppSelector } from "@/lib/redux/store";
-import { useIsClient } from "@/hooks/useIsClient";
-import { Skeleton } from "../ui/skeleton";
-import { useAddToCartMutation } from "@/lib/redux/services/cart";
-import { TailwindSpinner } from "../ui/spinner";
-import useMessage from "@/hooks/useMessage";
+import { MotionButton, MotionDiv } from '@/lib/motion';
+import { ProductController } from '@/types/products';
+import { AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Fragment, memo, useEffect, useMemo, useRef } from 'react';
+import { Button } from '../ui/button';
+import { Heart, ShoppingCart, X } from 'lucide-react';
+import { formatNumberWithCommas } from '@/utils/functions';
+import { useAppSelector } from '@/lib/redux/store';
+import { useIsClient } from '@/hooks/useIsClient';
+import { Skeleton } from '../ui/skeleton';
+import { useAddToCartMutation } from '@/lib/redux/services/cart';
+import { TailwindSpinner } from '../ui/spinner';
+import useMessage from '@/hooks/useMessage';
 import {
   useAddToWishesMutation,
   useRemoveFromWishesMutation,
-} from "@/lib/redux/services/wishes";
-import { WishesController } from "@/types/wishes";
+} from '@/lib/redux/services/wishes';
+import { WishesController } from '@/types/wishes';
 
 export const CartActionButton = memo(() => {
   return <MotionDiv></MotionDiv>;
@@ -47,9 +47,9 @@ export const CartAction = memo(
           productSizeId: sizeId,
           productColorId: product.colors[0].id,
         }).unwrap();
-        alertMessage("Product added to cart", "success");
+        alertMessage('Product added to cart', 'success');
       } catch (error) {
-        alertMessage("Something went wrong", "error");
+        alertMessage('Something went wrong', 'error');
         console.log(error);
       } finally {
         closeFn();
@@ -62,38 +62,38 @@ export const CartAction = memo(
           closeFn();
         }
       };
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }, []);
 
     return (
       <div
-        className="absolute bottom-[5%] left-0 w-full max-md:hidden"
+        className='absolute bottom-[5%] left-0 w-full max-md:hidden'
         ref={ref}
       >
-        <div className="mx-auto w-[90%] rounded-lg border border-[#d9d9d9] bg-white p-3">
-          <div className="mb-1 flex items-center justify-between text-black">
-            <div className="flex items-center gap-2">
-              <span className="text-sm">Select size</span>
-              {isLoading && <TailwindSpinner className="h-4 w-4" />}
+        <div className='mx-auto w-[90%] rounded-lg border border-[#d9d9d9] bg-white p-3'>
+          <div className='mb-1 flex items-center justify-between text-black'>
+            <div className='flex items-center gap-2'>
+              <span className='text-sm'>Select size</span>
+              {isLoading && <TailwindSpinner className='h-4 w-4' />}
             </div>
-            <Button variant="ghost" size="sm" onClick={closeFn}>
+            <Button variant='ghost' size='sm' onClick={closeFn}>
               <X width={16} />
             </Button>
           </div>
-          <div className="grid grid-cols-4 gap-2 max-md:grid-cols-3">
+          <div className='grid grid-cols-4 gap-2 max-md:grid-cols-3'>
             {product.sizes.map(size => (
               <Button
-                variant={"outline"}
-                size="sm"
+                variant={'outline'}
+                size='sm'
                 key={size.id}
                 disabled={isLoading}
                 onClick={() => handleAddToCart(size.id)}
                 className={
-                  "text-xs font-semibold text-black " +
-                  (isLoading ? "cursor-not-allowed opacity-65" : "")
+                  'text-xs font-semibold text-black ' +
+                  (isLoading ? 'cursor-not-allowed opacity-65' : '')
                 }
               >
                 {size.name}
@@ -141,34 +141,34 @@ export const ProductImage = memo(
     if (!isClient) {
       return (
         <div>
-          <Skeleton className="aspect-[4/6] w-full" />
+          <Skeleton className='aspect-[4/6] w-full' />
         </div>
       );
     }
 
     return (
-      <div className="relative hover:shadow-md">
-        <Link href={`/products/${product.id}`} className="block">
+      <div className='relative hover:shadow-md'>
+        <Link href={`/products/${product.id}`} className='block'>
           <Image
             src={product.medias[0].path}
-            alt="product image"
+            alt='product image'
             width={260}
             height={260}
             priority
-            className="aspect-[4/6] w-full object-cover"
+            className='aspect-[4/6] w-full object-cover'
           />
         </Link>
         <AnimatePresence>
           {showCartActionButton && (
             <MotionDiv
-              className="absolute bottom-[5%] left-0 flex w-full items-center justify-center max-md:hidden"
+              className='absolute bottom-[5%] left-0 flex w-full items-center justify-center max-md:hidden'
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.2 }}
             >
               <MotionButton
-                className="w-[70%] rounded-full bg-black text-xs font-semibold"
+                className='w-[70%] rounded-full bg-black text-xs font-semibold'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={action}
@@ -184,18 +184,18 @@ export const ProductImage = memo(
           )}
         </AnimatePresence>
         <MotionDiv
-          className="absolute bottom-0 left-0 flex w-full items-center justify-end p-3 md:hidden"
+          className='absolute bottom-0 left-0 flex w-full items-center justify-end p-3 md:hidden'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
           <MotionButton
-            className="flex items-center justify-center rounded-full bg-white shadow-md hover:bg-[#f0f0f0]"
+            className='flex items-center justify-center rounded-full bg-white shadow-md hover:bg-[#f0f0f0]'
             onClick={mobileAction}
-            size={"icon"}
+            size={'icon'}
             whileTap={{ scale: 0.95 }}
           >
-            <ShoppingCart width={16} color="#000" />
+            <ShoppingCart width={16} color='#000' />
           </MotionButton>
         </MotionDiv>
       </div>
@@ -229,12 +229,12 @@ export const ProductInfo = memo(
       try {
         await addToWishes({
           productId: product.id,
-          description: product.description || "description",
+          description: product.description || 'description',
         }).unwrap();
-        alertMessage("Added to wishlist", "success");
+        alertMessage('Added to wishlist', 'success');
       } catch (error) {
         console.log(error);
-        alertMessage("Something went wrong", "error");
+        alertMessage('Something went wrong', 'error');
       }
     };
 
@@ -245,48 +245,48 @@ export const ProductInfo = memo(
           wish => wish.productId === product.id
         );
         if (!wishToDelete) {
-          throw new Error("Wishlist not found");
+          throw new Error('Wishlist not found');
         }
         await removeFromWishes({
           productId: product.id,
           wishesId: wishToDelete.id,
         }).unwrap();
-        alertMessage("Removed from wishlist", "success");
+        alertMessage('Removed from wishlist', 'success');
       } catch (error) {
         console.log(error);
-        alertMessage("Something went wrong", "error");
+        alertMessage('Something went wrong', 'error');
       }
     };
 
     return (
-      <div className="py-2">
-        <div className="flex items-center justify-between">
+      <div className='py-2'>
+        <div className='flex items-center justify-between'>
           <Link
             href={`/products/${product.id}`}
-            className="line-clamp-1 text-sm font-semibold text-black transition-colors hover:text-normal_grey"
+            className='line-clamp-1 text-sm font-semibold text-black transition-colors hover:text-normal_grey'
           >
             {product.name}
           </Link>
           {!!token && (
             <Button
               disabled={isLoading || isPending}
-              variant={"ghost"}
-              size={"sm"}
-              className="self-start"
+              variant={'ghost'}
+              size={'sm'}
+              className='self-start'
               onClick={isInWishist ? handleDeleteWishist : handleAddToWishes}
             >
               {isLoading || isPending ? (
-                <TailwindSpinner className="h-4 w-4" />
+                <TailwindSpinner className='h-4 w-4' />
               ) : (
-                <Heart width={16} fill={isInWishist ? "#FF0000" : "none"} />
+                <Heart width={16} fill={isInWishist ? '#FF0000' : 'none'} />
               )}
             </Button>
           )}
         </div>
-        <p className="text-lg font-bold max-md:text-base">
+        <p className='text-lg font-bold max-md:text-base'>
           ${formatNumberWithCommas(Number(product.price))}
         </p>
-        <p className="text-xs font-semibold text-primary">
+        <p className='text-xs font-semibold text-primary'>
           Buy one, get one free
         </p>
       </div>
@@ -294,7 +294,7 @@ export const ProductInfo = memo(
   }
 );
 
-ProductImage.displayName = "ProductImage";
-CartAction.displayName = "CartAction";
-ProductInfo.displayName = "Menu";
-CartActionButton.displayName = "CartActionButton";
+ProductImage.displayName = 'ProductImage';
+CartAction.displayName = 'CartAction';
+ProductInfo.displayName = 'Menu';
+CartActionButton.displayName = 'CartActionButton';

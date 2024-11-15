@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useGetWishesQuery } from "@/lib/redux/services/wishes";
-import { ProductController } from "@/types/products";
-import Product from "../product";
-import { useAppSelector } from "@/lib/redux/store";
-import { useEffect } from "react";
-import { useIsClient } from "@/hooks/useIsClient";
-import ProductsSkeleton from "./product-skeleton";
+import { useGetWishesQuery } from '@/lib/redux/services/wishes';
+import { ProductController } from '@/types/products';
+import Product from '../product';
+import { useAppSelector } from '@/lib/redux/store';
+import { useEffect } from 'react';
+import { useIsClient } from '@/hooks/useIsClient';
+import ProductsSkeleton from './product-skeleton';
 
 type Props = {
   className: string;
@@ -31,8 +31,8 @@ const ProductsComponent = ({ className, products }: Props) => {
 
   if (products.length === 0) {
     return (
-      <div className="h-screen max-h-96">
-        <p className="text-gray-600 max-lg:text-center">
+      <div className='h-screen max-h-96'>
+        <p className='text-gray-600 max-lg:text-center'>
           No products returned for your query
         </p>
       </div>

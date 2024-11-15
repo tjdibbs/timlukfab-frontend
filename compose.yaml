@@ -10,7 +10,7 @@ services:
         NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: pk_test_49e59d694b9f640b9fd2d1c41875ea5cfba533e0
         NEXT_PUBLIC_PAYSTACK_SECRET_KEY: sk_test_5df67ce9e6964fd220eb85a2399473ebdb0f9fc4
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
     env_file:

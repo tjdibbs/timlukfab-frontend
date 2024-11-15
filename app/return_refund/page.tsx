@@ -1,18 +1,18 @@
 export default function Page() {
   return (
-    <div className="container component-wrap">
-      <div className="wrapper">
+    <div className='component-wrap container'>
+      <div className='wrapper'>
         <div>
           <div
-            className="page-title"
-            style={{ fontSize: "25px", color: "rgb(171, 86, 0)" }}
+            className='page-title'
+            style={{ fontSize: '25px', color: 'rgb(171, 86, 0)' }}
           >
             Returns Policy
           </div>
           <h5>Returned items must comply with our returns policy:</h5>
         </div>
 
-        <div className="policies">
+        <div className='policies'>
           <ul>
             <li>
               Items must be returned unworn, undamaged and unused, with all tags
@@ -50,7 +50,7 @@ export default function Page() {
               including all branded packaging and documents provided with it.
             </li>
           </ul>
-          <div className="talks">
+          <div className='talks'>
             <p>
               Please take care when trying on your purchases and return them in
               the same condition you received them. Any returns that do not meet
@@ -60,14 +60,14 @@ export default function Page() {
             <p>
               If you placed an order as a guest, you can start your return here.
               To return or cancel an item that has been made to your
-              specifications, please view our{" "}
+              specifications, please view our{' '}
               <q>
                 <b>Customized Items</b>
-              </q>{" "}
+              </q>{' '}
               section below for further information.
             </p>
           </div>
-          <div className="process">
+          <div className='process'>
             <h4>Return Process</h4>
             <h5>Free Return Pick Up</h5>
             <p>

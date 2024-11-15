@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Pagination,
@@ -8,13 +8,13 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
+} from '@/components/ui/pagination';
 
-import { ProductController } from "@/types/products";
-import { Fragment, useMemo } from "react";
-import ProductsComponent from "../ui/products";
-import { usePathname, useSearchParams } from "next/navigation";
-import clsx from "clsx";
+import { ProductController } from '@/types/products';
+import { Fragment, useMemo } from 'react';
+import ProductsComponent from '../ui/products';
+import { usePathname, useSearchParams } from 'next/navigation';
+import clsx from 'clsx';
 
 type Props = {
   data: ProductController.Product[];
@@ -28,9 +28,9 @@ const PageProducts = ({ data, hasMore, count }: Props) => {
   }, []);
 
   return (
-    <section className="col-span-9">
+    <section className='col-span-9'>
       <ProductsComponent
-        className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4"
+        className='grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4'
         products={data}
       />
 
@@ -43,7 +43,7 @@ const PaginationSection = ({ count }: { count: number }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const pageNumber = searchParams.get("page");
+  const pageNumber = searchParams.get('page');
 
   const totalPages = Math.ceil(count / 20);
 
@@ -64,14 +64,14 @@ const PaginationSection = ({ count }: { count: number }) => {
   const renderPages = () => {
     const renderedPages = activePages.map(page => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set("page", page.toString());
+      params.set('page', page.toString());
       const newUrl = `${pathname}?${params.toString()}`;
       return (
         <PaginationItem key={page}>
           <PaginationLink
             href={newUrl}
             className={clsx({
-              "bg-neutral-100":
+              'bg-neutral-100':
                 pageNumber === page.toString() || (!pageNumber && page === 1),
             })}
           >
@@ -82,11 +82,11 @@ const PaginationSection = ({ count }: { count: number }) => {
     });
 
     if (activePages[0] > 1) {
-      renderedPages.unshift(<PaginationEllipsis key="ellipsis-start" />);
+      renderedPages.unshift(<PaginationEllipsis key='ellipsis-start' />);
     }
 
     if (activePages[activePages.length - 1] < pageNumbers.length) {
-      renderedPages.push(<PaginationEllipsis key="ellipsis-end" />);
+      renderedPages.push(<PaginationEllipsis key='ellipsis-end' />);
     }
 
     return renderedPages;
@@ -96,31 +96,31 @@ const PaginationSection = ({ count }: { count: number }) => {
     const params = new URLSearchParams(searchParams.toString());
     const newPageNumber = Math.max(
       1,
-      parseInt(pageNumber || "1") - 1
+      parseInt(pageNumber || '1') - 1
     ).toString();
-    params.set("page", newPageNumber);
+    params.set('page', newPageNumber);
     return `${pathname}?${params.toString()}`;
   };
 
   const nextPageUrl = () => {
     const params = new URLSearchParams(searchParams.toString());
     const newPageNumber = Math.min(
-      parseInt(pageNumber || "1") + 1,
+      parseInt(pageNumber || '1') + 1,
       totalPages
     ).toString();
-    params.set("page", newPageNumber);
+    params.set('page', newPageNumber);
     return `${pathname}?${params.toString()}`;
   };
 
   return (
-    <div className="mt-8 grid place-items-center">
+    <div className='mt-8 grid place-items-center'>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
               href={previousPageUrl()}
               className={clsx({
-                "bg-neutral-100": pageNumber === "1" || !pageNumber,
+                'bg-neutral-100': pageNumber === '1' || !pageNumber,
               })}
             />
           </PaginationItem>
@@ -129,7 +129,7 @@ const PaginationSection = ({ count }: { count: number }) => {
             <PaginationNext
               href={nextPageUrl()}
               className={clsx({
-                "bg-neutral-100": pageNumber === totalPages.toString(),
+                'bg-neutral-100': pageNumber === totalPages.toString(),
               })}
             />
           </PaginationItem>

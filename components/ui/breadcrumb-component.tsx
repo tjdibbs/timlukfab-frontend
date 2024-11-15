@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { SlashIcon } from "@radix-ui/react-icons";
+import { SlashIcon } from '@radix-ui/react-icons';
 
 import {
   Breadcrumb,
@@ -9,9 +9,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { BreadCrumbLink } from "@/lib/types";
-import { Fragment } from "react";
+} from '@/components/ui/breadcrumb';
+import { BreadCrumbLink } from '@/lib/types';
+import { Fragment } from 'react';
 
 const BreadCrumbComponent = ({ links }: { links: BreadCrumbLink[] }) => {
   return (
@@ -22,8 +22,8 @@ const BreadCrumbComponent = ({ links }: { links: BreadCrumbLink[] }) => {
             <Fragment key={link.id}>
               {link.isPage ? (
                 <BreadcrumbItem key={link.id}>
-                  {" "}
-                  <BreadcrumbPage className="text-sm font-semibold uppercase text-black">
+                  {' '}
+                  <BreadcrumbPage className='text-sm font-semibold uppercase text-black'>
                     {link.name}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -31,13 +31,13 @@ const BreadCrumbComponent = ({ links }: { links: BreadCrumbLink[] }) => {
                 <Fragment>
                   <BreadcrumbItem key={link.id}>
                     {link.isClickable === false ? (
-                      <BreadcrumbPage className="text-sm font-semibold uppercase text-black">
+                      <BreadcrumbPage className='text-sm font-semibold uppercase text-black'>
                         {link.name}
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink
                         href={link.href}
-                        className="text-sm font-semibold uppercase text-[#777] hover:text-black/60"
+                        className='text-sm font-semibold uppercase text-[#777] hover:text-black/60'
                       >
                         {link.name}
                       </BreadcrumbLink>

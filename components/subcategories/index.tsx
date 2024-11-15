@@ -1,25 +1,25 @@
-import { BreadCrumbLink } from "@/lib/types";
-import BreadCrumbComponent from "../ui/breadcrumb-component";
-import { Skeleton } from "../ui/skeleton";
+import { BreadCrumbLink } from '@/lib/types';
+import BreadCrumbComponent from '../ui/breadcrumb-component';
+import { Skeleton } from '../ui/skeleton';
 import {
   getSingleCategory,
   getSubcategoryProducts,
-} from "@/lib/actions/sub-categories";
-import { Suspense } from "react";
-import SidebarSkeleton from "../ui/sidebarskeleton";
-import Sidebar from "./sidebar";
-import SidebarMobile from "./sidebar-mobile";
-import ProductsSkeleton from "../ui/product-skeleton";
-import PageProducts from "../ui/page-products";
-import SelectSorter from "../ui/select-sorter";
+} from '@/lib/actions/sub-categories';
+import { Suspense } from 'react';
+import SidebarSkeleton from '../ui/sidebarskeleton';
+import Sidebar from './sidebar';
+import SidebarMobile from './sidebar-mobile';
+import ProductsSkeleton from '../ui/product-skeleton';
+import PageProducts from '../ui/page-products';
+import SelectSorter from '../ui/select-sorter';
 
 type Props = { searchParams: { [key: string]: string | string[] | undefined } };
-type Orderby = "date" | "price" | "price-desc";
+type Orderby = 'date' | 'price' | 'price-desc';
 
 const BreadCrumbSkeleton = () => {
   return (
     <div>
-      <Skeleton className="h-8 w-56" />
+      <Skeleton className='h-8 w-56' />
     </div>
   );
 };
@@ -36,16 +36,16 @@ const ProductsWrapper = async ({
     result: { products, hasMore, count },
   } = await getSubcategoryProducts({
     id: subcategoryId.toString(),
-    pageNumber: pageNumber || "1",
+    pageNumber: pageNumber || '1',
   });
 
   const orderBy = searchParams.orderby as Orderby | undefined;
   const maxPrice =
-    typeof searchParams.max_price === "string"
+    typeof searchParams.max_price === 'string'
       ? searchParams.max_price
       : undefined;
   const minPrice =
-    typeof searchParams.min_price === "string"
+    typeof searchParams.min_price === 'string'
       ? searchParams.min_price
       : undefined;
 
@@ -62,18 +62,18 @@ const ProductsWrapper = async ({
 
   if (orderBy) {
     switch (orderBy) {
-      case "date":
+      case 'date':
         filteredProducts.sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         break;
-      case "price":
+      case 'price':
         filteredProducts.sort(
           (a, b) => parseFloat(a.price) - parseFloat(b.price)
         );
         break;
-      case "price-desc":
+      case 'price-desc':
         filteredProducts.sort(
           (a, b) => parseFloat(b.price) - parseFloat(a.price)
         );
@@ -92,18 +92,18 @@ const Subcategory = ({
 }: { subcategoryId: string } & Props) => {
   return (
     <div>
-      <div className="mb-8 flex items-center max-md:flex-col max-md:gap-4 md:justify-between">
+      <div className='mb-8 flex items-center max-md:flex-col max-md:gap-4 md:justify-between'>
         <div>
           <Suspense fallback={<BreadCrumbSkeleton />}>
             <BreadCrumb id={subcategoryId} />
           </Suspense>
         </div>
         <SidebarMobile />
-        <div className="flex items-center justify-end gap-8">
+        <div className='flex items-center justify-end gap-8'>
           <SelectSorter searchParams={searchParams} />
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-16 max-md:block">
+      <div className='grid grid-cols-12 gap-16 max-md:block'>
         <Suspense fallback={<SidebarSkeleton />}>
           <Sidebar />
         </Suspense>
@@ -124,8 +124,8 @@ const BreadCrumb = async ({ id }: { id: string }) => {
   const breadCrumbLinks: BreadCrumbLink[] = [
     {
       id: 1,
-      name: "Home",
-      href: "/",
+      name: 'Home',
+      href: '/',
       isPage: false,
     },
 

@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useGetSingleProductQuery } from "@/lib/redux/services/product";
-import { ProductController } from "@/types/products";
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment, memo, useEffect, useMemo, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
-import { CartController } from "@/types/cart";
-import { Button } from "../ui/button";
-import clsx from "clsx";
-import { calculateCartItemAdditionalPrice } from "@/utils/functions";
-import { useUpdateCartItemMutation } from "@/lib/redux/services/cart";
-import { TailwindSpinner } from "../ui/spinner";
-import useMessage from "@/hooks/useMessage";
+import { useGetSingleProductQuery } from '@/lib/redux/services/product';
+import { ProductController } from '@/types/products';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Fragment, memo, useEffect, useMemo, useState } from 'react';
+import { Skeleton } from '../ui/skeleton';
+import { CartController } from '@/types/cart';
+import { Button } from '../ui/button';
+import clsx from 'clsx';
+import { calculateCartItemAdditionalPrice } from '@/utils/functions';
+import { useUpdateCartItemMutation } from '@/lib/redux/services/cart';
+import { TailwindSpinner } from '../ui/spinner';
+import useMessage from '@/hooks/useMessage';
 
 type Props = {
   item: CartController.CartItem;
@@ -21,12 +21,12 @@ type Props = {
 
 const LoadingSkeleton = () => {
   return (
-    <div className="mt-4 space-y-4">
+    <div className='mt-4 space-y-4'>
       <div>
-        <Skeleton className="h-20 w-full" />
+        <Skeleton className='h-20 w-full' />
       </div>
       <div>
-        <Skeleton className="h-20 w-full" />
+        <Skeleton className='h-20 w-full' />
       </div>
     </div>
   );
@@ -78,13 +78,13 @@ const EditCartItem = memo(({ item, closeFn }: Props) => {
       try {
         const res = await updateCart(payload).unwrap();
         if (!res) {
-          throw new Error("Failed to update cart");
+          throw new Error('Failed to update cart');
         }
-        alertMessage("Item updated successfully", "success");
+        alertMessage('Item updated successfully', 'success');
         closeFn();
       } catch (error) {
         console.log(error);
-        alertMessage("Something went wrong", "error");
+        alertMessage('Something went wrong', 'error');
       }
     }
     return;
@@ -98,51 +98,51 @@ const EditCartItem = memo(({ item, closeFn }: Props) => {
   }, [product]);
 
   return (
-    <div className="flex items-center gap-4">
-      <div className="w-44 max-md:w-36">
+    <div className='flex items-center gap-4'>
+      <div className='w-44 max-md:w-36'>
         <Image
           src={item.product.medias[0].path}
           alt={item.product.name}
           height={100}
           width={100}
-          className="aspect-[4/6] w-full object-cover"
+          className='aspect-[4/6] w-full object-cover'
         />
       </div>
-      <div className="flex flex-1 flex-col gap-6 self-start">
+      <div className='flex flex-1 flex-col gap-6 self-start'>
         <div>
-          <div className="flex items-center justify-between">
+          <div className='flex items-center justify-between'>
             <Link
               href={`/products/${item.product.id}`}
-              className="text-xs text-gray-700 underline"
+              className='text-xs text-gray-700 underline'
             >
               See full details
             </Link>
-            {isPending && <TailwindSpinner className="h-4 w-4" />}
+            {isPending && <TailwindSpinner className='h-4 w-4' />}
           </div>
           <div>
-            <p className="mb-2 text-base font-medium">{item.product.name}</p>
+            <p className='mb-2 text-base font-medium'>{item.product.name}</p>
           </div>
 
           {isLoading && <LoadingSkeleton />}
-          {isError && <p className="text-red-800">Something went wrong</p>}
+          {isError && <p className='text-red-800'>Something went wrong</p>}
           {!!product && (
             <Fragment>
-              <p className="mb-4 text-red-800">
-                ${product.price} +{" "}
-                <span className="text-gray-600">
+              <p className='mb-4 text-red-800'>
+                ${product.price} +{' '}
+                <span className='text-gray-600'>
                   ${calculateCartItemAdditionalPrice(item)}
                 </span>
               </p>
-              <div className="mb-4">
+              <div className='mb-4'>
                 {/* <p className="mb-2 text-sm">Sizes</p> */}
-                <div className="grid grid-cols-4 gap-2">
+                <div className='grid grid-cols-4 gap-2'>
                   {productSizes.map(s => {
                     return (
                       <Button
                         key={s.id}
                         disabled={isPending}
                         onClick={() => handleSizeChange(s)}
-                        variant={size?.id === s.id ? "default" : "outline"}
+                        variant={size?.id === s.id ? 'default' : 'outline'}
                       >
                         {s.name}
                       </Button>
@@ -152,7 +152,7 @@ const EditCartItem = memo(({ item, closeFn }: Props) => {
               </div>
               <div>
                 {/* <p className="mb-2 text-sm">Colors</p> */}
-                <div className="flex items-center gap-2">
+                <div className='flex items-center gap-2'>
                   {productColors.map(c => {
                     return (
                       <button
@@ -160,15 +160,15 @@ const EditCartItem = memo(({ item, closeFn }: Props) => {
                         disabled={isPending}
                         onClick={() => handleColorChange(c)}
                         className={clsx(
-                          "flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 hover:border-black",
+                          'flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 hover:border-black',
                           {
-                            "border-black": c.id === color?.id,
+                            'border-black': c.id === color?.id,
                           }
                         )}
                       >
                         <div
                           style={{ backgroundColor: c.hexCode }}
-                          className="h-[90%] w-[90%] rounded-full"
+                          className='h-[90%] w-[90%] rounded-full'
                         />
                       </button>
                     );
@@ -180,23 +180,23 @@ const EditCartItem = memo(({ item, closeFn }: Props) => {
         </div>
         <div>
           <Button
-            size={"sm"}
+            size={'sm'}
             disabled={isPending}
             onClick={updateCartItem}
-            className="text-sm"
+            className='text-sm'
           >
             {isPending ? (
-              <TailwindSpinner className="h-5 w-5" />
+              <TailwindSpinner className='h-5 w-5' />
             ) : (
-              "Update Item"
+              'Update Item'
             )}
           </Button>
         </div>
-        {isFalsy && <p className="text-red-800">Something went wrong</p>}
+        {isFalsy && <p className='text-red-800'>Something went wrong</p>}
       </div>
     </div>
   );
 });
 
-EditCartItem.displayName = "EditCartItem";
+EditCartItem.displayName = 'EditCartItem';
 export default EditCartItem;

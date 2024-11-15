@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Sheet,
@@ -9,24 +9,24 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "../ui/button";
-import { ShoppingCart } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "../ui/scroll-area";
+} from '@/components/ui/sheet';
+import { Button } from '../ui/button';
+import { ShoppingCart } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { ScrollArea } from '../ui/scroll-area';
 import {
   useClearCartMutation,
   useGetCartQuery,
-} from "@/lib/redux/services/cart";
-import { useAppSelector } from "@/lib/redux/store";
-import { useEffect, useMemo } from "react";
-import { calculateCartTotal, formatNumberWithCommas } from "@/utils/functions";
-import { Skeleton } from "../ui/skeleton";
-import { CartController } from "@/types/cart";
-import CartItem from "./cartItem";
-import useMessage from "@/hooks/useMessage";
-import { TailwindSpinner } from "../ui/spinner";
-import { useRouter } from "nextjs-toploader/app";
+} from '@/lib/redux/services/cart';
+import { useAppSelector } from '@/lib/redux/store';
+import { useEffect, useMemo } from 'react';
+import { calculateCartTotal, formatNumberWithCommas } from '@/utils/functions';
+import { Skeleton } from '../ui/skeleton';
+import { CartController } from '@/types/cart';
+import CartItem from './cartItem';
+import useMessage from '@/hooks/useMessage';
+import { TailwindSpinner } from '../ui/spinner';
+import { useRouter } from 'nextjs-toploader/app';
 
 const CartComponent = () => {
   const token = useAppSelector(state => state.auth.token);
@@ -48,15 +48,15 @@ const CartComponent = () => {
       if (!data) return;
       const res = await clearCart({ cartId: data.id }).unwrap();
       if (res) {
-        alertMessage("Cart cleared", "success");
+        alertMessage('Cart cleared', 'success');
       }
     } catch (error) {
-      alertMessage("Something went wrong", "error");
+      alertMessage('Something went wrong', 'error');
     }
   };
 
   const routeToCheckout = () => {
-    router.push("/checkout");
+    router.push('/checkout');
   };
 
   useEffect(() => {
@@ -66,17 +66,17 @@ const CartComponent = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className={cn("relative")}>
-          <ShoppingCart className="max-md:4 w-5" />
+        <Button variant='ghost' size='icon' className={cn('relative')}>
+          <ShoppingCart className='max-md:4 w-5' />
           {cartLength > 0 && (
-            <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+            <div className='absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white'>
               {cartLength}
             </div>
           )}
         </Button>
       </SheetTrigger>
       <SheetContent
-        className={cn("grid w-full max-w-[425px] grid-rows-[auto_1fr_auto]")}
+        className={cn('grid w-full max-w-[425px] grid-rows-[auto_1fr_auto]')}
       >
         <SheetHeader>
           <SheetTitle>Cart</SheetTitle>
@@ -86,28 +86,28 @@ const CartComponent = () => {
           {data && <CartItems items={data.cartItems} />}
         </ScrollArea>
         <SheetFooter>
-          <footer className="w-full space-y-2">
+          <footer className='w-full space-y-2'>
             <p>Shipping calculated at checkout</p>
             <SheetClose asChild>
               <Button
                 disabled={cartIsClearing}
                 onClick={routeToCheckout}
-                className="w-full bg-black text-white hover:bg-gray-800"
+                className='w-full bg-black text-white hover:bg-gray-800'
               >
                 CHECKOUT • ${formatNumberWithCommas(total)}
               </Button>
             </SheetClose>
             <SheetClose asChild>
               <Button
-                variant={"destructive"}
+                variant={'destructive'}
                 disabled={cartIsClearing}
-                className="w-full"
+                className='w-full'
                 onClick={handleClearCart}
               >
                 {cartIsClearing ? (
-                  <TailwindSpinner className="h-4 w-4" />
+                  <TailwindSpinner className='h-4 w-4' />
                 ) : (
-                  "CLEAR CART"
+                  'CLEAR CART'
                 )}
               </Button>
             </SheetClose>
@@ -120,7 +120,7 @@ const CartComponent = () => {
 
 const CartItems = ({ items }: { items: CartController.CartItem[] }) => {
   if (!items.length) {
-    return <p className="text-center">Your cart is empty</p>;
+    return <p className='text-center'>Your cart is empty</p>;
   }
 
   return (
@@ -134,10 +134,10 @@ const CartItems = ({ items }: { items: CartController.CartItem[] }) => {
 
 const CartSkeleton = () => {
   return (
-    <div className="space-y-4 px-4">
+    <div className='space-y-4 px-4'>
       {Array.from({ length: 5 }).map((_, index) => (
         <div>
-          <Skeleton className="h-32 w-full" />
+          <Skeleton className='h-32 w-full' />
         </div>
       ))}
     </div>
