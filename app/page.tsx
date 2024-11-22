@@ -10,10 +10,11 @@ import { shuffleArray } from '@/utils/functions';
 import ProductsSkeleton from '@/components/ui/product-skeleton';
 import BrowseCategoriesSkeleton from '@/components/ui/browsecategories-skeleton';
 import { getCategories } from '@/lib/actions/categories';
+import ScrollProvider from '@/components/scroller';
 
 export default function Page() {
   return (
-    <section>
+    <ScrollProvider>
       <Carousel />
       <Suspense fallback={<BestSellingSkeleton />}>
         <BestSellingProducts />
@@ -25,7 +26,7 @@ export default function Page() {
         <CategoriesWrapper />
       </Suspense>
       <Timlukfab />
-    </section>
+    </ScrollProvider>
   );
 }
 
