@@ -102,7 +102,7 @@ export const HeaderActions = memo(({ className }: { className?: string }) => {
   const credentials = useAppSelector(state => state.auth.token);
 
   return (
-    <div className={cn('flex items-center justify-end gap-2', className)}>
+    <div className={cn('flex items-center justify-end', className)}>
       {credentials ? (
         <AccountDropdown />
       ) : (

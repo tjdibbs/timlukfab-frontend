@@ -5,7 +5,7 @@ import { ProductController } from '@/types/products';
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment, memo, useEffect, useMemo, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Heart, ShoppingCart, X } from 'lucide-react';
 import { formatNumberWithCommas } from '@/utils/functions';
@@ -20,6 +20,7 @@ import {
   useRemoveFromWishesMutation,
 } from '@/lib/redux/services/wishes';
 import { WishesController } from '@/types/wishes';
+import { useRouter } from 'nextjs-toploader/app';
 
 export const CartActionButton = memo(() => {
   return <MotionDiv></MotionDiv>;
@@ -35,11 +36,16 @@ export const CartAction = memo(
   }) => {
     const ref = useRef<HTMLDivElement>(null);
 
+    const router = useRouter();
+    const auth = useAppSelector(state => state.auth.token);
     const [addToCart, { isLoading }] = useAddToCartMutation();
 
     const { alertMessage } = useMessage();
 
     const handleAddToCart = async (sizeId: number) => {
+      if (!auth) {
+        return router.push('/login');
+      }
       try {
         await addToCart({
           productId: product.id,

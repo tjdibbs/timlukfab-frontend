@@ -123,7 +123,7 @@ const Register = () => {
                       placeholder='First name'
                       {...field}
                       className={cn(
-                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                       )}
                     />
                   </FormControl>
@@ -145,7 +145,7 @@ const Register = () => {
                       placeholder='Last name'
                       {...field}
                       className={cn(
-                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                       )}
                     />
                   </FormControl>
@@ -167,7 +167,7 @@ const Register = () => {
                     placeholder='Email'
                     {...field}
                     className={cn(
-                      'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                      'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                     )}
                   />
                 </FormControl>
@@ -191,7 +191,7 @@ const Register = () => {
                   <FormControl>
                     <SelectTrigger
                       className={cn(
-                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                       )}
                     >
                       <SelectValue placeholder='Select a gender' />
@@ -231,7 +231,7 @@ const Register = () => {
                   <FormControl>
                     <SelectTrigger
                       className={cn(
-                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                       )}
                     >
                       <SelectValue placeholder='Select a country' />
@@ -296,7 +296,7 @@ const Register = () => {
                     placeholder='Password'
                     {...field}
                     className={cn(
-                      'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                      'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                     )}
                   />
                 </FormControl>
@@ -309,7 +309,7 @@ const Register = () => {
             type='submit'
             disabled={isLoading}
             className={cn(
-              'w-full rounded-md bg-black px-4 py-2 text-white transition duration-300 hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-95'
+              'w-full h-12 rounded-md bg-black px-4 py-2 text-white transition duration-300 hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-95'
             )}
           >
             {isLoading ? <Spinner strokeColor='#fff' /> : 'CREATE MY ACCOUNT'}

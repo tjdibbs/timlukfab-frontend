@@ -44,10 +44,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@pauloxuries',
-  },
   robots: 'INDEX,FOLLOW',
   keywords: [
     'unisex fashion store',

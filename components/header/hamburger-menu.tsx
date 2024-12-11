@@ -13,29 +13,50 @@ import clsx from 'clsx';
 import { useAppSelector } from '@/lib/redux/store';
 import { usePathname } from 'next/navigation';
 import LogoutButton from '../account/logoutButton';
-import { FacebookFilled, InstagramFilled, XOutlined } from '@ant-design/icons';
+import {
+  FacebookFilled,
+  InstagramFilled,
+  TikTokOutlined,
+  MailOutlined,
+} from '@ant-design/icons';
+import { useMemo } from 'react';
 
-const links = [
+const protectedLinks = [
   {
-    name: 'Home',
-    path: '/',
+    name: 'Account',
+    path: '/account',
   },
   {
-    name: 'About Us',
-    path: '/about-us',
+    name: 'Orders',
+    path: '/account/orders',
   },
   {
-    name: 'Contact',
-    path: '/contact',
+    name: 'Wishlist',
+    path: '/account/wishlist',
   },
   {
-    name: 'Shop',
-    path: '/shop',
+    name: 'Addresses',
+    path: '/account/addresses',
+  },
+];
+
+const guestLinks = [
+  {
+    name: 'Login',
+    path: '/login',
+  },
+  {
+    name: 'Register',
+    path: '/register',
   },
 ];
 
 const HamburgerMenu = () => {
   const auth = useAppSelector(state => state.auth.token);
+
+  const links = useMemo(() => {
+    return auth ? protectedLinks : guestLinks;
+  }, [auth]);
 
   const pathname = usePathname();
 
@@ -46,10 +67,7 @@ const HamburgerMenu = () => {
           <Menu size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent
-        side={'left'}
-        className={cn('grid grid-rows-[1fr_auto] lg:hidden')}
-      >
+      <SheetContent side={'left'} className={cn('grid grid-rows-[1fr_auto]')}>
         <div className='py-8'>
           <ul>
             {links.map(link => (
@@ -67,36 +85,6 @@ const HamburgerMenu = () => {
                 </SheetClose>
               </li>
             ))}
-            {!auth && (
-              <li>
-                <SheetClose asChild>
-                  <Link
-                    href={'/login'}
-                    className={clsx(
-                      'block cursor-pointer border-b px-3 py-4 text-[0.85rem] font-semibold uppercase transition-all delay-200 ease-linear hover:bg-gray-100',
-                      { 'bg-gray-100': pathname === '/login' }
-                    )}
-                  >
-                    Login
-                  </Link>
-                </SheetClose>
-              </li>
-            )}
-            {auth && (
-              <li>
-                <SheetClose asChild>
-                  <Link
-                    href={'/account'}
-                    className={clsx(
-                      'block cursor-pointer border-b px-3 py-4 text-[0.85rem] font-semibold uppercase transition-all delay-200 ease-linear hover:bg-gray-100',
-                      { 'bg-gray-100': pathname.includes('/account') }
-                    )}
-                  >
-                    Account
-                  </Link>
-                </SheetClose>
-              </li>
-            )}
             {auth && (
               <li>
                 <SheetClose asChild>
@@ -114,14 +102,31 @@ const HamburgerMenu = () => {
 
         <SheetFooter>
           <footer className='flex items-center gap-4 p-3'>
-            <a href='/'>
-              <XOutlined style={{ fontSize: '1rem', color: '#808080' }} />
+            <a
+              href='https://www.tiktok.com/@timlukcollections'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <TikTokOutlined style={{ fontSize: '1.25rem', color: '#808080' }} />
             </a>
-            <a href='/'>
-              <InstagramFilled style={{ fontSize: '1rem', color: '#808080' }} />
+
+            <a
+              href='https://www.instagram.com/timlukfabcollections/'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <InstagramFilled style={{ fontSize: '1.25rem', color: '#808080' }} />
             </a>
-            <a href='/'>
-              <FacebookFilled style={{ fontSize: '1rem', color: '#808080' }} />
+
+            <a
+              href='https://www.facebook.com/profile.php?id=61569794955996&mibextid=ZbWKwL'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <FacebookFilled style={{ fontSize: '1.25rem', color: '#808080' }} />
+            </a>
+            <a href="mailto:info@timlukfab.com">
+              <MailOutlined style={{ fontSize: '1.25rem', color: '#808080' }} />
             </a>
           </footer>
         </SheetFooter>

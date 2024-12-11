@@ -110,7 +110,7 @@ const Login = () => {
                       placeholder='Enter your email'
                       {...field}
                       className={cn(
-                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                       )}
                     />
                   </FormControl>
@@ -130,7 +130,7 @@ const Login = () => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder='Enter your password'
                         className={cn(
-                          'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
+                          'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
                         )}
                         {...field}
                       />
@@ -164,7 +164,7 @@ const Login = () => {
             <Button
               type='submit'
               disabled={isLoading}
-              className={cn('w-full disabled:opacity-95')}
+              className={cn('w-full disabled:opacity-95 h-12')}
             >
               {isLoading ? <Spinner strokeColor='#fff' /> : 'LOGIN'}
             </Button>

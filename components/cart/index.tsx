@@ -76,7 +76,7 @@ const CartComponent = () => {
         </Button>
       </SheetTrigger>
       <SheetContent
-        className={cn('grid w-full max-w-[425px] grid-rows-[auto_1fr_auto]')}
+        className={cn('grid w-full max-w-[500px] grid-rows-[auto_1fr_auto]')}
       >
         <SheetHeader>
           <SheetTitle>Cart</SheetTitle>

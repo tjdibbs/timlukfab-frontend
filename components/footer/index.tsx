@@ -1,8 +1,18 @@
-import { FacebookFilled, InstagramFilled, XOutlined } from '@ant-design/icons';
+'use client';
+
+import {
+  FacebookFilled,
+  InstagramFilled,
+  MailOutlined,
+  TikTokOutlined,
+} from '@ant-design/icons';
 import Link from 'next/link';
 import { Mail, MapPin, Phone } from 'react-feather';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useAppSelector } from '@/lib/redux/store';
+import { useMemo } from 'react';
+import { useIsClient } from '@/hooks/useIsClient';
 
 const links = [
   {
@@ -20,9 +30,46 @@ const links = [
     name: 'Shipping',
     url: '/shipping',
   },
+  {
+    id: 4,
+    name: 'Account',
+    url: '/account',
+  },
+  {
+    id: 5,
+    name: 'Shop',
+    url: '/shop',
+  },
+  {
+    id: 6,
+    name: 'Contact',
+    url: '/contact',
+  },
 ];
 
 const AppFooter = () => {
+  const auth = useAppSelector(state => state.auth.token);
+
+  const isClient = useIsClient();
+
+  const footerLinks = useMemo(() => {
+    if (auth) {
+      return links;
+    }
+    return links.map(link => {
+      if (link.name === 'Account') {
+        return {
+          ...link,
+          url: '/login',
+          name: 'Login',
+        };
+      }
+      return link;
+    });
+  }, [auth]);
+
+  if (!isClient) return null;
+
   return (
     <footer className='bg-gray-900 text-white'>
       <div className='wrapper pb-8 pt-16'>
@@ -38,9 +85,9 @@ const AppFooter = () => {
             <Input
               type='email'
               placeholder='Enter your email'
-              className='w-full border-gray-700 bg-gray-800 text-white'
+              className='h-12 w-full border-gray-700 bg-gray-800 text-white'
             />
-            <Button className='border-none bg-white text-gray-900 hover:bg-gray-200 hover:text-gray-900 max-md:w-full'>
+            <Button className='h-12 border-none bg-white text-gray-900 hover:bg-gray-200 hover:text-gray-900 max-md:w-full'>
               Subscribe
             </Button>
           </form>
@@ -61,42 +108,64 @@ const AppFooter = () => {
             <div className='space-y-4 text-gray-400'>
               <div className='flex items-center gap-3'>
                 <MapPin className='w-5' />
-                <span>70, Timlukfab road, Lagos.</span>
+                <span>North Hollywood, Los Angeles, California.</span>
               </div>
               <div className='flex items-center gap-3'>
                 <Phone className='w-5' />
-                <span>+234123456789</span>
+                <span>+1 (310) 702-4047</span>
               </div>
               <div className='flex items-center gap-3'>
                 <Mail className='w-5' />
-                <span>sales@timlukfab.com</span>
+                <span>info@timlukfab.com</span>
               </div>
             </div>
             <div className='mt-8 flex items-center gap-6'>
               <a
-                href='/'
                 className='text-gray-400 transition-colors hover:text-white'
+                href='https://www.tiktok.com/@timlukcollections'
+                target='_blank'
+                rel='noopener noreferrer'
               >
-                <XOutlined style={{ fontSize: '1.5rem' }} />
+                <TikTokOutlined
+                  style={{ fontSize: '1.25rem', color: '#808080' }}
+                />
+              </a>
+
+              <a
+                className='text-gray-400 transition-colors hover:text-white'
+                href='https://www.instagram.com/timlukfabcollections/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <InstagramFilled
+                  style={{ fontSize: '1.25rem', color: '#808080' }}
+                />
+              </a>
+
+              <a
+                className='text-gray-400 transition-colors hover:text-white'
+                href='https://www.facebook.com/profile.php?id=61569794955996&mibextid=ZbWKwL'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FacebookFilled
+                  style={{ fontSize: '1.25rem', color: '#808080' }}
+                />
               </a>
               <a
-                href='/'
                 className='text-gray-400 transition-colors hover:text-white'
+                href='mailto:info@timlukfab.com'
               >
-                <InstagramFilled style={{ fontSize: '1.5rem' }} />
-              </a>
-              <a
-                href='/'
-                className='text-gray-400 transition-colors hover:text-white'
-              >
-                <FacebookFilled style={{ fontSize: '1.5rem' }} />
+                <MailOutlined
+                  style={{ fontSize: '1.25rem', color: '#808080' }}
+                />
               </a>
             </div>
           </div>
           <div className='col-span-5 mt-8 max-md:col-span-12 md:mt-0'>
             <h4 className='mb-6 text-xl font-semibold'>Quick Links</h4>
             <ul className='grid grid-cols-2 gap-4'>
-              {links.map(link => (
+              {footerLinks.map(link => (
                 <li key={link.id}>
                   <Link
                     href={link.url}

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { api } from '../api';
 import { LoginFormSchema, RegisterFormSchema } from '@/lib/schemas';
-import { ApiResponse, RegisterResponse, User } from '@/lib/types';
+import { RegisterResponse } from '@/lib/types';
 
 type ZodRegisterForm = z.infer<typeof RegisterFormSchema>;
 type LoginForm = z.infer<typeof LoginFormSchema>;

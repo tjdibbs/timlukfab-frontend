@@ -13,6 +13,8 @@ import banner4 from '@/assets/images/banners/banner4.jpeg';
 import banner5 from '@/assets/images/banners/banner5.jpeg';
 import banner6 from '@/assets/images/banners/banner6.jpeg';
 import banner7 from '@/assets/images/banners/banner7.jpeg';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 const banners = [
   {
@@ -63,16 +65,18 @@ const Carousel = () => {
                 className='z-0 object-cover duration-1000 ease-linear hover:scale-125'
               />
               <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-30'>
-                <div className='p-4 text-center text-white'>
-                  <h2 className='mb-2 text-4xl font-bold md:text-5xl'>
-                    Your Headline
+                <div className='p-4 text-center text-white space-y-8'>
+                  <h2 className='text-4xl font-bold md:text-5xl'>
+                    This is Editable
                   </h2>
-                  <p className='mb-4 text-lg md:text-xl'>
-                    Your subheading or call to action
+                  <p className='md:text-xl max-w-4xl mx-auto'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Quas voluptates ratione repellendus voluptate at eaque
+                    obcaecati cum dolorum ea vitae.
                   </p>
-                  <button className='rounded-full bg-white px-4 py-2 text-black transition-colors hover:bg-opacity-80'>
-                    Learn More
-                  </button>
+                  <Button className='' asChild>
+                    <Link href='/shop'>Shop Now</Link>
+                  </Button>
                 </div>
               </div>
             </div>

@@ -10,6 +10,8 @@ import { useAddToCartMutation } from '@/lib/redux/services/cart';
 import { CartController } from '@/types/cart';
 import useMessage from '@/hooks/useMessage';
 import { TailwindSpinner } from '../ui/spinner';
+import { useRouter } from 'nextjs-toploader/app';
+import { useAppSelector } from '@/lib/redux/store';
 
 type Props = {
   product: ProductController.Product;
@@ -18,11 +20,16 @@ type Props = {
 };
 
 const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
+  const auth = useAppSelector(state => state.auth.token);
   const [addToCart, { isLoading }] = useAddToCartMutation();
 
+  const router = useRouter();
   const { alertMessage } = useMessage();
 
   const handleAddToCart = async (id: number) => {
+    if (!auth) {
+      return router.push('/login');
+    }
     try {
       const payload: CartController.AddItem = {
         productId: product.id,
@@ -33,8 +40,7 @@ const MobileCartAction = ({ product, closeFn, isOpen }: Props) => {
       await addToCart(payload).unwrap();
       alertMessage('Product added to cart', 'success');
       closeFn();
-    } catch (error) {
-      console.log(error);
+    } catch {
       alertMessage('Something went wrong', 'error');
     }
   };
