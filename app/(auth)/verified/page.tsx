@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -13,12 +14,9 @@ export default function Page() {
           Your email has been successfully verified. Thank you for confirming
           your account.
         </p>
-        <Link
-          href='/account'
-          className='inline-block rounded bg-blue-500 px-4 py-2 font-bold text-white transition duration-300 hover:bg-blue-600'
-        >
-          Go to Account
-        </Link>
+        <Button asChild>
+          <Link href='/account'>Go to Account</Link>
+        </Button>
       </div>
     </div>
   );

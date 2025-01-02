@@ -35,13 +35,12 @@ import { calculateCartTotal } from '@/utils/functions';
 import { useGetUserQuery } from '@/lib/redux/services/user';
 import { useAppSelector } from '@/lib/redux/store';
 import useMessage from '@/hooks/useMessage';
-
-import dynamic from 'next/dynamic';
-import { PaystackProps, PaystackResponse } from '@/types/paystack';
 import { useAddOrderMutation } from '@/lib/redux/services/orders';
 import { TailwindSpinner } from '../ui/spinner';
 import { OrderController } from '@/types/orders';
 import { ErrorResponse } from '@/lib/types';
+import dynamic from 'next/dynamic';
+import getStripe from '@/lib/stripe';
 
 type FormSchema = z.infer<typeof OrderSchema>;
 
@@ -57,18 +56,6 @@ const CheckoutForm = () => {
     () => calculateCartTotal(cart?.cartItems || []) || 0,
     [cart]
   );
-
-  const config: PaystackProps = useMemo(() => {
-    if (!user || !cartTotal) return {} as PaystackProps;
-    return {
-      amount: cartTotal * 100,
-      email: user.email || '',
-      firstname: user.firstName || '',
-      lastname: user.lastName || '',
-      reference: new Date().getTime().toString(),
-      publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || '',
-    };
-  }, [user, cartTotal]);
 
   const addresses = useMemo(() => data || [], [data]);
 
@@ -89,10 +76,6 @@ const CheckoutForm = () => {
     },
   });
 
-  const onClose = () => {
-    alertMessage('Payment canceled', 'info');
-  };
-
   const errorExists = useMemo(() => {
     return Object.keys(form.formState.errors).length > 0;
   }, [form.formState.errors]);
@@ -102,65 +85,79 @@ const CheckoutForm = () => {
       return alertMessage('You need to add addresses', 'error');
     }
 
-    const { usePaystackPayment } = await import('react-paystack');
-    const initializePayment = usePaystackPayment(config);
+    const cartItems = cart?.cartItems;
 
-    const onSuccess = async (reference: PaystackResponse) => {
-      const {
-        billingAddressId,
-        orderNote,
-        shippingAddressId,
-        useDefaultShippingAddress,
-        useShippingAsBillingAddress,
-      } = values;
+    const {
+      billingAddressId,
+      orderNote,
+      shippingAddressId,
+      useDefaultShippingAddress,
+      useShippingAsBillingAddress,
+    } = values;
 
-      if (!useDefaultShippingAddress && !shippingAddressId) {
-        return alertMessage('Shipping address is not set', 'error');
+    if (!useDefaultShippingAddress && !shippingAddressId) {
+      return alertMessage('Shipping address is not set', 'error');
+    }
+
+    if (!useShippingAsBillingAddress && !billingAddressId) {
+      return alertMessage('Billing address is not set', 'error');
+    }
+
+    const determineBillingAddress = () => {
+      if (useShippingAsBillingAddress) {
+        if (shippingAddressId !== 0) {
+          return shippingAddressId;
+        }
+        return defaultAddress.id;
+      }
+      return billingAddressId;
+    };
+
+    const determineShippingAddress = () => {
+      if (useDefaultShippingAddress) {
+        return defaultAddress.id;
+      }
+      return shippingAddressId;
+    };
+
+    const order: OrderController.Create = {
+      billingAddressId: determineBillingAddress() || defaultAddress.id,
+      discountAmount: 0,
+      excludeItems: [],
+      paymentMethod: 'stripe',
+      paymentRef: `STRIPE-${Date.now()}`,
+      shippingAddressId: determineShippingAddress() || defaultAddress.id,
+      shippingFee: 0,
+      orderNote,
+    };
+
+    try {
+      const response = await createOrder(order).unwrap();
+      const stripe = await getStripe();
+
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartItems, orderId: response.order.id }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Payment couldn't be processed");
       }
 
-      if (!useShippingAsBillingAddress && !billingAddressId) {
-        return alertMessage('Billing address is not set', 'error');
-      }
-
-      const determineBillingAddress = () => {
-        if (useShippingAsBillingAddress) {
-          if (shippingAddressId !== 0) {
-            return shippingAddressId;
-          }
-          return defaultAddress.id;
-        }
-        return billingAddressId;
-      };
-
-      const determineShippingAddress = () => {
-        if (useDefaultShippingAddress) {
-          return defaultAddress.id;
-        }
-        return shippingAddressId;
-      };
-
-      const order: OrderController.Create = {
-        billingAddressId: determineBillingAddress() || defaultAddress.id,
-        discountAmount: 0,
-        excludeItems: [],
-        paymentMethod: 'paystack',
-        paymentRef: reference.trxref,
-        shippingAddressId: determineShippingAddress() || defaultAddress.id,
-        shippingFee: 0,
-        orderNote,
-      };
-
-      try {
-        const response = await createOrder(order).unwrap();
-        console.log(response);
-        alertMessage('Order placed successfully', 'success');
-      } catch (error) {
+      const stripeSession = await res.json();
+      alertMessage('Redirecting to payment gateway', 'info');
+      stripe.redirectToCheckout({ sessionId: stripeSession.session.id });
+    } catch (error) {
+      if (error instanceof Error) {
+        alertMessage(error.message, 'error');
+      } else {
         const message = (error as ErrorResponse).data.message;
         alertMessage(message || 'An error occurred', 'error');
       }
-    };
-
-    initializePayment({ onSuccess, onClose });
+    }
   };
 
   return (
