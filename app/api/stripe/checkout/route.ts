@@ -34,6 +34,9 @@ export async function POST(request: NextRequest) {
       mode: 'payment',
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/billing?success=true&orderId=${orderId}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/billing?cancel=true`,
+      metadata: {
+        orderId,
+      }
     });
 
     return NextResponse.json({ session }, { status: 200 });
