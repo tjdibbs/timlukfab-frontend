@@ -12,7 +12,7 @@ import {
 import { Checkbox } from '../ui/checkbox';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import paystack from '@/assets/paystack-2.svg';
+import stripe from '@/assets/stripe-4.svg';
 import Image from 'next/image';
 import { Textarea } from '../ui/textarea';
 import { AddressController } from '@/types/addresses';
@@ -397,11 +397,11 @@ const PaymentMethod = () => {
       <h5 className='text-base font-semibold uppercase'>Payment Method</h5>
       <div className='flex items-center space-x-2 rounded-md border p-4 shadow'>
         <Image
-          src={paystack}
-          alt='paystack'
+          src={stripe}
+          alt='stripe'
           height={100}
           width={100}
-          className='w-20 object-contain'
+          className='w-14 object-contain'
         />
       </div>
     </div>

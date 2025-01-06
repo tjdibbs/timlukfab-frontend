@@ -24,8 +24,8 @@ export function calculateCartTotal(
 ): number {
   return cartItems.reduce((total, item) => {
     const itemPrice = parseFloat(item.price);
-    const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
-    const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
+    const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice) || 0;
+    const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice) || 0;
     const itemTotal =
       (itemPrice + sizeAdditionalPrice + colorAdditionalPrice) * item.quantity;
     return total + itemTotal;
@@ -34,8 +34,8 @@ export function calculateCartTotal(
 
 export function calculateCartItemTotal(item: CartController.CartItem): number {
   const itemPrice = parseFloat(item.price);
-  const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
-  const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
+  const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice) || 0;
+  const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice) || 0;
   const itemTotal =
     (itemPrice + sizeAdditionalPrice + colorAdditionalPrice) * item.quantity;
   return itemTotal;
@@ -44,8 +44,8 @@ export function calculateCartItemTotal(item: CartController.CartItem): number {
 export function calculateCartItemAdditionalPrice(
   item: CartController.CartItem
 ): number {
-  const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice);
-  const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice);
+  const sizeAdditionalPrice = parseFloat(item.productSize.additionalPrice) || 0;
+  const colorAdditionalPrice = parseFloat(item.productColor.additionalPrice) || 0;
   return sizeAdditionalPrice + colorAdditionalPrice;
 }
 

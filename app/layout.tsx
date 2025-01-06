@@ -13,7 +13,7 @@ const lato = Lato({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const dynamic = 'force-dynamic';
 
-export const revalidate = 300;
+export const revalidate = 100;
 
 export const viewport: Viewport = {
   themeColor: '#000000',

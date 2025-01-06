@@ -1,4 +1,5 @@
 import { CartController } from '@/types/cart';
+import { calculateCartItemAdditionalPrice } from '@/utils/functions';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
@@ -18,7 +19,10 @@ export async function POST(request: NextRequest) {
           name: item.product.name,
           images: [item.product.medias[0].path],
         },
-        unit_amount: Number(item.product.price) * 100,
+        unit_amount:
+          (Number(item.product.price) +
+            calculateCartItemAdditionalPrice(item)) *
+          100,
       },
       quantity: item.quantity,
     }));

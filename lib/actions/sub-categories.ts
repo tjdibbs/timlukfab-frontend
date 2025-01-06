@@ -7,7 +7,7 @@ export const getSubCategories =
     const res = await fetch(
       `${process.env.API_BASE_URL}/sub-categories?pageSize=25`,
       {
-        next: { revalidate: 1200, tags: ['SubCategories'] },
+        next: { revalidate: 100, tags: ['SubCategories'] },
       }
     );
 
@@ -24,7 +24,7 @@ export const getSubcategoryProducts = async ({
   const res = await fetch(
     `${process.env.API_BASE_URL}/sub-categories/${id}/products?pageSize=20&pageNumber=${pageNumber || '1'}`,
     {
-      next: { revalidate: 1200, tags: ['Products'] },
+      next: { revalidate: 100, tags: ['Products'] },
     }
   );
 
@@ -36,7 +36,7 @@ export const getSingleCategory = async (
   id: string
 ): Promise<SubCategoryController.GetSingle> => {
   const res = await fetch(`${process.env.API_BASE_URL}/sub-categories/${id}`, {
-    next: { revalidate: 300 },
+    next: { revalidate: 100 },
   });
 
   return res.json();

@@ -6,7 +6,7 @@ export const getCategories = async () => {
   const res = await fetch(
     `${process.env.API_BASE_URL}/categories?pageSize=25`,
     {
-      next: { revalidate: 1200, tags: ['Categories'] },
+      next: { revalidate: 100, tags: ['Categories'] },
     }
   );
 
@@ -24,7 +24,7 @@ export const getCategoryProducts = async ({
   const res = await fetch(
     `${process.env.API_BASE_URL}/categories/${id}/products?pageSize=20&pageNumber=${pageNumber || '1'}`,
     {
-      next: { revalidate: 1200, tags: ['Products'] },
+      next: { revalidate: 100, tags: ['Products'] },
     }
   );
 
@@ -34,7 +34,7 @@ export const getCategoryProducts = async ({
 
 export const getSingleCategory = async (id: string) => {
   const res = await fetch(`${process.env.API_BASE_URL}/categories/${id}`, {
-    next: { revalidate: 300 },
+    next: { revalidate: 100 },
   });
 
   const data = await res.json();

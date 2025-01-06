@@ -21,6 +21,10 @@ type Option = 'description' | 'reviews';
 const ProductData = ({ product }: { product: ProductController.Product }) => {
   const [activeBtn, setActiveBtn] = useState<Option>('description');
 
+  const { data, isLoading, refetch, isError } = useGetProductReviewsQuery(
+    product.id.toString()
+  );
+
   return (
     <section className='mb-8 mt-12'>
       <div className='items-center gap-4 border-t border-t-gray-400 max-md:space-y-2 md:flex'>
@@ -42,7 +46,7 @@ const ProductData = ({ product }: { product: ProductController.Product }) => {
       {activeBtn === 'description' ? (
         <DescriptionData description={product.description} />
       ) : (
-        <Reviews product={product} />
+        <Reviews product={product} data={data} isLoading={isLoading} isError={isError} />
       )}
     </section>
   );
@@ -56,12 +60,18 @@ const DescriptionData = ({ description }: { description: string }) => {
   );
 };
 
-const Reviews = ({ product }: { product: ProductController.Product }) => {
+const Reviews = ({
+  product,
+  data,
+  isLoading,
+  isError,
+}: {
+  product: ProductController.Product;
+  data: ReviewsController.GET | undefined;
+  isLoading: boolean;
+  isError: boolean;
+}) => {
   const id = useAppSelector(state => state.auth.id);
-  const { data, isLoading, refetch, isError } = useGetProductReviewsQuery(
-    product.id.toString()
-  );
-
   const { alertMessage } = useMessage();
 
   useEffect(() => {
@@ -129,10 +139,6 @@ const ReviewForm = ({
   const { alertMessage } = useMessage();
 
   const [addReview, { isLoading }] = useAddReviewMutation();
-
-  useEffect(() => {
-    console.log('length', length);
-  }, [length]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
