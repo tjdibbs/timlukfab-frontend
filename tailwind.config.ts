@@ -70,4 +70,5 @@ const config = {
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
 
+// override the default theme
 export default config;
