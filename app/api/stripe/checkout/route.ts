@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       orderId: string;
     };
 
-    const lineItems = cartItems.map(item => ({
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cartItems.map(item => ({
       price_data: {
         currency: 'usd',
         product_data: {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       quantity: item.quantity,
     }));
 
-    const session = await stripe.checkout.sessions.create({
+    const session: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       submit_type: 'pay',
       line_items: lineItems,
@@ -36,6 +36,11 @@ export async function POST(request: NextRequest) {
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/billing?cancel=true`,
       metadata: {
         orderId,
+      },
+      payment_intent_data: {
+        metadata: {
+          orderId,
+        },
       }
     });
 
