@@ -56,10 +56,6 @@ function checkIfRouteIsProtected(request: NextRequest) {
   return protectedRoutes.includes(pathname);
 }
 
-// function logRequest(request: NextRequest) {
-//   console.log(`[${new Date().toISOString()}] ${request.method} ${request.url}`);
-// }
-
 export const middleware = (request: NextRequest, response: NextResponse) => {
   const { pathname, searchParams } = request.nextUrl;
 
@@ -75,11 +71,18 @@ export const middleware = (request: NextRequest, response: NextResponse) => {
   if (pathname.includes('/account') || checkIfRouteIsProtected(request)) {
     const auth = request.cookies.get('auth');
     if (!auth?.value) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      url.searchParams.set('redirect', request.nextUrl.pathname);
+      return NextResponse.redirect(url);
     }
     if (checkIfTokenIsExpired(request)) {
       request.cookies.delete('auth');
-      return NextResponse.redirect(new URL('/login?expired=true', request.url));
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      url.searchParams.set('redirect', request.nextUrl.pathname);
+      url.searchParams.set('expired', 'true');
+      return NextResponse.redirect(url);
     }
     return NextResponse.next();
   }

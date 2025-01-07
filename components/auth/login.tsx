@@ -27,11 +27,13 @@ import { logout, setCredentials } from '@/lib/redux/features/auth';
 import Cookies from 'js-cookie';
 import { useRouter } from 'nextjs-toploader/app';
 import { cn } from '@/lib/utils';
+import Loading from '../loading';
 
 type FormSchema = z.infer<typeof LoginFormSchema>;
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const searchParams = useSearchParams();
 
   const form = useForm<FormSchema>({
@@ -51,6 +53,7 @@ const Login = () => {
   async function onSubmit(values: FormSchema) {
     try {
       const response = await loginUser(values).unwrap();
+      setShowLoading(true);
       form.reset();
       const { token, refreshToken, user } = response;
       const credentials: AuthCredentials = {
@@ -62,14 +65,16 @@ const Login = () => {
       alertMessage('Login successful, redirecting...', 'success');
 
       dispatch(setCredentials(credentials));
+      const url = searchParams.get('redirect') || '/account';
 
       if (!user.verified) {
         Cookies.set('email-verification', String(user.id));
         router.push('/verify-email');
       } else {
-        router.push('/account');
+        router.push(url);
       }
     } catch (error) {
+      setShowLoading(false);
       if (error instanceof Error) {
         alertMessage(error.message, 'error');
       } else {
@@ -87,6 +92,7 @@ const Login = () => {
 
   return (
     <section>
+      {showLoading && <Loading />}
       <div className='wrapper'>
         <Form {...form}>
           <form
@@ -110,7 +116,7 @@ const Login = () => {
                       placeholder='Enter your email'
                       {...field}
                       className={cn(
-                        'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
+                        'h-12 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
                       )}
                     />
                   </FormControl>
@@ -130,7 +136,7 @@ const Login = () => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder='Enter your password'
                         className={cn(
-                          'w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black h-12'
+                          'h-12 w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-1 focus:ring-black'
                         )}
                         {...field}
                       />
@@ -164,7 +170,7 @@ const Login = () => {
             <Button
               type='submit'
               disabled={isLoading}
-              className={cn('w-full disabled:opacity-95 h-12')}
+              className={cn('h-12 w-full disabled:opacity-95')}
             >
               {isLoading ? <Spinner strokeColor='#fff' /> : 'LOGIN'}
             </Button>
