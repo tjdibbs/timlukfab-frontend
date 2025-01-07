@@ -1,7 +1,7 @@
 'use client';
 
 import { useGetAddressesQuery } from '@/lib/redux/services/address';
-import { Fragment, memo, useMemo } from 'react';
+import { Fragment, memo, useEffect, useMemo, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -32,7 +32,6 @@ import { Control, FormState, useForm, UseFormWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGetCartQuery } from '@/lib/redux/services/cart';
 import { calculateCartTotal } from '@/utils/functions';
-import { useGetUserQuery } from '@/lib/redux/services/user';
 import { useAppSelector } from '@/lib/redux/store';
 import useMessage from '@/hooks/useMessage';
 import { useAddOrderMutation } from '@/lib/redux/services/orders';
@@ -40,22 +39,26 @@ import { TailwindSpinner } from '../ui/spinner';
 import { OrderController } from '@/types/orders';
 import { ErrorResponse } from '@/lib/types';
 import dynamic from 'next/dynamic';
-import getStripe from '@/lib/stripe';
+import StripeForm from './stripe-form';
 
 type FormSchema = z.infer<typeof OrderSchema>;
 
 const CheckoutForm = () => {
+  const [show, setShow] = useState(false);
+  const [orderId, setOrderId] = useState<number | null>(null);
+  const [cartTotal, setCartTotal] = useState<number | null>(null);
   const id = useAppSelector(state => state.auth.id);
   const { data } = useGetAddressesQuery({});
-  const { data: cart } = useGetCartQuery({});
-  const { data: user } = useGetUserQuery(id?.toString() || '');
+  const { data: cart, isLoading: cartLoading } = useGetCartQuery({});
 
   const [createOrder, { isLoading: isCreating }] = useAddOrderMutation();
 
-  const cartTotal = useMemo(
-    () => calculateCartTotal(cart?.cartItems || []) || 0,
-    [cart]
-  );
+  useEffect(() => {
+    if (!cartLoading && cart && cart.cartItems.length > 0) {
+      const total = calculateCartTotal(cart.cartItems);
+      setCartTotal(total);
+    }
+  }, [cart]);
 
   const addresses = useMemo(() => data || [], [data]);
 
@@ -84,8 +87,6 @@ const CheckoutForm = () => {
     if (!defaultAddress) {
       return alertMessage('You need to add addresses', 'error');
     }
-
-    const cartItems = cart?.cartItems;
 
     const {
       billingAddressId,
@@ -133,23 +134,8 @@ const CheckoutForm = () => {
 
     try {
       const response = await createOrder(order).unwrap();
-      const stripe = await getStripe();
-
-      const res = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cartItems, orderId: response.order.id }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Payment couldn't be processed");
-      }
-
-      const stripeSession = await res.json();
-      alertMessage('Redirecting to payment gateway', 'info');
-      stripe.redirectToCheckout({ sessionId: stripeSession.session.id });
+      setOrderId(response.order.id);
+      setShow(true);
     } catch (error) {
       if (error instanceof Error) {
         alertMessage(error.message, 'error');
@@ -161,35 +147,44 @@ const CheckoutForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form className='space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
-        <ShippingAddress
-          addresses={addresses}
-          control={form.control}
-          watch={form.watch}
-          formState={form.formState}
-        />
-        <Separator />
-        <ShippingFee />
-        <Separator />
-        <BillingAddress
-          addresses={addresses}
-          control={form.control}
-          watch={form.watch}
-          formState={form.formState}
-        />
-        <Separator />
-        <PaymentMethod />
-        <Separator />
-        <OrderNotes control={form.control} />
-        <Button disabled={isCreating} className='w-full' type='submit'>
-          {isCreating ? <TailwindSpinner className='h-4 w-4' /> : 'PAY NOW'}
-        </Button>
-        {errorExists && (
-          <p className='text-sm text-red-500'>Check errors and try again</p>
-        )}
-      </form>
-    </Form>
+    <>
+      {show && !!cartTotal && !!orderId && (
+        <StripeForm show={show} cartTotal={cartTotal} orderId={orderId} />
+      )}
+      <Form {...form}>
+        <form className='space-y-8' onSubmit={form.handleSubmit(onSubmit)}>
+          <ShippingAddress
+            addresses={addresses}
+            control={form.control}
+            watch={form.watch}
+            formState={form.formState}
+          />
+          <Separator />
+          <ShippingFee />
+          <Separator />
+          <BillingAddress
+            addresses={addresses}
+            control={form.control}
+            watch={form.watch}
+            formState={form.formState}
+          />
+          <Separator />
+          <PaymentMethod />
+          <Separator />
+          <OrderNotes control={form.control} />
+          <Button
+            disabled={isCreating || show}
+            className='w-full'
+            type='submit'
+          >
+            {isCreating ? <TailwindSpinner className='h-4 w-4' /> : 'PAY NOW'}
+          </Button>
+          {errorExists && (
+            <p className='text-sm text-red-500'>Check errors and try again</p>
+          )}
+        </form>
+      </Form>
+    </>
   );
 };
 
