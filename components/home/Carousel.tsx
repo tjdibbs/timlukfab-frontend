@@ -15,6 +15,9 @@ import banner6 from '@/assets/images/banners/banner6.jpeg';
 import banner7 from '@/assets/images/banners/banner7.jpeg';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { Spin, Button as AntButton } from 'antd';
+import { useGetBannersQuery } from '@/lib/redux/services/banner';
+import { RefreshCcw } from 'lucide-react';
 
 const banners = [
   {
@@ -44,8 +47,28 @@ const banners = [
 ];
 
 const Carousel = () => {
+  const { data, isLoading, isError } = useGetBannersQuery();
+
+  if (isLoading) {
+    return (
+      <div className='grid h-screen max-h-[600px] place-items-center bg-black'>
+        <Spin size='large' />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className='grid h-screen max-h-[600px] place-items-center bg-black'>
+        <div className='w-[90%] max-w-md text-center text-2xl leading-normal tracking-wide text-white lg:text-5xl'>
+          TIMLUKFAB
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className='relative'>
+    <div>
       <Swiper
         modules={[Scrollbar, A11y, Autoplay]}
         spaceBetween={0}
@@ -54,28 +77,26 @@ const Carousel = () => {
         loop={true}
         className='mySwiper'
       >
-        {banners.map(banner => (
+        {data?.result.banners.map(banner => (
           <SwiperSlide key={banner.id}>
             <div className='relative z-0 h-[100vh] max-h-[600px] w-full overflow-hidden'>
               <Image
-                src={banner.image}
+                src={banner.file.path}
                 alt='Banner image'
                 fill
                 priority
                 className='z-0 object-cover duration-1000 ease-linear hover:scale-125'
               />
               <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-30'>
-                <div className='p-4 text-center text-white space-y-8'>
+                <div className='space-y-8 p-4 text-center text-white'>
                   <h2 className='text-4xl font-bold md:text-5xl'>
-                    This is Editable
+                    {banner.title}
                   </h2>
-                  <p className='md:text-xl max-w-4xl mx-auto'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Quas voluptates ratione repellendus voluptate at eaque
-                    obcaecati cum dolorum ea vitae.
+                  <p className='mx-auto max-w-4xl md:text-xl'>
+                    {banner.description}
                   </p>
-                  <Button className='' asChild>
-                    <Link href='/shop'>Shop Now</Link>
+                  <Button size='lg' asChild>
+                    <Link href={banner.pathname}>Shop Now</Link>
                   </Button>
                 </div>
               </div>
